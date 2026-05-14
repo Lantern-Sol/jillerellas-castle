@@ -1384,14 +1384,14 @@ if (!document.getElementById(STYLE_ID)) {
     }
 
     .bab-modal {
-      --bab-bg: #FCFBF6;
-      --bab-bg-media: #F8F5E9;
-      --bab-fg: #3D3A35;
-      --bab-fg-onfill: #F2EDD7;
-      --bab-orange: #C7893A;
+      --bab-bg: var(--color-background-subdued, transparent);
+      --bab-bg-media: var(--color-background, transparent);
+      --bab-fg: var(--color-foreground, inherit);
+      --bab-fg-onfill: var(--color-border, currentColor);
+      --bab-accent: var(--color-link, currentColor);
       --bab-light-green: #C3BA98;
       --bab-muted: rgba(27, 27, 27, 0.6);
-      --bab-border: #3D3A35;
+      --bab-border: var(--color-foreground, inherit);
 
       display: grid;
       grid-template-columns: 313px 1fr;
@@ -1561,7 +1561,7 @@ if (!document.getElementById(STYLE_ID)) {
 
     .bab-modal__variant-btn[aria-pressed='true'] {
       background: var(--bab-fg);
-      color: #FCFBF6;
+      color: var(--color-background-subdued, transparent);
       border-color: var(--bab-fg);
     }
 
@@ -1631,8 +1631,8 @@ if (!document.getElementById(STYLE_ID)) {
     }
 
     .bab-modal__save-badge {
-      background: var(--bab-orange);
-      color: #FCFBF6;
+      background: var(--bab-accent);
+      color: var(--color-background-subdued, transparent);
       font-size: 12px;
       font-weight: 600;
       line-height: 1;
@@ -1873,7 +1873,7 @@ if (!document.getElementById(STYLE_ID)) {
     .bab-modal__price-now {
       font-size: 18px;
       font-weight: 700;
-      color: #1B1B1B;
+      color: var(--color-foreground, inherit);
     }
 
     /* Primary CTA — used by .bab-modal__product-link by default; the buy
