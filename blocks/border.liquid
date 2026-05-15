@@ -1,6 +1,6 @@
 {%- liquid
   assign block_settings = block.settings
-  assign border_color = block_settings.border_color | default: '#F2EDD7'
+  assign border_color = block_settings.border_color | default: 'var(--color-border, currentColor)'
 -%}
 
 <div
@@ -27,7 +27,7 @@
     display: block;
     width: var(--border-block-width, 100%);
     margin-inline: auto;
-    border-color: var(--border-block-color, #F2EDD7);
+    border-color: var(--border-block-color, var(--color-border, currentColor));
     border-style: var(--border-block-style, solid);
     border-width: 0;
   }
@@ -64,7 +64,7 @@
       "type": "color",
       "id": "border_color",
       "label": "Color",
-      "default": "#F2EDD7"
+      "default": "var(--color-border, currentColor)"
     },
     {
       "type": "select",

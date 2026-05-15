@@ -9,6 +9,8 @@
   @param {string} [image_aspect_ratio] - The aspect ratio to display the image. Defaults to image's natural ratio
   @param {boolean} [image_hover] - Whether to show a secondary image on hover and focus
   @param {string} [image_sizes] - The sizes attribute for responsive images. Defaults to 'auto'
+  @param {string} [button_label] - Optional label; renders a button inside the overlay content.
+  @param {string} [button_style_class] - Button CSS class: 'button' (primary) or 'button-secondary'. Defaults to 'button-secondary'.
 {%- enddoc -%}
 
 {% liquid
@@ -139,7 +141,7 @@
   </div>
 
   <div class="resource-card__content">
-    <p class="resource-card__title{% if style == 'overlay' %} h5{%else %} paragraph{% endif %}">
+    <p class="resource-card__title h5">
       {{- resource.title -}}
     </p>
 
@@ -154,6 +156,16 @@
         {{- resource.excerpt | default: resource.content | strip_html | truncate: 65 -}}
       </p>
     {% endif %}
+
+    {%- if button_label != blank -%}
+      <a
+        class="{{ button_style_class | default: 'button-secondary' }} resource-card__button"
+        href="{{ resource.url }}"
+        aria-label="{{ button_label }}: {{ resource.title }}"
+      >
+        {{ button_label }}
+      </a>
+    {%- endif -%}
   </div>
 </div>
 {%- if resource_type == 'product' and settings.transition_to_main_product -%}
@@ -179,6 +191,18 @@
     position: absolute;
     inset: 0;
     z-index: 1;
+  }
+
+  /* Sit above the card-wide overlay link so clicks resolve to the button. */
+  .resource-card__button {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    width: fit-content;
+  }
+
+  .resource-card--overlay .resource-card__button {
+    align-self: flex-start;
   }
 
   .resource-card__content {
@@ -249,8 +273,16 @@
     overflow-wrap: break-word;
   }
 
-  .resource-card__title.paragraph {
-    line-height: 1.3;
+  @media screen and (max-width: 749px) {
+    .resource-card__title.h5.h5 {
+      font-family: var(--font-h6--family);
+      font-style: var(--font-h6--style);
+      font-weight: var(--font-h6--weight);
+      font-size: var(--font-h6--size);
+      line-height: var(--font-h6--line-height);
+      letter-spacing: var(--font-h6--letter-spacing);
+      text-transform: var(--font-h6--case);
+    }
   }
 
   .resource-card--overlay {

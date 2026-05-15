@@ -25,7 +25,8 @@
       "@theme/component-quantity-selector": "{{ 'component-quantity-selector.js' | asset_url }}",
       "@theme/comparison-slider": "{{ 'comparison-slider.js' | asset_url }}",
       "@theme/sticky-add-to-cart": "{{ 'sticky-add-to-cart.js' | asset_url }}",
-      "@theme/fly-to-cart": "{{ 'fly-to-cart.js' | asset_url }}"
+      "@theme/fly-to-cart": "{{ 'fly-to-cart.js' | asset_url }}",
+      "@theme/slideshow": "{{ 'slideshow.js' | asset_url }}"
     }
   }
 </script>
@@ -182,12 +183,37 @@
   fetchpriority="low"
 ></script>
 <script
+  src="{{ 'product-tabs.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'product-weight-dimensions.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
   src="{{ 'show-more.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
 <script
   src="{{ 'slideshow.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'auto-slideshow.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'collection-tabs.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+<script
+  src="{{ 'build-a-box.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
