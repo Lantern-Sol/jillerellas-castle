@@ -1,0 +1,545 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div
+  class="
+    section
+    section--{{ section.settings.section_width }}
+    color-{{ section.settings.color_scheme }}
+    section-collection-tab
+    spacing-style
+    gap-style
+  "
+  style="
+    {% render 'spacing-style', settings: section.settings %}
+    {% render 'gap-style', value: section.settings.gap %}
+    {% if section.settings.use_mobile_gap %}
+      {% render 'gap-style', name: 'mobile-gap', value: section.settings.mobile_gap %}
+    {% else %}
+      {% render 'gap-style', name: 'mobile-gap', value: section.settings.gap %}
+    {% endif %}
+  "
+  data-testid="collection-tab"
+>
+  <collection-tabs-component
+    class="collection-tabs"
+    data-section-id="{{ section.id }}"
+    style="
+      --collection-tabs-alignment: {{ section.settings.tabs_alignment }};
+      --collection-tabs-header-alignment: {{ section.settings.header_alignment }};
+    "
+  >
+    <div class="collection-tabs__header">
+      {% content_for 'block', type: 'text', id: 'static-heading' %}
+      {% content_for 'block', type: 'text', id: 'static-description' %}
+    </div>
+
+    {%- comment -%}
+      Tablist shell is always rendered so the component always finds its ref.
+      collection-tabs.js populates it from each panel's `data-tab-label`.
+      Dots are now owned by each panel's own slideshow (when slider mode is
+      enabled on _collection-grid) — only the active panel's dots are visible.
+    {%- endcomment -%}
+    <div
+      class="collection-tabs__nav"
+      role="tablist"
+      ref="tablist"
+    ></div>
+
+    {% content_for 'blocks' %}
+
+    <div
+      class="collection-tabs__empty"
+      ref="emptyState"
+      hidden
+    >
+      {{- 'onboarding.no_content' | t -}}
+    </div>
+  </collection-tabs-component>
+</div>
+
+{% stylesheet %}
+  .section-collection-tab {
+    row-gap: var(--gap);
+    /*
+      The theme's `.spacing-style` class applies `padding-inline` here, but
+      this element is `display: grid` with fixed page-margin side columns —
+      so horizontal padding would be absorbed by the margin columns and
+      produce no visible change on page-width sections. We zero it here and
+      apply horizontal padding on the inner component instead.
+    */
+    padding-inline: 0;
+  }
+
+  .collection-tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    row-gap: var(--gap);
+    padding-inline: var(--padding-inline-start, 0) var(--padding-inline-end, 0);
+  }
+
+  @media screen and (max-width: 749px) {
+    .section-collection-tab {
+      padding-inline: 0;
+      row-gap: var(--mobile-gap, var(--gap));
+    }
+
+    .collection-tabs {
+      padding-inline:
+        var(--padding-inline-start-mobile, var(--padding-inline-start, 0))
+        var(--padding-inline-end-mobile, var(--padding-inline-end, 0));
+      row-gap: var(--mobile-gap, var(--gap));
+    }
+  }
+
+  .collection-tabs__header {
+    display: flex;
+    flex-direction: column;
+    align-items: var(--collection-tabs-header-alignment, center);
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .collection-tabs__header:empty {
+    display: none;
+  }
+
+  .collection-tabs > .collection-grid-block {
+    width: 100%;
+  }
+
+  /*
+    Pre-hydration: hide every grid block that has another grid block
+    before it. Only the first one is visible on initial paint, so there
+    is no flash of all collections.
+  */
+  .collection-tabs:not([data-hydrated]) > .collection-grid-block ~ .collection-grid-block {
+    display: none;
+  }
+
+  /* Post-hydration: visibility driven entirely by the [hidden] attribute. */
+  .collection-tabs[data-hydrated] > .collection-grid-block[hidden] {
+    display: none;
+  }
+
+  .collection-tabs__nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: var(--collection-tabs-alignment, center);
+    gap: clamp(1rem, 4vw, 2.5rem);
+    width: 100%;
+  }
+
+  .collection-tabs__tab {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    opacity: 0.55;
+    border-bottom: 2px solid transparent;
+    transition: opacity var(--animation-speed, 0.2s) ease, border-color var(--animation-speed, 0.2s) ease;
+  }
+
+  .collection-tabs__tab:hover,
+  .collection-tabs__tab:focus-visible {
+    opacity: 1;
+  }
+
+  .collection-tabs__tab[aria-selected='true'] {
+    opacity: 1;
+    border-bottom-color: currentColor;
+  }
+
+  /*
+    Tabs are built in JS with the `.h6` class. On mobile, swap to h7 typography
+    so the tab labels match the smaller mobile scale. Same-specificity selector
+    wins via source order (this stylesheet is loaded after base.css).
+  */
+  @media screen and (max-width: 749px) {
+    .collection-tabs__tab.h6 {
+      font-family: var(--font-h7--family);
+      font-style: var(--font-h7--style);
+      font-weight: var(--font-h7--weight);
+      font-size: var(--font-h7--size);
+      line-height: var(--font-h7--line-height);
+      letter-spacing: var(--font-h7--letter-spacing);
+      text-transform: var(--font-h7--case);
+    }
+
+    /*
+      Inside the Collection Tabs section the "Choose" quick-add button keeps its
+      label visible on mobile (no hover affordance there). Undo the
+      .is-visually-hidden-mobile clip and the collapsed grid column from
+      quick-add.liquid, drop horizontal button padding, and keep the label on a
+      single line.
+    */
+    .product-quick-add-block .quick-add__button {
+      padding-inline: 0;
+      white-space: nowrap;
+    }
+
+    .section-collection-tab .quick-add__button--choose .add-to-cart-text__content {
+      grid-template-columns: 1fr;
+    }
+
+    .section-collection-tab .quick-add__button--choose .add-to-cart-text__content span span {
+      opacity: 1;
+      filter: blur(0);
+      translate: 0 0;
+    }
+  }
+
+  .collection-tabs__empty {
+    color: var(--color-foreground);
+    opacity: 0.6;
+    text-align: center;
+    padding: 1.5rem 0;
+  }
+
+  .collection-grid-block__list {
+    width: 100%;
+  }
+
+  /*
+    Align prices and CTAs across every card in a row regardless of title
+    wrapping or extra blocks (e.g. swatches). Two moves:
+    1. Reserve 2 lines of space for each title so the title area height is
+       uniform even when only one sibling wraps.
+    2. Push the price block to the bottom of the card's flex column via
+       `margin-top: auto`; anything after it (typically the quick-add
+       button) sticks to it, so prices and buttons share a baseline.
+    The card content is already stretched to the row's max height by the
+    outer grid, so "bottom" is well-defined.
+  */
+  .section-collection-tab .resource-list__item [ref='productTitleLink'] {
+    display: block;
+    min-height: 2lh;
+    @media screen and (max-width: 749px) {
+      min-height: 1lh;
+    }
+  }
+
+  .section-collection-tab .product-card__content > product-price {
+    margin-top: auto;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection list: Tabs",
+  "class": "ui-test-collection-tab",
+  "blocks": [
+    {
+      "type": "_collection-grid"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "t:settings.alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "select",
+      "id": "tabs_alignment",
+      "label": "t:settings.alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:options.left"
+        },
+        {
+          "value": "center",
+          "label": "t:options.center"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:options.right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "t:content.section_layout"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_gap",
+      "label": "Use mobile gap",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 28,
+      "visible_if": "{{ section.settings.use_mobile_gap }}"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_padding",
+      "label": "Use mobile padding",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start-mobile",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end-mobile",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start-mobile",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end-mobile",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ section.settings.use_mobile_padding }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list: Tabs",
+      "category": "t:categories.collections",
+      "settings": {
+        "header_alignment": "center",
+        "tabs_alignment": "center",
+        "section_width": "page-width",
+        "gap": 28,
+        "color_scheme": "scheme-1",
+        "padding-block-start": 48,
+        "padding-block-end": 48
+      },
+      "blocks": {
+        "static-heading": {
+          "type": "text",
+          "name": "t:names.heading",
+          "static": true,
+          "settings": {
+            "text": "<h2>Shop our products</h2>",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "center",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "static-description": {
+          "type": "text",
+          "name": "t:names.description",
+          "static": true,
+          "settings": {
+            "text": "<p>Browse our collections — all in one place.</p>",
+            "type_preset": "paragraph",
+            "font": "var(--font-body--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "center",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          }
+        },
+        "grid_1": {
+          "type": "_collection-grid",
+          "name": "Tab 1",
+          "settings": {
+            "tab_label": "Tab 1",
+            "max_products": 4,
+            "columns": 4,
+            "mobile_columns": "2",
+            "columns_gap": 16,
+            "rows_gap": 24
+          }
+        },
+        "grid_2": {
+          "type": "_collection-grid",
+          "name": "Tab 2",
+          "settings": {
+            "tab_label": "Tab 2",
+            "max_products": 4,
+            "columns": 4,
+            "mobile_columns": "2",
+            "columns_gap": 16,
+            "rows_gap": 24
+          }
+        },
+        "grid_3": {
+          "type": "_collection-grid",
+          "name": "Tab 3",
+          "settings": {
+            "tab_label": "Tab 3",
+            "max_products": 4,
+            "columns": 4,
+            "mobile_columns": "2",
+            "columns_gap": 16,
+            "rows_gap": 24
+          }
+        }
+      },
+      "block_order": ["grid_1", "grid_2", "grid_3"]
+    }
+  ]
+}
+{% endschema %}

@@ -65,9 +65,12 @@
     assign should_show_pane = block_settings.enable_filtering
   endif
 
-  assign should_use_select_on_mobile = true
-  if block_settings.enable_filtering == false and block_settings.enable_sorting
-    assign should_use_select_on_mobile = false
+  assign should_use_select_on_mobile = false
+
+  assign desktop_drawer = block_settings.use_drawer_on_desktop
+  assign desktop_drawer_class = ''
+  if desktop_drawer
+    assign desktop_drawer_class = ' facets--desktop-drawer'
   endif
 -%}
 
@@ -75,11 +78,37 @@
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
     <div
-      class="facets facets--horizontal facets-controls-wrapper spacing-style"
+      class="facets facets--horizontal facets-controls-wrapper spacing-style{{ desktop_drawer_class }}"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
       {% if block_settings.enable_filtering %}
-        <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
+        {% if desktop_drawer %}
+          <div class="facets-desktop-toggle">
+            <button
+              class="button facets-desktop-toggle__button button-unstyled button-unstyled--with-icon"
+              on:click="#filters-drawer/showDialog"
+              type="button"
+            >
+              <span class="svg-wrapper">
+                {{ 'icon-filter.svg' | inline_asset_content }}
+              </span>
+              {{ 'actions.show_filters' | t }}
+              {% if total_active_values > 0 %}
+                <span
+                  class="bubble facets__bubble"
+                  aria-hidden="true"
+                >
+                  {{ total_active_values }}
+                </span>
+                <span class="visually-hidden">
+                  {{ 'accessibility.filter_count' | t: count: total_active_values }}
+                </span>
+              {% endif %}
+            </button>
+          </div>
+        {% else %}
+          <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
+        {% endif %}
       {% endif %}
 
       <div
@@ -122,6 +151,7 @@
       facets-block-wrapper--{{ block_settings.filter_style }}
       {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
       {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
+      {{ desktop_drawer_class }}
     "
     style="
       --grid-column--desktop:
@@ -199,6 +229,32 @@
                   {% endcase %}
                 {%- endfor -%}
               {% endcapture %}
+
+              {% if desktop_drawer and block_settings.filter_style == 'horizontal' %}
+                <div class="facets-desktop-toggle">
+                  <button
+                    class="button facets-desktop-toggle__button button-unstyled button-unstyled--with-icon"
+                    on:click="#filters-drawer/showDialog"
+                    type="button"
+                  >
+                    <span class="svg-wrapper">
+                      {{ 'icon-filter.svg' | inline_asset_content }}
+                    </span>
+                    {{ 'actions.show_filters' | t }}
+                    {% if total_active_values > 0 %}
+                      <span
+                        class="bubble facets__bubble"
+                        aria-hidden="true"
+                      >
+                        {{ total_active_values }}
+                      </span>
+                      <span class="visually-hidden">
+                        {{ 'accessibility.filter_count' | t: count: total_active_values }}
+                      </span>
+                    {% endif %}
+                  </button>
+                </div>
+              {% endif %}
 
               <div class="facets__filters-wrapper">
                 {% if block_settings.filter_style == 'horizontal' %}
@@ -317,7 +373,7 @@
 
     {% liquid
       assign child_count = 0
-      if block_settings.enable_filtering == false and block_settings.enable_sorting
+      if block_settings.enable_sorting
         assign child_count = child_count | plus: 1
       endif
       if block_settings.enable_grid_density
@@ -326,7 +382,7 @@
     %}
 
     <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
+      {% if block_settings.enable_sorting %}
         <facets-form-component
           section-id="{{ section.id }}"
           id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
@@ -341,7 +397,7 @@
               sort_by: sort_by,
               filter_style: block_settings.filter_style,
               sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
+              should_use_select_on_mobile: false,
               section_id: section.id
             %}
           </form>
@@ -359,7 +415,7 @@
 {% if block_settings.enable_filtering %}
   <dialog-component
     id="filters-drawer"
-    class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}"
+    class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}{{ desktop_drawer_class }}"
   >
     <dialog
       ref="dialog"
@@ -386,7 +442,7 @@
           >
             <h2
               id="filters-drawer-heading"
-              class="facets-drawer__title h3"
+              class="facets-drawer__title h6"
             >
               {{ 'blocks.filter' | t }}
 
@@ -457,16 +513,6 @@
               </div>
             {% endif %}
 
-            {% if block_settings.enable_sorting %}
-              {% render 'sorting',
-                results: results,
-                sort_by: sort_by,
-                filter_style: block_settings.filter_style,
-                suffix: 'overflow',
-                should_use_select_on_mobile: should_use_select_on_mobile,
-                section_id: section.id
-              %}
-            {% endif %}
           </scroll-hint>
         </form>
       </facets-form-component>
@@ -539,6 +585,8 @@
 
   .facets-toggle__button {
     box-shadow: none;
+    text-transform: capitalize;
+    font-weight: 400;
 
     @media screen and (min-width: 750px) {
       display: none;
@@ -623,7 +671,7 @@
   }
 
   .facets {
-    --facets-form-horizontal-gap: 20px;
+    --facets-form-horizontal-gap: 1.5rem;
     --facets-horizontal-max-input-wrapper-height: 230px;
     --facets-upper-z-index: var(--layer-raised);
     --facets-open-z-index: var(--layer-heightened);
@@ -841,15 +889,22 @@
   }
 
   .facets__summary .icon-caret {
-    height: var(--icon-size-xs);
-    width: var(--icon-size-xs);
+    height: var(--icon-size-tiny);
+    width: var(--icon-size-2xs);
     color: rgb(var(--color-foreground-rgb) / var(--icon-opacity));
-    margin-block: var(--margin-2xs);
+    margin-block-start: var(--margin-3xs);
     transition: color var(--animation-speed) var(--animation-easing);
   }
 
   .facets--drawer .facets__summary .icon-caret {
     margin-inline-start: var(--margin-2xs);
+    height: var(--icon-size-xs);
+    width: var(--icon-size-xs);
+
+    svg {
+      height: var(--icon-size-xs);
+      width: var(--icon-size-xs);
+    }
   }
 
   /* Facets - Bubble */
@@ -918,7 +973,7 @@
     flex-direction: column;
 
     @media screen and (min-width: 750px) {
-      gap: var(--gap-sm);
+      gap: 1rem;
     }
   }
 
@@ -1032,6 +1087,7 @@
   }
 
   :is(.facets--drawer, .facets--vertical) :is(.facets__item, .sorting-filter)::before {
+    --color-border: var(--color-border, currentColor);
     content: '';
     display: block;
     height: 0;
@@ -1097,6 +1153,11 @@
   .facets__label,
   .products-count-wrapper {
     text-transform: var(--facet-label-transform);
+    font-size: 0.875rem;
+  }
+
+  .facets-drawer__filters .facets__label {
+    font-size: 1rem;
   }
 
   .clear-filter {
@@ -1212,6 +1273,11 @@
     display: none;
   }
 
+  /* Keep the current sort selection visible while the sort dropdown is open */
+  .sorting-filter .facets__panel[open] .facets__status {
+    display: inline;
+  }
+
   .facets--filters-title {
     margin-block-end: 0;
     color: var(--color-foreground);
@@ -1305,6 +1371,66 @@
     height: var(--font-paragraph--size);
     position: absolute;
   }
+
+  /* Desktop-only drawer toggle button. Hidden by default; visible only on desktop
+     when the block opts into drawer mode. Leaves all other controls (count, sort,
+     grid density) and mobile layout untouched. */
+  .facets-desktop-toggle {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    /* Hide the filter chips inside the horizontal bar — the drawer owns them now */
+    .facets-block-wrapper--horizontal.facets--desktop-drawer .facets__filters-wrapper,
+    .facets-block-wrapper--horizontal.facets--desktop-drawer .facets-horizontal-remove {
+      display: none;
+    }
+
+    /* Hide the vertical sidebar pane entirely — exclude the drawer's own
+       dialog-component, which shares the same classes */
+    .facets-block-wrapper--vertical.facets--desktop-drawer:not(dialog-component) {
+      display: none;
+    }
+
+    /* Drawer mode: drop the product count and push the filter button + sort
+       + grid density to the right of the bar */
+    .facets-block-wrapper--horizontal.facets--desktop-drawer .products-count-wrapper,
+    .facets.facets-controls-wrapper.facets--desktop-drawer .products-count-wrapper {
+      display: none;
+    }
+
+    .facets-block-wrapper--horizontal.facets--desktop-drawer .facets-desktop-toggle,
+    .facets.facets-controls-wrapper.facets--desktop-drawer .facets-desktop-toggle {
+      margin-inline-start: auto;
+    }
+
+    /* Show the dedicated desktop trigger */
+    .facets-desktop-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--gap-xs);
+    }
+
+    /* Allow the shared drawer to open on desktop */
+    dialog-component.facets-block-wrapper.facets--desktop-drawer {
+      position: static;
+      width: auto;
+      height: auto;
+    }
+  }
+
+  .facets-desktop-toggle__button {
+    box-shadow: none;
+  }
+  /* Custom styles for filter chips */
+  .facets-desktop-toggle button.button.facets-desktop-toggle__button.button-unstyled.button-unstyled--with-icon {
+        font-weight: 400;
+    text-transform: capitalize;
+    font-size: 0.875rem;
+  }
+  scroll-hint.facets-drawer__filters summary {
+    padding-block: 1rem;
+  }
 {% endstylesheet %}
 
 {% schema %}
@@ -1318,6 +1444,14 @@
       "label": "t:settings.enable_filtering",
       "info": "t:info.enable_filtering_info",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "use_drawer_on_desktop",
+      "label": "Open filters in a drawer on desktop",
+      "info": "Same behavior as mobile — shows a toggle button that opens a side drawer instead of the inline filter bar.",
+      "default": true,
+      "visible_if": "{{ block.settings.enable_filtering == true }}"
     },
     {
       "type": "select",

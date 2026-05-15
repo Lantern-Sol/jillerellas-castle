@@ -500,12 +500,20 @@
             >
               {% if media.media_type == 'image' %}
                 <drag-zoom-wrapper class="product-media__drag-zoom-wrapper">
-                  {%- render 'product-media',
-                    media: media,
-                    sizes: '100vw',
-                    loading: 'lazy',
-                    is_main_product_media: forloop.first
-                  -%}
+                  {%- comment -%}
+                    Inject ref="image" after rendering. Shopify's image_tag filter
+                    drops ref attribute values, so the snippet can't render the ref
+                    correctly. We wrap the output and replace the first <img tag.
+                  {%- endcomment -%}
+                  {%- capture zoom_product_media -%}
+                    {%- render 'product-media',
+                      media: media,
+                      sizes: '100vw',
+                      loading: 'lazy',
+                      is_main_product_media: forloop.first
+                    -%}
+                  {%- endcapture -%}
+                  {{- zoom_product_media | replace_first: '<img ', '<img ref="image" ' -}}
                 </drag-zoom-wrapper>
               {% else %}
                 {%- render 'product-media',
@@ -819,13 +827,17 @@
         {
           "value": "hint",
           "label": "t:options.hint"
+        },
+        {
+          "value": "thumbnails",
+          "label": "t:options.thumbnails"
         }
       ]
     },
     {
       "type": "header",
       "content": "t:content.thumbnails",
-      "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' }}"
+      "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' or block.settings.media_presentation == 'carousel' and block.settings.slideshow_mobile_controls_style == 'thumbnails' }}"
     },
     {
       "type": "select",
@@ -846,7 +858,7 @@
         }
       ],
       "default": "bottom",
-      "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' }}"
+      "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' or block.settings.media_presentation == 'carousel' and block.settings.slideshow_mobile_controls_style == 'thumbnails' }}"
     },
     {
       "type": "range",
@@ -857,7 +869,7 @@
       "step": 1,
       "unit": "px",
       "default": 64,
-      "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' }}"
+      "visible_if": "{{ block.settings.media_presentation == 'carousel' and block.settings.slideshow_controls_style == 'thumbnails' or block.settings.media_presentation == 'carousel' and block.settings.slideshow_mobile_controls_style == 'thumbnails' }}"
     },
     {
       "type": "header",

@@ -134,10 +134,11 @@
   }
 
   .email-signup__input-group:not(.email-signup__input-group--integrated):not(.email-signup__input-group--underline) {
-    gap: var(--gap-xs);
+    gap: var(--gap-lg);
     align-items: center;
   }
 
+  /*
   .email-signup__input-group:not(.email-signup__input-group--arrow):not(.email-signup__input-group--underline):not(
       .email-signup__input-group--integrated
     ) {
@@ -145,6 +146,7 @@
       flex-direction: column;
     }
   }
+  */
 
   .email-signup__input-group--integrated {
     border-width: var(--border-width);
@@ -193,7 +195,15 @@
 
   .email-signup__input,
   .email-signup__button--text {
-    padding: var(--padding-lg) var(--padding-3xl);
+    padding: var(--padding-lg);
+  }
+
+  .email-signup__input {
+    min-width: 16.1875rem;
+  }
+
+  .email-signup__button--text {
+    min-width: 8.6875rem;
   }
 
   .email-signup__input-group--underline {

@@ -1,0 +1,263 @@
+{%- liquid
+  assign product = closest.product
+  assign block_settings = block.settings
+  assign should_inherit = true
+  if block_settings.inherit_color_scheme == false and block_settings.color_scheme != blank
+    assign should_inherit = false
+  endif
+
+  # `mode` controls whether this Quick-add opens the standard cart popup or
+  # the Build-a-box bundle popup. Three values:
+  #   auto    (default) — bundle if rendered inside a build-a-box section,
+  #                       normal otherwise. JS resolves this at click time.
+  #   normal  — always opens the standard cart popup.
+  #   bundle  — always opens the bundle popup (even outside a bundle section).
+  assign mode_value = block_settings.mode | default: 'auto'
+
+  # Render the flavour-notes metafield into a data attribute so the modal can
+  # pull it without scraping the DOM (which mis-fires on some card layouts and
+  # ends up showing the price). `strip_html` keeps any rich-text content as
+  # plain text; `escape` makes it safe inside an HTML attribute.
+  assign flavor_notes = product.metafields.custom.card_flavor_notes.value | strip_html | strip
+-%}
+
+<div
+  class="product-quick-add-block spacing-style{% unless should_inherit %} color-{{ block_settings.color_scheme }}{% endunless %}"
+  style="{% render 'spacing-style', settings: block_settings %}"
+  data-bundle-trigger="{{ mode_value }}"
+  data-product-flavor-notes="{{ flavor_notes | escape }}"
+  {{ block.shopify_attributes }}
+>
+  {%- unless product == blank -%}
+    {% render 'quick-add',
+      product: product,
+      section_id: section.id,
+      block: block,
+      inherit_color_scheme: true,
+      style_class: block_settings.style_class,
+      show_icon: block_settings.show_icon
+    %}
+  {%- endunless -%}
+</div>
+
+{% stylesheet %}
+  .product-quick-add-block {
+    width: 100%;
+  }
+
+  .product-quick-add-block .quick-add {
+    position: static;
+    inset: auto;
+    pointer-events: auto;
+  }
+
+  .product-quick-add-block .quick-add__product-form-component .shopify-product-form {
+    justify-content: stretch;
+    align-items: stretch;
+    height: auto;
+  }
+
+  .product-quick-add-block .quick-add__button {
+    --button-size-md: 3.1875rem;
+    position: static;
+    opacity: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: var(--button-size-md);
+  }
+
+  .product-quick-add-block .quick-add__button .add-to-cart-text {
+    background: transparent;
+    height: auto;
+  }
+
+  .product-quick-add-block .quick-add__button .add-to-cart-text__content {
+    grid-template-columns: 1fr;
+  }
+
+  .product-quick-add-block .quick-add__button .add-to-cart-text__content span span {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0);
+    padding-right: 0;
+  }
+
+  .product-quick-add-block .quick-add__button:is(:hover, :focus-visible) {
+    scale: 1;
+  }
+
+  /* Restore the hide-the-wrong-button rules from base.css, which our block-scoped
+     display: flex above would otherwise override (equal specificity, later source order). */
+  .product-quick-add-block [data-quick-add-button='choose'] add-to-cart-component {
+    display: none;
+  }
+
+  .product-quick-add-block [data-quick-add-button='add'] .quick-add__button--choose {
+    display: none;
+  }
+
+  /* Make the visible "Add" button stretch like the "Choose" button does. */
+  .product-quick-add-block [data-quick-add-button='add'] add-to-cart-component,
+  .product-quick-add-block [data-quick-add-button='add'] add-to-cart-component .quick-add__button--add {
+    width: 100%;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Quick add",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Renders a Choose or Add button that opens the quick-add modal. Only active on products assigned to a card (works inside product card blocks)."
+    },
+    {
+      "type": "select",
+      "id": "mode",
+      "label": "Mode",
+      "info": "\"Auto\" opens the bundle popup when the block is inside a Build-a-box section, the standard cart popup otherwise. Use \"Normal\" or \"Bundle\" to override.",
+      "options": [
+        { "value": "auto", "label": "Auto (recommended)" },
+        { "value": "normal", "label": "Normal (add to cart)" },
+        { "value": "bundle", "label": "Add to bundle" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "style_class",
+      "label": "t:settings.style",
+      "options": [
+        { "value": "button", "label": "t:options.primary" },
+        { "value": "button-secondary", "label": "t:options.secondary" }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show cart icon",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "inherit_color_scheme",
+      "label": "t:settings.inherit_color_scheme",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:settings.color_scheme",
+      "default": "scheme-1",
+      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile padding"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_mobile_padding",
+      "label": "Use mobile padding",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start-mobile",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end-mobile",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start-mobile",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end-mobile",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "visible_if": "{{ block.settings.use_mobile_padding }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Quick add",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}
