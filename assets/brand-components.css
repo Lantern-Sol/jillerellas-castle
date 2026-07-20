@@ -31,9 +31,11 @@
   font-weight: 500; /* Jost Medium — CTA spec (setting only offers 400/700) */
 }
 
-:is(.button, .button-secondary):not(:has(.svg-wrapper)):not(:has(svg))::before,
+/* Single arrow AFTER the label. Shown/hidden by the `button_show_arrow`
+   theme setting via --button-arrow-display (set in theme-styles-variables.liquid). */
 :is(.button, .button-secondary):not(:has(.svg-wrapper)):not(:has(svg))::after {
   content: "";
+  display: var(--button-arrow-display, inline-block);
   flex: 0 0 auto;
   inline-size: 0.75em;
   block-size: 1.05em;

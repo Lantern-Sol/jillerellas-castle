@@ -238,9 +238,11 @@ contained CSS layer.
 
 **CSS layer (`assets/brand-components.css`, loaded after base.css via `snippets/stylesheets.liquid`):**
 - Buttons: Jost **Medium (500)** weight (the `primary_button_font_weight` setting only offers
-  400/700); `angle-right` **chevron on both sides** of the label (mask + `currentColor`),
-  scoped to text-only CTAs (`:not(:has(svg))` so icon/payment buttons are untouched);
-  primary→gold / secondary→purple **hover swap**.
+  400/700); a single `angle-right` **chevron AFTER the label** (`::after` mask + `currentColor`),
+  scoped to text-only CTAs (`:not(:has(svg))` so icon/payment buttons are untouched). The arrow
+  is toggled by the **`button_show_arrow`** theme setting (Buttons group, default on) → drives
+  `--button-arrow-display` in theme-styles-variables.liquid. Primary→gold / secondary→purple
+  **hover swap**.
 - Inputs: focus = purple box-shadow ring; error (`[aria-invalid="true"]`/`.field--error`) =
   red ring + `#FDECEC` fill + `#A73030` text. (The input "border" is a box-shadow on
   `--color-input-border`.)
