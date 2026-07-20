@@ -240,9 +240,11 @@ contained CSS layer.
 - Buttons: Jost **Medium (500)** weight (the `primary_button_font_weight` setting only offers
   400/700); a single `angle-right` **chevron AFTER the label** (`::after` mask + `currentColor`),
   scoped to text-only CTAs (`:not(:has(svg))` so icon/payment buttons are untouched). The arrow
-  is toggled by the **`button_show_arrow`** theme setting (Buttons group, default on) → drives
-  `--button-arrow-display` in theme-styles-variables.liquid. Primary→gold / secondary→purple
-  **hover swap**.
+  is controlled at two levels: the **`button_show_arrow`** theme setting (Buttons group, default
+  on) is the store-wide default (drives `--button-arrow-display` on `:root`); the **button block**
+  adds a per-button **`button_arrow`** select (Theme default / Show / Hide) that writes an inline
+  `--button-arrow-display` on that one `<a>` (see `snippets/button.liquid`), so individual
+  placed buttons can opt in/out. Primary→gold / secondary→purple **hover swap**.
 - Inputs: focus = purple box-shadow ring; error (`[aria-invalid="true"]`/`.field--error`) =
   red ring + `#FDECEC` fill + `#A73030` text. (The input "border" is a box-shadow on
   `--color-input-border`.)

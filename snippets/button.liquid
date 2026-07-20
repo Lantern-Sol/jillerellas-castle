@@ -11,6 +11,16 @@
 {% assign block_settings = block.settings %}
 {% render 'button-custom-styles', block_settings: block_settings, block_id: block.id %}
 
+{%- liquid
+  # Per-button arrow override; "default" inherits the global button_show_arrow setting.
+  assign arrow_style = ''
+  if block_settings.button_arrow == 'show'
+    assign arrow_style = '--button-arrow-display: inline-block;'
+  elsif block_settings.button_arrow == 'hide'
+    assign arrow_style = '--button-arrow-display: none;'
+  endif
+-%}
+
 <a
   {% if link == blank %}
     role="link"
@@ -23,7 +33,7 @@
     {{ block_settings.style_class }}
     {{ block_settings.style_class }}--{{ block.id }}
   "
-  style="{% render 'size-style', settings: block_settings %}"
+  style="{% render 'size-style', settings: block_settings %}{{ arrow_style }}"
   {%- if block_settings.open_in_new_tab -%}
     target="_blank"
     rel="noopener noreferrer"
