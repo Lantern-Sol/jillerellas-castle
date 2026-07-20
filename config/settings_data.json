@@ -9,6 +9,8 @@
  */
 {
   "current": {
+    "logo": "shopify://shop_images/logo-jillerellas-castle.svg",
+    "logo_inverse": "shopify://shop_images/logo-jillerellas-castle-inverse.svg",
     "logo_height": 48,
     "logo_height_mobile": 32,
     "type_body_font": "jost_n4",
@@ -56,6 +58,9 @@
     "badge_corner_radius": 100,
     "badge_sold_out_background_color": "{{ settings.color_palette.color2 }}",
     "badge_text_transform": "none",
+    "palette_primary_button_background": "{{ settings.color_palette.color1 }}",
+    "palette_primary_button_text": "{{ settings.color_palette.background }}",
+    "palette_primary_button_border": "{{ settings.color_palette.color1 }}",
     "primary_button_border_width": 0,
     "button_border_radius_primary": 14,
     "secondary_button_border_width": 1,
@@ -84,12 +89,6 @@
     "variant_button_width": "equal-width-buttons",
     "popover_border": "none",
     "content_for_index": [],
-    "badge_sold_out_background_color": "{{ settings.color_palette.color2 }}",
-    "palette_input_border": "{{ settings.color_palette.color3 }}",
-    "palette_variant_border": "{{ settings.color_palette.color3 }}",
-    "palette_primary_button_background": "{{ settings.color_palette.color1 }}",
-    "palette_primary_button_text": "{{ settings.color_palette.background }}",
-    "palette_primary_button_border": "{{ settings.color_palette.color1 }}",
     "color_palette": {
       "background": "#FEFEFE",
       "foreground": "#241635",
