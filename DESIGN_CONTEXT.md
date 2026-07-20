@@ -171,6 +171,11 @@ primary button so the CTA tracks the brand purple:
 - `type_size_h1..h7`, `type_size_paragraph` are `select`s of px values. `theme-styles-variables.liquid`
   turns each into a **fluid `--font-size--hN: clamp(min, vw, max)`** (min auto-derived from the next
   smaller size; cutoff at 48px).
+  - **Fix (fix/fluid-heading-clamp):** the "next-smaller size" lookup was rewritten to a numeric inner
+    loop. The original built a zero-padded string array but looked it up unpadded via single-arg
+    `find_index` (which Shopify only supports in the two-arg object form) → `find_index` returned nil →
+    every heading ≥48px collapsed to one size (with 64/56/48 that means H1=H2=H3=64px; it also hit the
+    theme defaults, where h2 rendered at 72 instead of 48). The numeric loop is exact and dialect-safe.
 - **Line-height** is a token select. Values: display-tight `1`, display-normal `1.1`, **display-loose `1.2`**;
   body-tight `1.2`, **body-normal `1.4`**, body-loose `1.6`.
 - **Letter-spacing** is a token select. Heading tokens: heading-tight `-0.03em`, heading-normal `0`,
