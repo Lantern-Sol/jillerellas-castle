@@ -400,6 +400,30 @@
     padding-inline: 0;
   }
 
+  /* LS: pill-shaped top-level nav links (Figma header). Rounded corners at
+     rest; a subtle tinted fill on hover/focus/active reads as the pill from
+     the design. Scoped to desktop menu mode and to top-level items only, so
+     the mega-menu "more" overflow and submenu links are untouched. */
+  @media screen and (min-width: 750px) {
+    #header-component[data-menu-style='menu'] .menu-list__list-item:not([slot='overflow']) > .menu-list__link {
+      border-radius: 20px;
+      transition: background-color var(--animation-speed) var(--animation-easing),
+        color var(--header-content-transition-timing);
+    }
+
+    #header-component[data-menu-style='menu']
+      .menu-list__list-item:not([slot='overflow']):hover
+      > .menu-list__link,
+    #header-component[data-menu-style='menu']
+      .menu-list__list-item:not([slot='overflow']):focus-within
+      > .menu-list__link,
+    #header-component[data-menu-style='menu']
+      .menu-list__list-item:not([slot='overflow'])
+      > .menu-list__link--active {
+      background-color: rgb(var(--color-foreground-rgb) / 0.06);
+    }
+  }
+
   .overflow-menu::part(list) {
     /* Make sure focus outline is not cut off by overflow hidden */
     --focus-outline-size: calc(var(--focus-outline-offset) + var(--focus-outline-width));

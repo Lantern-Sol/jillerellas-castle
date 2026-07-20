@@ -64,10 +64,10 @@
       on:click="/toggle"
     >
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
-        {{- 'icon-menu.svg' | inline_asset_content -}}
+        {% render 'header-icon', icon: section.settings.header_icon_menu, name: 'menu' %}
       </span>
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-        {{- 'icon-close.svg' | inline_asset_content -}}
+        {{- 'icon-header-close.svg' | inline_asset_content -}}
       </span>
     </summary>
     <div
@@ -582,21 +582,7 @@
                   class="menu-drawer__account-icon"
                   aria-hidden="true"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="17"
-                    viewBox="0 0 15 17"
-                    fill="none"
-                    class="account-button__icon"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linejoin="round"
-                      stroke-width="var(--icon-stroke-width)"
-                      d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z"
-                    />
-                  </svg>
+                  {% render 'header-icon', icon: section.settings.header_icon_account, name: 'account' %}
                 </span>
                 <span
                   slot="signed-out-avatar"
@@ -1232,7 +1218,7 @@
     margin-inline-end: 1rem;
   }
 
-  .menu-drawer__account-icon svg {
+  .menu-drawer__account-icon :is(svg, .header-icon-custom) {
     width: var(--icon-size-sm);
     height: var(--icon-size-sm);
   }
