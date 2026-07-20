@@ -4,27 +4,51 @@
   @param {string} [style] - The style of the search action.
   @param {string} [class] - Additional classes for the search action.
   @param {string} [display_style] - The display style ('icon' or 'text').
+  @param {boolean} [expanded] - When true, renders as an expanded search bar
+    (placeholder + icon) on desktop; collapses to an icon on mobile. Clicking
+    still opens the search modal. Used for the main desktop header search.
+  @param {image} [search_icon] - Optional merchant-uploaded icon that overrides
+    the default search glyph.
 
   @example
   {% render 'search', style: 'default', class: 'custom-class', display_style: 'icon' %}
 {%- enddoc -%}
 
 {% unless style == 'none' %}
+  {%- liquid
+    # Only show the pill placeholder for the expanded desktop bar in icon mode.
+    # In text mode the existing "Search" label is visible, so showing both would
+    # duplicate the label.
+    assign show_placeholder = false
+    if expanded and display_style != 'text'
+      assign show_placeholder = true
+    endif
+  -%}
   <search-button
-    class="search-action{% if display_style == 'text' %} search-action--text{% endif %}{% if class != blank %} {{ class | strip }}{% endif %}"
+    class="search-action{% if expanded %} search-action--expanded{% endif %}{% if display_style == 'text' %} search-action--text{% endif %}{% if class != blank %} {{ class | strip }}{% endif %}"
   >
     <button
       on:click="#search-modal/showDialog"
       class="button-unstyled header-actions__action{% if display_style == 'text' %} header-actions__text-style{% endif %}"
-      aria-label="{{ 'content.search_input_label' | t }}"
+      {%- comment -%}
+        Keep the accessible name in sync with the visible label so speech input
+        works and WCAG 2.5.3 (Label in Name) is satisfied.
+      {%- endcomment -%}
+      aria-label="{% if show_placeholder %}{{ 'content.search_bar_placeholder' | t }}{% else %}{{ 'content.search_input_label' | t }}{% endif %}"
       aria-haspopup="dialog"
     >
+      {% if show_placeholder %}
+        <span class="search-action__placeholder mobile:hidden">
+          {{- 'content.search_bar_placeholder' | t -}}
+        </span>
+      {% endif %}
+
       <span class="{% if display_style == 'icon' %}hidden{% else %}mobile:hidden{% endif %}">
         {{ 'content.search' | t }}
       </span>
 
       <span class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}">
-        {{ 'icon-search.svg' | inline_asset_content }}
+        {% render 'header-icon', icon: search_icon, name: 'search' %}
       </span>
     </button>
   </search-button>
@@ -73,6 +97,65 @@
 
     [data-menu-style='menu'] .header__column--left .search-action--text {
       margin-inline: 0;
+    }
+  }
+
+  /* ------------------------------------------------------------------
+   * Expanded search bar (Figma header). On desktop the trigger looks
+   * like a pill-shaped input — cream fill, gold border, placeholder on
+   * the left, search icon on the right. It still opens the search modal
+   * on click. On mobile it collapses back to the plain icon button.
+   * Colours match the brand tokens: cream #F8F5EF (Secondary/50),
+   * gold border #E0D2B7 (Secondary/200).
+   * ------------------------------------------------------------------ */
+  @media screen and (min-width: 750px) {
+    /* Cancel the negative gutters the icon search normally uses. Two rules so
+       we out-specify both the right-column (0,2,0) and left-column (0,3,0)
+       base rules regardless of which column the merchant places search in. */
+    [data-menu-style='menu'] .search-action--expanded,
+    [data-menu-style='menu'] .header__column--left .search-action--expanded,
+    [data-menu-style='menu'] .header__column--right .search-action--expanded {
+      margin-inline: 0;
+    }
+
+    .search-action--expanded .header-actions__action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--gap-sm, 8px);
+      inline-size: clamp(220px, 22vw, 300px);
+      block-size: 48px;
+      padding-inline: 16px;
+      background-color: var(--color-search-bar-background, #f8f5ef);
+      border: 1px solid var(--color-search-bar-border, #e0d2b7);
+      border-radius: 32px;
+      transition: border-color var(--animation-speed) var(--animation-easing);
+    }
+
+    .search-action--expanded .header-actions__action:hover,
+    .search-action--expanded .header-actions__action:focus-visible {
+      border-color: var(--color-search-bar-border-hover, #bc9d62);
+    }
+
+    .search-action--expanded .search-action__placeholder {
+      flex: 1 1 auto;
+      overflow: hidden;
+      font-size: var(--font-size--sm, 0.875rem);
+      color: var(--color-foreground);
+      text-align: start;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .search-action--expanded .svg-wrapper {
+      flex-shrink: 0;
+      inline-size: 20px;
+      block-size: 20px;
+    }
+
+    .search-action--expanded .svg-wrapper :is(svg, img) {
+      inline-size: 20px;
+      block-size: 20px;
     }
   }
 {% endstylesheet %}

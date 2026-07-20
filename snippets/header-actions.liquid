@@ -31,7 +31,7 @@
       class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}"
       aria-hidden="true"
     >
-      {{ 'icon-cart.svg' | inline_asset_content }}
+      {% render 'header-icon', icon: section.settings.header_icon_cart, name: 'cart' %}
     </span>
 
     {% render 'cart-bubble', limit: 100 %}
@@ -39,22 +39,7 @@
 {% endcapture %}
 
 {% capture account_icon %}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="15"
-    height="17"
-    viewBox="0 0 15 17"
-    fill="none"
-    slot="signed-out-avatar"
-    class="account-button__icon"
-  >
-    <path
-      stroke="currentColor"
-      stroke-linejoin="round"
-      stroke-width="var(--icon-stroke-width)"
-      d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z"
-    />
-  </svg>
+  {% render 'header-icon', icon: section.settings.header_icon_account, name: 'account' %}
 {% endcapture %}
 
 <header-actions
@@ -103,7 +88,7 @@
 
           <span
             slot="signed-out-avatar"
-            class="{% if display_style != 'icon' %}desktop:hidden{% endif %}"
+            class="account-button__icon {% if display_style != 'icon' %}desktop:hidden{% endif %}"
             aria-hidden="true"
           >
             {{ account_icon }}
@@ -276,8 +261,9 @@
     font-weight: var(--font-paragraph--weight);
   }
 
-  .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {
-    /* Create donut mask where the cart bubble sits */
+  .header-actions__cart-icon.header-actions__cart-icon--has-cart :is(svg, img.header-icon-custom) {
+    /* Create donut mask where the cart bubble sits (covers a merchant-uploaded
+       custom cart icon too, not just the inline default svg) */
     mask: radial-gradient(
       calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
       transparent 45.45%,

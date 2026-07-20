@@ -259,6 +259,75 @@ the screenshot flow in the branch. **Note:** chevrons apply to every text `.butt
 `brand-components.css`. Badge *custom* variants (Vegan / New Formula, etc.) need
 metafield-driven markup and were not added.
 
+## 5c. Header bar — Figma pass (`feature/new-navigation-bar`)
+
+Header now matches the Figma header (desktop node `7116:14012`, mobile `7116:14572`,
+`7063:11510`). The theme's header was **already** logo-left / menu-left / search-right /
+actions-right, so this was a visual + search pass, not a re-layout. No new sections/blocks.
+
+**Settings (`sections/header-group.json` → `header_section`):**
+- `background_color_top` → **`#FCFAF9`** (Neutrals-Light/200, brand-subtle); was palette bg (#FEFEFE).
+- `border_width` → **1** + `bottom_border_color` → **`#F8F5EF`** (Secondary/50) — the header's
+  hairline bottom border (desktop + mobile).
+- `type_font_primary_size` (header-menu block) → **`1rem`** (16px, Figma body); was 0.875rem.
+- `show_country` → **false** — the Figma omits the currency/region selector. **Reversible:**
+  flip back to `true` (or set in the theme editor → Header → Localization) to restore it.
+
+**Markup / CSS (co-located with the theme's own header files):**
+- **Expanded search bar:** `snippets/search.liquid` gained an `expanded` param; `sections/header.liquid`
+  passes `expanded: true` to the *main* top-row search only (not `drawer_search`). On desktop it
+  renders as a pill "input" — cream `#F8F5EF` fill, gold `#E0D2B7` border, 32px radius, 48px tall,
+  `clamp(220px,22vw,300px)` wide, left placeholder + right search icon. It is **still a button that
+  opens the existing search modal** (`#search-modal/showDialog`) — predictive search UX is preserved,
+  it is not a raw `<form>`. On mobile it collapses to the plain 40px icon (expanded styles are
+  `min-width:750px`; placeholder is `mobile:hidden`). Placeholder string = new locale key
+  `content.search_bar_placeholder` ("What are you looking for?") in `locales/en.default.json`.
+  Override colors via `--color-search-bar-background` / `--color-search-bar-border` / `-border-hover`.
+- **Pill nav hover:** `blocks/_header-menu.liquid` adds `border-radius:20px` + a subtle
+  `rgb(foreground / .06)` fill on hover/focus/active to top-level links (desktop menu mode, non-overflow
+  only). At rest the nav is plain text + caret on items with children — which already matched the Figma.
+
+**Not changed:** the caret on Shop/Collections is the theme's existing `icon-chevron-down` for links
+with submenus (Figma shows the same).
+
+### 5c-ii. Icons + font follow-up (same branch)
+
+**Font (two real bugs, now fixed):**
+- `snippets/menu-font-styles.liquid` hardcoded `--menu-top-level-font-weight: 700` → nav rendered
+  **Bold**. Changed to `var(--font-{{ settings.type_font_primary_link }}--weight)` so it follows the
+  selected role (body = Jost **Regular 400**), matching the Figma nav. (Affects all menu top-level
+  links, incl. mega-menu — intended.)
+- Header text was the brand purple `#241635`; the Figma header text/icons are **`#2B2B2B`**
+  (Text/default). Set `text_color_top` → **`#2B2B2B`** in `header-group.json`; this drives nav text,
+  the search placeholder, and every `currentColor` icon in the top row.
+
+**Icons — defaults now match Figma (Phosphor-ish set), sanitized to `currentColor` + `aria-hidden`,
+`viewBox` tightened to the glyph so they fill the icon box:**
+- Replaced in place (safe — header-scoped or same-concept): `assets/icon-search.svg`,
+  `assets/icon-cart.svg` (header-only), `assets/icon-menu.svg` (header-only), `assets/icon-account.svg`
+  (was unused; header account was an inline SVG, now uses this asset). `icon-search.svg` is also used
+  by the search modal/input — same magnifier, so consistent.
+- **Did NOT touch `assets/icon-close.svg`** — it's shared by 12 files (cart drawer, galleries, modals…).
+  Added a header-only `assets/icon-header-close.svg` (Figma thin X) used **only** for the mobile
+  drawer's hamburger→close toggle.
+
+**Merchant icon uploads:** new `snippets/header-icon.liquid` renders an uploaded image when set,
+else the default SVG (`{% render 'header-icon', icon: <image>, name: 'search|account|cart|menu' %}`).
+Four `image_picker` settings live in the **Header section** schema (`sections/header.liquid`):
+`header_icon_search`, `header_icon_account`, `header_icon_cart`, `header_icon_menu`. Wired through
+`section.settings.*` at each render site (search via a `search_icon` param on `search.liquid`;
+cart + account in `header-actions.liquid`; hamburger in `header-drawer.liquid`). Uploaded icons render
+as `<img class="header-icon-custom">` sized to `--icon-size-md`. **Note:** `image_picker` is for
+raster images (PNG/JPG); SVG upload isn't supported by that setting — the *defaults* are SVG.
+
+**Hardening (post multi-agent review):** the custom-upload path was made a true drop-in replacement:
+the cart count-bubble donut `mask` now targets `:is(svg, img.header-icon-custom)`; uploaded account
+and mobile-hamburger images get the same per-context padding/size as their default SVGs; the mobile
+drawer's signed-out account glyph now routes through `header-icon` too (so `header_icon_account`
+works on mobile and matches the desktop Figma glyph). The expanded search bar's `aria-label` now
+mirrors the visible placeholder (WCAG 2.5.3), the placeholder is suppressed in `Text` display mode to
+avoid a doubled label, and its margin-reset is scoped to both left and right columns.
+
 ## 6. Key decisions & deviations (read before changing)
 
 1. **Jost is native (Shopify library), not self-hosted.** Confirmed present in the theme editor font picker.
@@ -290,8 +359,9 @@ metafield-driven markup and were not added.
 - [ ] Upload `figma/logos/*.svg` (or PNG) to **Shopify Files**; set **Logo** = color, **Inverse logo** = cream in the editor.
 - [ ] Confirm the four fonts show **Jost** in the editor (Body Regular, others Medium), then Save.
 - [ ] Favicon: not provided in the style guide — supply/set separately.
-- [ ] **Header & Footer sections** (this branch is `new/header-and-footer-section`) — the Figma has no
-  header/footer layout mock, only the style guide, so that build is a separate task once designs exist.
+- [x] **Header** — matched to Figma (`7116:14012` desktop, `7116:14572`/`7063:11510` mobile) on
+  `feature/new-navigation-bar`. See **§5c**. Localization is hidden to match the design (reversible).
+- [ ] **Footer section** — the Figma footer mock still needs a matching pass (separate task).
 - [ ] Optional: decide whether body line-height should be the exact Figma 1.2 (`body-tight`) vs current 1.4.
 
 ---
