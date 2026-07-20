@@ -1,0 +1,133 @@
+/* ============================================================
+ * Jillerellas Castle — brand component styles
+ * Layered on top of base.css to match the Figma design-system
+ * component specs (Buttons, Inputs, Form Controls, Selectors).
+ * Colours: purple #5A3884 · gold #BC9D62 · gold-border #E0D2B7
+ *          error #EB4343/#FDECEC/#A73030 · white #FEFEFE
+ * Most sizing/colour lives in theme settings; this file adds the
+ * bits that aren't settings-driven (chevrons, focus/error, checked
+ * colours, tab + quantity accents).
+ * ============================================================ */
+
+:root {
+  /* right-pointing chevron used on both sides of CTA buttons.
+     White stroke so it works as both an alpha and luminance mask;
+     the visible colour comes from `background-color: currentColor`. */
+  --brand-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='12' viewBox='0 0 8 12'%3E%3Cpath d='M1.5 1L6.5 6L1.5 11' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------
+ * Buttons — Jost Medium, pill (radius via settings), chevron on
+ * both sides (`› LABEL ›`), and the primary/secondary hover swap.
+ * Chevrons are only added to text-only CTAs (buttons that don't
+ * already carry an icon), so add-to-cart / payment buttons are
+ * left untouched.
+ * --------------------------------------------------------------- */
+:is(.button, .button-secondary):not(:has(.svg-wrapper)):not(:has(svg)) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  font-weight: 500; /* Jost Medium — CTA spec (setting only offers 400/700) */
+}
+
+/* Single arrow AFTER the label. Shown/hidden by the `button_show_arrow`
+   theme setting via --button-arrow-display (set in theme-styles-variables.liquid). */
+:is(.button, .button-secondary):not(:has(.svg-wrapper)):not(:has(svg))::after {
+  content: "";
+  display: var(--button-arrow-display, inline-block);
+  flex: 0 0 auto;
+  inline-size: 0.75em;
+  block-size: 1.05em;
+  background-color: currentColor;
+  -webkit-mask: var(--brand-chevron) center / contain no-repeat;
+  mask: var(--brand-chevron) center / contain no-repeat;
+}
+
+/* Hover swap: primary purple → gold, secondary gold → purple */
+.button:hover,
+.button:focus-visible {
+  background-color: var(--color-secondary-500, #bc9d62);
+  color: #fefefe;
+}
+
+.button-secondary:hover,
+.button-secondary:focus-visible {
+  background-color: var(--color-primary-500, #5a3884);
+  color: #fefefe;
+}
+
+/* ---------------------------------------------------------------
+ * Inputs — the "border" is a box-shadow ring on --color-input-border
+ * (already gold #E0D2B7). Focus turns it purple; error turns the
+ * field red with a tinted fill.
+ * --------------------------------------------------------------- */
+.field__input:focus,
+.field__input:focus-visible {
+  box-shadow: 0 0 0 calc(var(--input-box-shadow-width, 1px) + 0.5px) #5a3884;
+}
+
+.field__input[aria-invalid="true"],
+.field--error .field__input,
+input[aria-invalid="true"]:not([type="checkbox"]):not([type="radio"]),
+textarea[aria-invalid="true"],
+select[aria-invalid="true"] {
+  box-shadow: 0 0 0 var(--input-box-shadow-width, 1px) #eb4343;
+  background-color: #fdecec;
+  color: #a73030;
+}
+
+.field__input[aria-invalid="true"]:focus,
+.field--error .field__input:focus {
+  box-shadow: 0 0 0 calc(var(--input-box-shadow-width, 1px) + 0.5px) #eb4343;
+}
+
+/* ---------------------------------------------------------------
+ * Form controls — radios & checkboxes: gold border when unchecked,
+ * brand purple when checked. Checkbox corners softened.
+ * --------------------------------------------------------------- */
+:where(input[type="radio"]),
+:where(input[type="checkbox"]) {
+  border-color: #e0d2b7;
+  border-width: 1px;
+  border-style: solid;
+}
+
+:where(input[type="checkbox"]) {
+  border-radius: 4px;
+}
+
+:where(input[type="radio"]):checked {
+  border-color: #5a3884;
+  background: var(--color-background, #fefefe);
+}
+
+:where(input[type="radio"]):checked::after {
+  background: #5a3884;
+}
+
+:where(input[type="checkbox"]):checked {
+  background-color: #5a3884;
+  border-color: #5a3884;
+}
+
+:where(input[type="radio"]):not(:disabled):hover,
+:where(input[type="checkbox"]):not(:disabled):hover {
+  border-color: #bc9d62;
+}
+
+/* ---------------------------------------------------------------
+ * Selectors
+ * Size buttons + colour swatches: selected state = brand purple,
+ * driven by the palette_selected_variant_* settings (no CSS here).
+ * Product-info tabs: active tab + underline in brand purple.
+ * Quantity stepper: pill.
+ * --------------------------------------------------------------- */
+.product-tabs__tab[aria-selected="true"] {
+  color: #5a3884;
+  border-block-end-color: #5a3884;
+}
+
+.quantity-selector {
+  border-radius: 50px;
+}

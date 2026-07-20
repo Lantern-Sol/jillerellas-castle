@@ -565,6 +565,9 @@
     --button-text-case-primary: {{ settings.button_text_case_primary }};
     --button-text-case-secondary: {{ settings.button_text_case_secondary }};
 
+    /* Brand: trailing arrow glyph on text buttons (see brand-components.css) */
+    --button-arrow-display: {% if settings.button_show_arrow %}inline-block{% else %}none{% endif %};
+
     /* Borders */
     --border-color: rgb(var(--color-border-rgb) / var(--opacity-50));
     --border-width-sm: 1px;

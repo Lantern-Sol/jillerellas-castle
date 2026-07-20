@@ -218,6 +218,47 @@ palette_primary_button_background/border → color1 (#5A3884); text → backgrou
 
 ---
 
+## 5b. Component styling — Figma design-system pass (`feat/figma-ui-components`)
+
+Five Figma component specs (Buttons `2275:2081`, Inputs `2275:2092`, Form Controls
+`2275:2103`, Selectors `7335:7001`, Badges `2275:2125`) were applied by **modifying the
+existing theme components** — no new components. Split between theme settings and one
+contained CSS layer.
+
+**Settings (`config/settings_data.json`):**
+- Buttons: `button_border_radius_primary/secondary` → **50** (pill); secondary button =
+  gold fill (`palette_secondary_button_background/border` = `#BC9D62`, text = background);
+  `secondary_button_border_width` → 0.
+- Inputs: `inputs_border_radius` → **8**. (Border already gold `#E0D2B7` via `color3`.)
+- Variant selectors: default variant = white/dark/gold-border; **selected variant = purple**
+  (`palette_selected_variant_background`=background, `_text`/`_border`=`color1`); swatch
+  selected ring inherits the same purple. `variant_button_radius` → 8.
+- Badges: sale = `#EEEBF2`/`#5A3884` (Save-XX%), sold-out = `#FDECEC`/`#A73030` (Out of Stock);
+  `badge_corner_radius` stays 100 (pill).
+
+**CSS layer (`assets/brand-components.css`, loaded after base.css via `snippets/stylesheets.liquid`):**
+- Buttons: Jost **Medium (500)** weight (the `primary_button_font_weight` setting only offers
+  400/700); a single `angle-right` **chevron AFTER the label** (`::after` mask + `currentColor`),
+  scoped to text-only CTAs (`:not(:has(svg))` so icon/payment buttons are untouched). The arrow
+  is controlled at two levels: the **`button_show_arrow`** theme setting (Buttons group, default
+  on) is the store-wide default (drives `--button-arrow-display` on `:root`); the **button block**
+  adds a per-button **`button_arrow`** select (Theme default / Show / Hide) that writes an inline
+  `--button-arrow-display` on that one `<a>` (see `snippets/button.liquid`), so individual
+  placed buttons can opt in/out. Primary→gold / secondary→purple **hover swap**.
+- Inputs: focus = purple box-shadow ring; error (`[aria-invalid="true"]`/`.field--error`) =
+  red ring + `#FDECEC` fill + `#A73030` text. (The input "border" is a box-shadow on
+  `--color-input-border`.)
+- Form controls: `input[type=radio|checkbox]` gold border unchecked → **purple checked**;
+  checkbox corners softened (4px); gold hover.
+- Selectors: `.product-tabs__tab[aria-selected]` → purple text + purple underline;
+  `.quantity-selector` → pill.
+
+Verified in an offline harness (real base.css + brand-components.css + brand CSS vars) — see
+the screenshot flow in the branch. **Note:** chevrons apply to every text `.button` /
+`.button-secondary`; if any specific CTA shouldn't have them, scope it out in
+`brand-components.css`. Badge *custom* variants (Vegan / New Formula, etc.) need
+metafield-driven markup and were not added.
+
 ## 6. Key decisions & deviations (read before changing)
 
 1. **Jost is native (Shopify library), not self-hosted.** Confirmed present in the theme editor font picker.

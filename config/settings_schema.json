@@ -1508,6 +1508,13 @@
     "name": "t:names.buttons",
     "settings": [
       {
+        "type": "checkbox",
+        "id": "button_show_arrow",
+        "label": "Show arrow on buttons",
+        "info": "Adds a single chevron arrow after the label on primary and secondary text buttons.",
+        "default": true
+      },
+      {
         "type": "header",
         "content": "t:options.button_primary"
       },

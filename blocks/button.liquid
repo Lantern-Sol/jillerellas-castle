@@ -48,6 +48,28 @@
       "info": "t:info.edit_button_style_in_theme_settings"
     },
     {
+      "type": "select",
+      "id": "button_arrow",
+      "label": "Arrow",
+      "info": "Trailing arrow for this button. \"Theme default\" follows the global Buttons setting.",
+      "options": [
+        {
+          "value": "default",
+          "label": "Theme default"
+        },
+        {
+          "value": "show",
+          "label": "Show"
+        },
+        {
+          "value": "hide",
+          "label": "Hide"
+        }
+      ],
+      "default": "default",
+      "visible_if": "{{ block.settings.style_class == 'button' or block.settings.style_class == 'button-secondary' }}"
+    },
+    {
       "type": "header",
       "content": "t:content.button_colors",
       "visible_if": "{{ block.settings.style_class == \"button-custom\" }}"
