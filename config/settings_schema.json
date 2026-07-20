@@ -63,8 +63,8 @@
         "type": "color_palette",
         "id": "color_palette",
         "default": {
-          "background": "#ffffff",
-          "foreground": "#000000"
+          "background": "#FEFEFE",
+          "foreground": "#241635"
         }
       }
     ]
@@ -94,25 +94,25 @@
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "default": "work_sans_n4",
+        "default": "jost_n4",
         "label": "t:options.body"
       },
       {
         "type": "font_picker",
         "id": "type_subheading_font",
-        "default": "work_sans_n5",
+        "default": "jost_n5",
         "label": "t:options.subheading"
       },
       {
         "type": "font_picker",
         "id": "type_heading_font",
-        "default": "anonymous_pro_n4",
+        "default": "jost_n5",
         "label": "t:options.heading"
       },
       {
         "type": "font_picker",
         "id": "type_accent_font",
-        "default": "anonymous_pro_n4",
+        "default": "jost_n5",
         "label": "t:options.accent"
       },
       {
@@ -247,6 +247,10 @@
           {
             "value": "56",
             "label": "56px"
+          },
+          {
+            "value": "64",
+            "label": "64px"
           },
           {
             "value": "72",
@@ -399,6 +403,10 @@
           {
             "value": "56",
             "label": "56px"
+          },
+          {
+            "value": "64",
+            "label": "64px"
           },
           {
             "value": "72",
@@ -561,6 +569,10 @@
             "label": "56px"
           },
           {
+            "value": "64",
+            "label": "64px"
+          },
+          {
             "value": "72",
             "label": "72px"
           },
@@ -719,6 +731,10 @@
           {
             "value": "56",
             "label": "56px"
+          },
+          {
+            "value": "64",
+            "label": "64px"
           },
           {
             "value": "72",
@@ -881,6 +897,10 @@
             "label": "56px"
           },
           {
+            "value": "64",
+            "label": "64px"
+          },
+          {
             "value": "72",
             "label": "72px"
           },
@@ -1041,6 +1061,10 @@
             "label": "56px"
           },
           {
+            "value": "64",
+            "label": "64px"
+          },
+          {
             "value": "72",
             "label": "72px"
           },
@@ -1199,6 +1223,10 @@
           {
             "value": "56",
             "label": "56px"
+          },
+          {
+            "value": "64",
+            "label": "64px"
           },
           {
             "value": "72",
