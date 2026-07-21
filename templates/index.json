@@ -527,7 +527,6 @@
     },
     "custom_trust_badges": {
       "type": "section",
-      "name": "Trust badges",
       "blocks": {
         "badges_pair_1": {
           "type": "group",
@@ -606,7 +605,9 @@
                       }
                     }
                   },
-                  "block_order": ["badge_icon_1"]
+                  "block_order": [
+                    "badge_icon_1"
+                  ]
                 },
                 "badge_text_1": {
                   "type": "group",
@@ -674,10 +675,16 @@
                       }
                     }
                   },
-                  "block_order": ["badge_title_1", "badge_caption_1"]
+                  "block_order": [
+                    "badge_title_1",
+                    "badge_caption_1"
+                  ]
                 }
               },
-              "block_order": ["badge_tile_1", "badge_text_1"]
+              "block_order": [
+                "badge_tile_1",
+                "badge_text_1"
+              ]
             },
             "badge_item_2": {
               "type": "group",
@@ -733,7 +740,9 @@
                       }
                     }
                   },
-                  "block_order": ["badge_icon_2"]
+                  "block_order": [
+                    "badge_icon_2"
+                  ]
                 },
                 "badge_text_2": {
                   "type": "group",
@@ -801,13 +810,22 @@
                       }
                     }
                   },
-                  "block_order": ["badge_title_2", "badge_caption_2"]
+                  "block_order": [
+                    "badge_title_2",
+                    "badge_caption_2"
+                  ]
                 }
               },
-              "block_order": ["badge_tile_2", "badge_text_2"]
+              "block_order": [
+                "badge_tile_2",
+                "badge_text_2"
+              ]
             }
           },
-          "block_order": ["badge_item_1", "badge_item_2"]
+          "block_order": [
+            "badge_item_1",
+            "badge_item_2"
+          ]
         },
         "badges_pair_2": {
           "type": "group",
@@ -886,7 +904,9 @@
                       }
                     }
                   },
-                  "block_order": ["badge_icon_3"]
+                  "block_order": [
+                    "badge_icon_3"
+                  ]
                 },
                 "badge_text_3": {
                   "type": "group",
@@ -954,10 +974,16 @@
                       }
                     }
                   },
-                  "block_order": ["badge_title_3", "badge_caption_3"]
+                  "block_order": [
+                    "badge_title_3",
+                    "badge_caption_3"
+                  ]
                 }
               },
-              "block_order": ["badge_tile_3", "badge_text_3"]
+              "block_order": [
+                "badge_tile_3",
+                "badge_text_3"
+              ]
             },
             "badge_item_4": {
               "type": "group",
@@ -1013,7 +1039,9 @@
                       }
                     }
                   },
-                  "block_order": ["badge_icon_4"]
+                  "block_order": [
+                    "badge_icon_4"
+                  ]
                 },
                 "badge_text_4": {
                   "type": "group",
@@ -1081,16 +1109,29 @@
                       }
                     }
                   },
-                  "block_order": ["badge_title_4", "badge_caption_4"]
+                  "block_order": [
+                    "badge_title_4",
+                    "badge_caption_4"
+                  ]
                 }
               },
-              "block_order": ["badge_tile_4", "badge_text_4"]
+              "block_order": [
+                "badge_tile_4",
+                "badge_text_4"
+              ]
             }
           },
-          "block_order": ["badge_item_3", "badge_item_4"]
+          "block_order": [
+            "badge_item_3",
+            "badge_item_4"
+          ]
         }
       },
-      "block_order": ["badges_pair_1", "badges_pair_2"],
+      "block_order": [
+        "badges_pair_1",
+        "badges_pair_2"
+      ],
+      "name": "Trust badges",
       "settings": {
         "content_direction": "row",
         "vertical_on_mobile": false,
@@ -1248,7 +1289,6 @@
                 "font": "var(--font-subheading--family)",
                 "font_size": "1rem",
                 "line_height": "custom",
-                "custom_line_height": 1.2,
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
@@ -1279,7 +1319,6 @@
                 "font": "var(--font-body--family)",
                 "font_size": "0.875rem",
                 "line_height": "custom",
-                "custom_line_height": 1.2,
                 "letter_spacing": "normal",
                 "case": "none",
                 "text_color": "#2b2b2b",
