@@ -10,45 +10,230 @@
 {
   "sections": {
     "hero_jVaWmY": {
-      "type": "hero",
-      "name": "t:names.hero",
+      "type": "section",
+      "name": "Hero",
+      "blocks": {
+        "hero_card": {
+          "type": "group",
+          "name": "Hero card",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "flex-start",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 40,
+            "use_mobile_gap": true,
+            "mobile_gap": 24,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "background_media": "none",
+            "background_color": "#F8F5EF",
+            "border": "none",
+            "border_radius": 24,
+            "padding-block-start": 24,
+            "padding-block-end": 24,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40,
+            "use_mobile_padding": true,
+            "padding-block-start-mobile": 24,
+            "padding-block-end-mobile": 24,
+            "padding-inline-start-mobile": 16,
+            "padding-inline-end-mobile": 16
+          },
+          "blocks": {
+            "hero_content": {
+              "type": "group",
+              "name": "Hero content",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "vertical_alignment_flex_direction_column": "flex-end",
+                "gap": 16,
+                "width": "custom",
+                "custom_width": 47,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "background_media": "none",
+                "border": "none",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {
+                "hero_icon": {
+                  "type": "icon",
+                  "name": "Crown icon",
+                  "settings": {
+                    "icon": "none",
+                    "width": 62,
+                    "width-mobile": 46,
+                    "icon_color": "#BC9D62"
+                  }
+                },
+                "hero_heading_group": {
+                  "type": "group",
+                  "name": "Heading",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "width": "fill",
+                    "height": "fit",
+                    "background_media": "none",
+                    "border": "none",
+                    "border_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {
+                    "hero_heading_line_1": {
+                      "type": "text",
+                      "name": "Heading line 1",
+                      "settings": {
+                        "text": "<h1>Everything you love,</h1>",
+                        "width": "100%",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-heading--family)",
+                        "enable_custom_font_weight": true,
+                        "weight": "600",
+                        "font_size": "3.5rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "3rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#5A3884",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    },
+                    "hero_heading_line_2": {
+                      "type": "text",
+                      "name": "Heading line 2",
+                      "settings": {
+                        "text": "<p>under one roof.</p>",
+                        "width": "100%",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-heading--family)",
+                        "enable_custom_font_weight": true,
+                        "weight": "600",
+                        "font_size": "3.5rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "3rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#BC9D62",
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      }
+                    }
+                  },
+                  "block_order": ["hero_heading_line_1", "hero_heading_line_2"]
+                },
+                "hero_text": {
+                  "type": "text",
+                  "name": "Description",
+                  "settings": {
+                    "text": "<p>Charms, jewelry, hand-finished wooden bow ties, comfy clothes, gifts &amp; more. All kept in stock and ready to ship!</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "text_color": "#2B2B2B",
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
+                "hero_spacer": {
+                  "type": "spacer",
+                  "name": "Spacer",
+                  "settings": {
+                    "size": "pixel",
+                    "pixel_size": 16
+                  }
+                },
+                "hero_button": {
+                  "type": "button",
+                  "name": "Button",
+                  "settings": {
+                    "label": "Browse collections",
+                    "link": "shopify://collections",
+                    "open_in_new_tab": false,
+                    "style_class": "button",
+                    "button_arrow": "show",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "custom",
+                    "custom_width_mobile": 100
+                  }
+                }
+              },
+              "block_order": ["hero_icon", "hero_heading_group", "hero_text", "hero_spacer", "hero_button"]
+            },
+            "hero_image": {
+              "type": "image",
+              "name": "Hero image",
+              "settings": {
+                "image_ratio": "custom",
+                "custom_ratio": "4 / 3",
+                "image_fit": "cover",
+                "width": "custom",
+                "custom_width": 53,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "border": "none",
+                "border_radius": 24,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": ["hero_content", "hero_image"]
+        }
+      },
+      "block_order": ["hero_card"],
       "settings": {
-        "media_type_1": "image",
-        "parallax_effect": false,
-        "hide_media_on_mobile": false,
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "link": "",
-        "open_in_new_tab": false,
         "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "use_mobile_gap": false,
-        "mobile_gap": 12,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 0,
         "section_width": "page-width",
-        "section_width-mobile": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "background_color": "{{ settings.color_palette.color2 }}",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72,
-        "use_mobile_padding": false,
-        "padding-block-start-mobile": 0,
-        "padding-block-end-mobile": 0
+        "section_height": "",
+        "background_media": "none",
+        "border": "none",
+        "border_radius": 0,
+        "padding-block-start": 24,
+        "padding-block-end": 24
       }
     },
     "product_list_fa6P9H": {
