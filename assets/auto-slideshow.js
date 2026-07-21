@@ -22,8 +22,12 @@ export class AutoSlideshow extends Slideshow {
     if (!scroller) return;
 
     const children = Array.from(scroller.children);
-    children.forEach((child, index) => {
-      if (child.tagName.toLowerCase() === 'slideshow-slide') return;
+    // Non-rendering elements (inline styles from contrast-override, etc.)
+    // must not become slides.
+    const skippedTags = ['slideshow-slide', 'style', 'script', 'link', 'template'];
+    let index = 0;
+    children.forEach((child) => {
+      if (skippedTags.includes(child.tagName.toLowerCase())) return;
 
       const slide = document.createElement('slideshow-slide');
       slide.setAttribute('ref', 'slides[]');
@@ -33,6 +37,7 @@ export class AutoSlideshow extends Slideshow {
 
       child.replaceWith(slide);
       slide.appendChild(child);
+      index += 1;
     });
   }
 }
