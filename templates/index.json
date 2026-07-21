@@ -525,6 +525,588 @@
         "heading": "Explore our categories"
       }
     },
+    "custom_trust_badges": {
+      "type": "section",
+      "name": "Trust badges",
+      "blocks": {
+        "badges_pair_1": {
+          "type": "group",
+          "name": "Badges left",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "use_mobile_alignment": true,
+            "mobile_horizontal_alignment_flex_direction_column": "center",
+            "mobile_vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 100,
+            "use_mobile_gap": true,
+            "mobile_gap": 24,
+            "width": "fit-content",
+            "width_mobile": "custom",
+            "custom_width_mobile": 47,
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0
+          },
+          "blocks": {
+            "badge_item_1": {
+              "type": "group",
+              "name": "Badge",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "use_mobile_alignment": true,
+                "mobile_horizontal_alignment_flex_direction_column": "center",
+                "mobile_vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 12,
+                "width": "fit-content",
+                "width_mobile": "fit-content",
+                "height": "fit",
+                "background_media": "none",
+                "border": "none",
+                "border_radius": 0
+              },
+              "blocks": {
+                "badge_tile_1": {
+                  "type": "group",
+                  "name": "Icon tile",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "background_color": "#EC4B9B",
+                    "border": "none",
+                    "border_radius": 8,
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8
+                  },
+                  "blocks": {
+                    "badge_icon_1": {
+                      "type": "icon",
+                      "name": "Logo",
+                      "settings": {
+                        "icon": "star",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "icon_color": "#FEFEFE"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_icon_1"]
+                },
+                "badge_text_1": {
+                  "type": "group",
+                  "name": "Text",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": true,
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 4,
+                    "use_mobile_gap": true,
+                    "mobile_gap": 8,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "border": "none",
+                    "border_radius": 0
+                  },
+                  "blocks": {
+                    "badge_title_1": {
+                      "type": "text",
+                      "name": "Title",
+                      "settings": {
+                        "text": "<p>Solid 925 sterling</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "enable_custom_font_weight": true,
+                        "weight": "500",
+                        "font_size": "1.125rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "1rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#2B2B2B"
+                      }
+                    },
+                    "badge_caption_1": {
+                      "type": "text",
+                      "name": "Caption",
+                      "settings": {
+                        "text": "<p>Real silver, never plated</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "0.875rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "0.875rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#676767"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_title_1", "badge_caption_1"]
+                }
+              },
+              "block_order": ["badge_tile_1", "badge_text_1"]
+            },
+            "badge_item_2": {
+              "type": "group",
+              "name": "Badge",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "use_mobile_alignment": true,
+                "mobile_horizontal_alignment_flex_direction_column": "center",
+                "mobile_vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 12,
+                "width": "fit-content",
+                "width_mobile": "fit-content",
+                "height": "fit",
+                "background_media": "none",
+                "border": "none",
+                "border_radius": 0
+              },
+              "blocks": {
+                "badge_tile_2": {
+                  "type": "group",
+                  "name": "Icon tile",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "background_color": "#4F8EF7",
+                    "border": "none",
+                    "border_radius": 8,
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8
+                  },
+                  "blocks": {
+                    "badge_icon_2": {
+                      "type": "icon",
+                      "name": "Logo",
+                      "settings": {
+                        "icon": "box",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "icon_color": "#FEFEFE"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_icon_2"]
+                },
+                "badge_text_2": {
+                  "type": "group",
+                  "name": "Text",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": true,
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 4,
+                    "use_mobile_gap": true,
+                    "mobile_gap": 8,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "border": "none",
+                    "border_radius": 0
+                  },
+                  "blocks": {
+                    "badge_title_2": {
+                      "type": "text",
+                      "name": "Title",
+                      "settings": {
+                        "text": "<p>Free Shipping</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "enable_custom_font_weight": true,
+                        "weight": "500",
+                        "font_size": "1.125rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "1rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#2B2B2B"
+                      }
+                    },
+                    "badge_caption_2": {
+                      "type": "text",
+                      "name": "Caption",
+                      "settings": {
+                        "text": "<p>On purchases over $150</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "0.875rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "0.875rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#676767"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_title_2", "badge_caption_2"]
+                }
+              },
+              "block_order": ["badge_tile_2", "badge_text_2"]
+            }
+          },
+          "block_order": ["badge_item_1", "badge_item_2"]
+        },
+        "badges_pair_2": {
+          "type": "group",
+          "name": "Badges right",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "use_mobile_alignment": true,
+            "mobile_horizontal_alignment_flex_direction_column": "center",
+            "mobile_vertical_alignment_flex_direction_column": "flex-start",
+            "gap": 100,
+            "use_mobile_gap": true,
+            "mobile_gap": 24,
+            "width": "fit-content",
+            "width_mobile": "custom",
+            "custom_width_mobile": 47,
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0
+          },
+          "blocks": {
+            "badge_item_3": {
+              "type": "group",
+              "name": "Badge",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "use_mobile_alignment": true,
+                "mobile_horizontal_alignment_flex_direction_column": "center",
+                "mobile_vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 12,
+                "width": "fit-content",
+                "width_mobile": "fit-content",
+                "height": "fit",
+                "background_media": "none",
+                "border": "none",
+                "border_radius": 0
+              },
+              "blocks": {
+                "badge_tile_3": {
+                  "type": "group",
+                  "name": "Icon tile",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "background_color": "#16C0A8",
+                    "border": "none",
+                    "border_radius": 8,
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8
+                  },
+                  "blocks": {
+                    "badge_icon_3": {
+                      "type": "icon",
+                      "name": "Logo",
+                      "settings": {
+                        "icon": "stopwatch",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "icon_color": "#FEFEFE"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_icon_3"]
+                },
+                "badge_text_3": {
+                  "type": "group",
+                  "name": "Text",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": true,
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 4,
+                    "use_mobile_gap": true,
+                    "mobile_gap": 8,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "border": "none",
+                    "border_radius": 0
+                  },
+                  "blocks": {
+                    "badge_title_3": {
+                      "type": "text",
+                      "name": "Title",
+                      "settings": {
+                        "text": "<p>Easy 30-day returns</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "enable_custom_font_weight": true,
+                        "weight": "500",
+                        "font_size": "1.125rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "1rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#2B2B2B"
+                      }
+                    },
+                    "badge_caption_3": {
+                      "type": "text",
+                      "name": "Caption",
+                      "settings": {
+                        "text": "<p>Shop worry-free</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "0.875rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "0.875rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#676767"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_title_3", "badge_caption_3"]
+                }
+              },
+              "block_order": ["badge_tile_3", "badge_text_3"]
+            },
+            "badge_item_4": {
+              "type": "group",
+              "name": "Badge",
+              "settings": {
+                "content_direction": "row",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "use_mobile_alignment": true,
+                "mobile_horizontal_alignment_flex_direction_column": "center",
+                "mobile_vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "use_mobile_gap": true,
+                "mobile_gap": 12,
+                "width": "fit-content",
+                "width_mobile": "fit-content",
+                "height": "fit",
+                "background_media": "none",
+                "border": "none",
+                "border_radius": 0
+              },
+              "blocks": {
+                "badge_tile_4": {
+                  "type": "group",
+                  "name": "Icon tile",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "background_color": "#F9A826",
+                    "border": "none",
+                    "border_radius": 8,
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8
+                  },
+                  "blocks": {
+                    "badge_icon_4": {
+                      "type": "icon",
+                      "name": "Logo",
+                      "settings": {
+                        "icon": "lock",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "icon_color": "#FEFEFE"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_icon_4"]
+                },
+                "badge_text_4": {
+                  "type": "group",
+                  "name": "Text",
+                  "settings": {
+                    "content_direction": "column",
+                    "horizontal_alignment_flex_direction_column": "flex-start",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": true,
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 4,
+                    "use_mobile_gap": true,
+                    "mobile_gap": 8,
+                    "width": "fit-content",
+                    "width_mobile": "fit-content",
+                    "height": "fit",
+                    "background_media": "none",
+                    "border": "none",
+                    "border_radius": 0
+                  },
+                  "blocks": {
+                    "badge_title_4": {
+                      "type": "text",
+                      "name": "Title",
+                      "settings": {
+                        "text": "<p>Secure checkout</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "enable_custom_font_weight": true,
+                        "weight": "500",
+                        "font_size": "1.125rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "1rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#2B2B2B"
+                      }
+                    },
+                    "badge_caption_4": {
+                      "type": "text",
+                      "name": "Caption",
+                      "settings": {
+                        "text": "<p>Every order protected</p>",
+                        "width": "fit-content",
+                        "max_width": "none",
+                        "alignment": "left",
+                        "type_preset": "custom",
+                        "font": "var(--font-body--family)",
+                        "font_size": "0.875rem",
+                        "line_height": "custom",
+                        "custom_line_height": 1.2,
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "type_preset_mobile": "custom",
+                        "mobile_font_size": "0.875rem",
+                        "mobile_custom_line_height": 1.2,
+                        "text_color": "#676767"
+                      }
+                    }
+                  },
+                  "block_order": ["badge_title_4", "badge_caption_4"]
+                }
+              },
+              "block_order": ["badge_tile_4", "badge_text_4"]
+            }
+          },
+          "block_order": ["badge_item_3", "badge_item_4"]
+        }
+      },
+      "block_order": ["badges_pair_1", "badges_pair_2"],
+      "settings": {
+        "content_direction": "row",
+        "vertical_on_mobile": false,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "gap": 72,
+        "use_mobile_gap": true,
+        "mobile_gap": 16,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "background_color": "#FCFAF9",
+        "padding-block-start": 24,
+        "padding-block-end": 24
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -749,6 +1331,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "custom_trust_badges",
     "custom_categories_main",
     "product_list_fa6P9H"
   ]
