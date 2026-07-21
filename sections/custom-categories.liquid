@@ -1,0 +1,351 @@
+{% liquid
+  assign sizes_large = '(min-width: 750px) 50vw, 100vw'
+  assign sizes_small = '(min-width: 750px) 25vw, 50vw'
+  assign widths = '352, 500, 720, 960, 1200, 1600'
+%}
+
+<div class="custom-categories" id="CustomCategories-{{ section.id }}">
+  {%- if section.settings.heading != blank -%}
+    <div class="custom-categories__heading">
+      <h2 class="custom-categories__title">{{ section.settings.heading }}</h2>
+      <span class="custom-categories__underline" aria-hidden="true">
+        <svg viewBox="0 0 68 4" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <line x1="2" y1="2" x2="66" y2="2" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+  {%- endif -%}
+
+  <div class="custom-categories__grid">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign card_sizes = sizes_small
+        if block.settings.size == 'large'
+          assign card_sizes = sizes_large
+        endif
+      -%}
+      {%- capture card_inner -%}
+        <div class="custom-categories__media" aria-hidden="true">
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 1600
+              | image_tag:
+                width: block.settings.image.width,
+                height: block.settings.image.height,
+                widths: widths,
+                sizes: card_sizes,
+                alt: '',
+                loading: 'lazy',
+                class: 'custom-categories__image'
+            }}
+          {%- else -%}
+            {{ 'detailed-apparel-1' | placeholder_svg_tag: 'custom-categories__image custom-categories__image--placeholder' }}
+          {%- endif -%}
+          <div class="custom-categories__overlay"></div>
+        </div>
+        <div class="custom-categories__caption">
+          <h3 class="custom-categories__card-title">{{ block.settings.title }}</h3>
+          <span class="custom-categories__arrow" aria-hidden="true">
+            <svg viewBox="0 0 17.9297 10.0781" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.8906 0L11.8359 1.07812L15.0469 4.28906H0V5.78906H15.0469L11.8359 9L12.8906 10.0781L17.9297 5.03906L12.8906 0Z" fill="currentColor"/>
+            </svg>
+          </span>
+        </div>
+      {%- endcapture -%}
+
+      {%- if block.settings.link != blank -%}
+        <a
+          href="{{ block.settings.link }}"
+          class="custom-categories__card custom-categories__card--{{ block.settings.size | default: 'small' }}"
+          aria-label="{{ block.settings.title | escape }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ card_inner }}
+        </a>
+      {%- else -%}
+        <div
+          class="custom-categories__card custom-categories__card--{{ block.settings.size | default: 'small' }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ card_inner }}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .custom-categories {
+    max-width: 1360px;
+    margin-inline: auto;
+    padding: 40px 16px;
+  }
+
+  .custom-categories__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .custom-categories__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 1.2;
+    text-align: center;
+    color: #5a3884;
+  }
+
+  .custom-categories__underline {
+    display: block;
+    width: 68px;
+    height: 4px;
+    color: #bc9d62;
+  }
+
+  .custom-categories__underline svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .custom-categories__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .custom-categories__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    border: 1px solid #e0d2b7;
+    border-radius: 16px;
+    text-decoration: none;
+  }
+
+  .custom-categories__card--large {
+    width: 100%;
+    height: 200px;
+  }
+
+  .custom-categories__card--small {
+    width: calc(50% - 8px);
+    height: 172px;
+  }
+
+  .custom-categories__media {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .custom-categories__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .custom-categories__image--placeholder {
+    background-color: #f8f5ef;
+  }
+
+  .custom-categories__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(102, 102, 102, 0) 0%, rgba(0, 0, 0, 0.2) 74.5%);
+  }
+
+  .custom-categories__card:hover .custom-categories__image {
+    transform: scale(1.05);
+  }
+
+  .custom-categories__caption {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    padding: 0 8px 16px;
+  }
+
+  .custom-categories__card-title {
+    margin: 0;
+    min-width: 0;
+    font-family: var(--font-heading--family);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.2;
+    color: #fefefe;
+  }
+
+  .custom-categories__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #fefefe;
+    color: #5a3884;
+    box-shadow:
+      0 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .custom-categories__arrow svg {
+    width: 18px;
+    height: 10px;
+  }
+
+  .custom-categories__card:hover .custom-categories__arrow {
+    transform: translateX(4px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .custom-categories {
+      padding: 40px;
+    }
+
+    .custom-categories__card--large {
+      width: calc(50% - 8px);
+      height: 400px;
+    }
+
+    .custom-categories__card--small {
+      width: calc(25% - 12px);
+      height: 400px;
+    }
+
+    .custom-categories__caption {
+      padding: 0 16px 24px;
+    }
+
+    .custom-categories__card-title {
+      font-size: 32px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom categories",
+  "tag": "section",
+  "class": "custom-categories-wrapper section-wrapper",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore our categories"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Category card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Card size",
+          "options": [
+            {
+              "value": "large",
+              "label": "Large (half width)"
+            },
+            {
+              "value": "small",
+              "label": "Small (quarter width)"
+            }
+          ],
+          "default": "small"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Custom categories",
+      "category": "t:categories.banners",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Sterling Silver Jewelry",
+            "size": "large"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Exosomes Skin Care",
+            "size": "large"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Golf Accessories",
+            "size": "small"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Wood Bow Ties",
+            "size": "small"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Clothing",
+            "size": "small"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Accessories",
+            "size": "small"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

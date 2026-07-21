@@ -454,6 +454,58 @@
         "padding-inline-end-mobile": 0
       }
     },
+    "custom_categories_main": {
+      "type": "custom-categories",
+      "name": "Custom categories",
+      "blocks": {
+        "cat_card_1": {
+          "type": "card",
+          "settings": {
+            "title": "Sterling Silver Jewelry",
+            "size": "large"
+          }
+        },
+        "cat_card_2": {
+          "type": "card",
+          "settings": {
+            "title": "Exosomes Skin Care",
+            "size": "large"
+          }
+        },
+        "cat_card_3": {
+          "type": "card",
+          "settings": {
+            "title": "Golf Accessories",
+            "size": "small"
+          }
+        },
+        "cat_card_4": {
+          "type": "card",
+          "settings": {
+            "title": "Wood Bow Ties",
+            "size": "small"
+          }
+        },
+        "cat_card_5": {
+          "type": "card",
+          "settings": {
+            "title": "Clothing",
+            "size": "small"
+          }
+        },
+        "cat_card_6": {
+          "type": "card",
+          "settings": {
+            "title": "Accessories",
+            "size": "small"
+          }
+        }
+      },
+      "block_order": ["cat_card_1", "cat_card_2", "cat_card_3", "cat_card_4", "cat_card_5", "cat_card_6"],
+      "settings": {
+        "heading": "Explore our categories"
+      }
+    },
     "product_list_fa6P9H": {
       "type": "product-list",
       "blocks": {
@@ -678,6 +730,7 @@
   },
   "order": [
     "hero_jVaWmY",
+    "custom_categories_main",
     "product_list_fa6P9H"
   ]
 }
