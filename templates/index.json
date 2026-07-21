@@ -456,52 +456,71 @@
     },
     "custom_categories_main": {
       "type": "custom-categories",
-      "name": "Custom categories",
       "blocks": {
         "cat_card_1": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/card_image_2_1.png",
             "title": "Sterling Silver Jewelry",
+            "link": "",
             "size": "large"
           }
         },
         "cat_card_2": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/card_image_1.jpg",
             "title": "Exosomes Skin Care",
+            "link": "",
             "size": "large"
           }
         },
         "cat_card_3": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/card_image_3_1.jpg",
             "title": "Golf Accessories",
+            "link": "",
             "size": "small"
           }
         },
         "cat_card_4": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/card_image_4_1.jpg",
             "title": "Wood Bow Ties",
+            "link": "",
             "size": "small"
           }
         },
         "cat_card_5": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/card_image_5_1.png",
             "title": "Clothing",
+            "link": "",
             "size": "small"
           }
         },
         "cat_card_6": {
           "type": "card",
           "settings": {
+            "image": "shopify://shop_images/card_image_6_1.png",
             "title": "Accessories",
+            "link": "",
             "size": "small"
           }
         }
       },
-      "block_order": ["cat_card_1", "cat_card_2", "cat_card_3", "cat_card_4", "cat_card_5", "cat_card_6"],
+      "block_order": [
+        "cat_card_1",
+        "cat_card_2",
+        "cat_card_3",
+        "cat_card_4",
+        "cat_card_5",
+        "cat_card_6"
+      ],
+      "name": "Custom categories",
       "settings": {
         "heading": "Explore our categories"
       }
