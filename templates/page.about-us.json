@@ -219,38 +219,30 @@
             "padding-inline-end-mobile": 0
           },
           "blocks": {
-            "text_DypTTX": {
-              "type": "text",
-              "name": "t:names.text",
+            "image_qCcbpF": {
+              "type": "image",
+              "name": "t:names.image",
               "settings": {
-                "text": "<p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</em></p><p><em>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</em></p>",
-                "mobile_text": "",
-                "width": "fit-content",
-                "max_width": "none",
-                "alignment": "left",
-                "height_mode": "auto",
-                "desktop_height": "",
-                "mobile_height": "",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "enable_custom_font_weight": false,
-                "weight": "400",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "custom_line_height": 1.5,
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "type_preset_mobile": "rte",
-                "mobile_font_size": "1rem",
-                "mobile_custom_line_height": 1.5,
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
+                "image": "shopify://shop_images/34c8909bddedef4a6b45800e33d38bef42ecb77c.webp",
+                "link": "",
+                "hide_on_mobile": false,
+                "hide_on_desktop": false,
+                "image_ratio": "adapt",
+                "custom_ratio": "1 / 1",
+                "image_fit": "cover",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
-                "padding-inline-start": 34,
+                "padding-inline-start": 0,
                 "padding-inline-end": 0,
                 "use_mobile_padding": false,
                 "padding-block-start-mobile": 0,
@@ -262,7 +254,7 @@
             }
           },
           "block_order": [
-            "text_DypTTX"
+            "image_qCcbpF"
           ]
         }
       },
