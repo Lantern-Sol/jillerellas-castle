@@ -372,7 +372,7 @@
                   "settings": {
                     "thickness": 5,
                     "corner_radius": "square",
-                    "divider_color": "#BC9D62",
+                    "divider_color": "#bc9d62",
                     "width_percent": 10,
                     "padding-block-start": 0,
                     "padding-block-end": 0
@@ -753,7 +753,7 @@
         "border_color": "",
         "border_radius": 0,
         "padding-block-start": 0,
-        "padding-block-end": 0,
+        "padding-block-end": 40,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "use_mobile_padding": false,
