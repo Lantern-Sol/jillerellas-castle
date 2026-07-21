@@ -164,6 +164,53 @@
   }
 
   /*
+    The base [*-disabled] rules target slideshow-component, but this block
+    renders a slideshow-auto-component — neutralize the carousel here for
+    the breakpoints the merchant didn't enable.
+  */
+  @media screen and (min-width: 750px) {
+    .group-slider__slideshow[desktop-disabled] > slideshow-container > slideshow-slides {
+      overflow: visible;
+      scroll-snap-type: none;
+      flex-wrap: wrap;
+      gap: var(--slideshow-gap, 0px);
+      cursor: auto;
+    }
+
+    .group-slider__slideshow[desktop-disabled] > slideshow-container > slideshow-slides > slideshow-slide {
+      scroll-snap-align: none;
+      content-visibility: visible;
+      visibility: visible;
+    }
+
+    .group-slider__slideshow[desktop-disabled] > slideshow-container > slideshow-arrows,
+    .group-slider__slideshow[desktop-disabled] slideshow-controls {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .group-slider__slideshow[mobile-disabled] > slideshow-container > slideshow-slides {
+      overflow: visible;
+      scroll-snap-type: none;
+      flex-wrap: wrap;
+      gap: var(--slideshow-gap, 0px);
+      cursor: auto;
+    }
+
+    .group-slider__slideshow[mobile-disabled] > slideshow-container > slideshow-slides > slideshow-slide {
+      scroll-snap-align: none;
+      content-visibility: visible;
+      visibility: visible;
+    }
+
+    .group-slider__slideshow[mobile-disabled] > slideshow-container > slideshow-arrows,
+    .group-slider__slideshow[mobile-disabled] slideshow-controls {
+      display: none;
+    }
+  }
+
+  /*
     The base [*-disabled] CSS sets --slideshow-disabled-slide-width on
     slideshow-slide width — point it at the calc value above so disabled
     state matches active layout.

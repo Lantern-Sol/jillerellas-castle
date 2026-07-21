@@ -2005,6 +2005,417 @@
         "padding-block-end": 40
       }
     },
+    "custom_testimonials": {
+      "type": "section",
+      "name": "Testimonials",
+      "blocks": {
+        "tst_header": {
+          "type": "group",
+          "name": "Heading",
+          "settings": {
+            "content_direction": "column",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "width_mobile": "fill",
+            "height": "fit",
+            "background_media": "none",
+            "border": "none",
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "tst_heading": {
+              "type": "text",
+              "name": "Heading",
+              "settings": {
+                "text": "<h2>What our customers are saying</h2>",
+                "width": "fit-content",
+                "max_width": "none",
+                "alignment": "center",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "enable_custom_font_weight": true,
+                "weight": "600",
+                "font_size": "2rem",
+                "line_height": "custom",
+                "custom_line_height": 1.2,
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "type_preset_mobile": "custom",
+                "mobile_font_size": "2rem",
+                "mobile_custom_line_height": 1.2,
+                "text_color": "#5a3884"
+              },
+              "blocks": {}
+            },
+            "tst_underline": {
+              "type": "custom-liquid",
+              "name": "Gold underline",
+              "settings": {
+                "custom_liquid": "<span class=\"tst-underline\" aria-hidden=\"true\"><svg viewBox=\"0 0 68 4\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" preserveAspectRatio=\"none\"><line x1=\"2\" y1=\"2\" x2=\"66\" y2=\"2\" stroke=\"currentColor\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg></span><style>.tst-underline{display:block;width:68px;height:4px;color:#bc9d62}.tst-underline svg{display:block;width:100%;height:100%}#shopify-section-{{ section.id }} slideshow-auto-component .slideshow-controls__dots .slideshow-control{background-color:#5a3884}@media (max-width:749px){#shopify-section-{{ section.id }} .group-slider slideshow-slide{flex: 0 0 80%}}</style>"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "tst_heading",
+            "tst_underline"
+          ]
+        },
+        "tst_slider": {
+          "type": "group-slider",
+          "name": "Testimonial cards",
+          "settings": {
+            "enable_slider_desktop": false,
+            "enable_slider_mobile": true,
+            "slides_to_show_desktop": 3,
+            "slides_to_scroll_desktop": 1,
+            "mobile_slides_to_show": 1,
+            "mobile_slides_to_scroll": 1,
+            "show_dots_desktop": false,
+            "show_dots_mobile": true,
+            "show_arrows_desktop": false,
+            "show_arrows_mobile": false,
+            "content_direction": "row",
+            "vertical_on_mobile": false,
+            "horizontal_alignment": "center",
+            "vertical_alignment": "center",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 16,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "background_color": "",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0,
+            "use_mobile_padding": false
+          },
+          "blocks": {
+            "tst_card_1": {
+              "type": "group",
+              "name": "Testimonial",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 24,
+                "width": "fill",
+                "width_mobile": "fill",
+                "height": "fill",
+                "background_media": "none",
+                "background_color": "#FCFAF9",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E0D2B7",
+                "border_radius": 12,
+                "padding-block-start": 40,
+                "padding-block-end": 40,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "tst_stars_1": {
+                  "type": "custom-liquid",
+                  "name": "Stars",
+                  "settings": {
+                    "custom_liquid": "<svg width=\"99\" height=\"14\" viewBox=\"0 0 99 14\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" style=\"display:block\"><g fill=\"#F9A826\" stroke=\"#F9A826\" stroke-width=\"1.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(21.25 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(42.5 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(63.75 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(85 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/></g></svg>"
+                  },
+                  "blocks": {}
+                },
+                "tst_quote_1": {
+                  "type": "text",
+                  "name": "Quote",
+                  "settings": {
+                    "text": "<p>It's easy... your Closet is a pleasant experience. PLUS the name is enchanting. I LOVE it!</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "custom",
+                    "custom_line_height": 1.2,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.2,
+                    "text_color": "#676767"
+                  },
+                  "blocks": {}
+                },
+                "tst_name_1": {
+                  "type": "text",
+                  "name": "Name",
+                  "settings": {
+                    "text": "<p>- Sigi B.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": true,
+                    "weight": "500",
+                    "font_size": "1rem",
+                    "line_height": "custom",
+                    "custom_line_height": 1.2,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.2,
+                    "text_color": "#5a3884"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "tst_stars_1",
+                "tst_quote_1",
+                "tst_name_1"
+              ]
+            },
+            "tst_card_2": {
+              "type": "group",
+              "name": "Testimonial",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 24,
+                "width": "fill",
+                "width_mobile": "fill",
+                "height": "fill",
+                "background_media": "none",
+                "background_color": "#FCFAF9",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E0D2B7",
+                "border_radius": 12,
+                "padding-block-start": 40,
+                "padding-block-end": 40,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "tst_stars_2": {
+                  "type": "custom-liquid",
+                  "name": "Stars",
+                  "settings": {
+                    "custom_liquid": "<svg width=\"99\" height=\"14\" viewBox=\"0 0 99 14\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" style=\"display:block\"><g fill=\"#F9A826\" stroke=\"#F9A826\" stroke-width=\"1.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(21.25 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(42.5 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(63.75 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(85 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/></g></svg>"
+                  },
+                  "blocks": {}
+                },
+                "tst_quote_2": {
+                  "type": "text",
+                  "name": "Quote",
+                  "settings": {
+                    "text": "<p>I want you to know that your closet is awesome!<br/>I always find something I didn't know I needed!</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "custom",
+                    "custom_line_height": 1.2,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.2,
+                    "text_color": "#676767"
+                  },
+                  "blocks": {}
+                },
+                "tst_name_2": {
+                  "type": "text",
+                  "name": "Name",
+                  "settings": {
+                    "text": "<p>- Kay G.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": true,
+                    "weight": "500",
+                    "font_size": "1rem",
+                    "line_height": "custom",
+                    "custom_line_height": 1.2,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.2,
+                    "text_color": "#5a3884"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "tst_stars_2",
+                "tst_quote_2",
+                "tst_name_2"
+              ]
+            },
+            "tst_card_3": {
+              "type": "group",
+              "name": "Testimonial",
+              "settings": {
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "center",
+                "vertical_alignment": "center",
+                "horizontal_alignment_flex_direction_column": "center",
+                "vertical_alignment_flex_direction_column": "center",
+                "gap": 24,
+                "width": "fill",
+                "width_mobile": "fill",
+                "height": "fill",
+                "background_media": "none",
+                "background_color": "#FCFAF9",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E0D2B7",
+                "border_radius": 12,
+                "padding-block-start": 40,
+                "padding-block-end": 40,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "tst_stars_3": {
+                  "type": "custom-liquid",
+                  "name": "Stars",
+                  "settings": {
+                    "custom_liquid": "<svg width=\"99\" height=\"14\" viewBox=\"0 0 99 14\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" style=\"display:block\"><g fill=\"#F9A826\" stroke=\"#F9A826\" stroke-width=\"1.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\"><path d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(21.25 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(42.5 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(63.75 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/><path transform=\"translate(85 0)\" d=\"M7 1.2l1.79 3.63 4.01.58-2.9 2.83.68 3.99L7 10.35l-3.58 1.88.68-3.99-2.9-2.83 4.01-.58L7 1.2z\"/></g></svg>"
+                  },
+                  "blocks": {}
+                },
+                "tst_quote_3": {
+                  "type": "text",
+                  "name": "Quote",
+                  "settings": {
+                    "text": "<p>Shipping was so fast and everything arrived wrapped like a little gift. My granddaughter adored the unicorn charm.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": false,
+                    "weight": "400",
+                    "font_size": "1rem",
+                    "line_height": "custom",
+                    "custom_line_height": 1.2,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.2,
+                    "text_color": "#676767"
+                  },
+                  "blocks": {}
+                },
+                "tst_name_3": {
+                  "type": "text",
+                  "name": "Name",
+                  "settings": {
+                    "text": "<p>- Dana M.</p>",
+                    "width": "100%",
+                    "max_width": "none",
+                    "alignment": "center",
+                    "type_preset": "custom",
+                    "font": "var(--font-body--family)",
+                    "enable_custom_font_weight": true,
+                    "weight": "500",
+                    "font_size": "1rem",
+                    "line_height": "custom",
+                    "custom_line_height": 1.2,
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "type_preset_mobile": "custom",
+                    "mobile_font_size": "1rem",
+                    "mobile_custom_line_height": 1.2,
+                    "text_color": "#5a3884"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "tst_stars_3",
+                "tst_quote_3",
+                "tst_name_3"
+              ]
+            }
+          },
+          "block_order": [
+            "tst_card_1",
+            "tst_card_2",
+            "tst_card_3"
+          ]
+        }
+      },
+      "block_order": [
+        "tst_header",
+        "tst_slider"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 24,
+        "use_mobile_gap": false,
+        "mobile_gap": 24,
+        "section_width": "page-width",
+        "section_height": "",
+        "background_media": "none",
+        "background_color": "",
+        "border": "none",
+        "border_radius": 0,
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "use_mobile_padding": false
+      }
+    },
     "section_8HCPBD": {
       "type": "section",
       "blocks": {
@@ -2216,6 +2627,7 @@
     "custom_trust_badges",
     "custom_categories_main",
     "product_list_fa6P9H",
+    "custom_testimonials",
     "section_8HCPBD"
   ]
 }
