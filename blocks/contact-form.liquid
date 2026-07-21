@@ -55,101 +55,157 @@
       </div>
     {%- endif -%}
 
+    <!-- Row 1: Name & Phone Number -->
     <div class="contact-form__form-row">
-      <label
-        class="visually-hidden"
-        for="ContactForm-name"
-      >
-        {{- 'blocks.contact_form.name' | t -}}
-      </label>
-      <input
-        type="text"
-        id="ContactForm-name"
-        class="contact-form__input"
-        autocomplete="name"
-        name="contact[name]"
-        value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-        placeholder="{{ 'blocks.contact_form.name' | t }}"
-      >
+      <div class="contact-form__field">
+        <label class="contact-form__label" for="ContactForm-name">
+          {{ 'blocks.contact_form.name' | t | default: 'Name' }}<span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="ContactForm-name"
+          class="contact-form__input"
+          autocomplete="name"
+          name="contact[name]"
+          value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+          placeholder="Your name"
+          required
+        >
+      </div>
 
-      <label
-        class="visually-hidden"
-        for="ContactForm-email"
-      >
-        {{- 'blocks.contact_form.email' | t -}}
-        <span aria-hidden="true">*</span></label
-      >
-      <input
-        type="email"
-        id="ContactForm-email"
-        class="contact-form__input"
-        autocomplete="email"
-        name="contact[email]"
-        spellcheck="false"
-        autocapitalize="off"
-        value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-        aria-required="true"
-        {% if form.errors contains 'email' and form_matches %}
-          aria-invalid="true"
-          aria-describedby="ContactForm-email-error"
-        {% endif %}
-        placeholder="{{ 'blocks.contact_form.email' | t }}"
-      >
+      <div class="contact-form__field">
+        <label class="contact-form__label" for="ContactForm-phone">
+          {{ 'blocks.contact_form.phone' | t | default: 'Phone number' }}<span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="tel"
+          id="ContactForm-phone"
+          class="contact-form__input"
+          autocomplete="tel"
+          name="contact[phone]"
+          pattern="[0-9\-]*"
+          value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+          placeholder="Your phone number"
+          required
+        >
+      </div>
     </div>
 
-    <label
-      class="visually-hidden"
-      for="ContactForm-phone"
-    >
-      {{- 'blocks.contact_form.phone' | t -}}
-    </label>
-    <input
-      type="tel"
-      id="ContactForm-phone"
-      class="contact-form__input"
-      autocomplete="tel"
-      name="contact[phone]"
-      pattern="[0-9\-]*"
-      value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-      placeholder="{{ 'blocks.contact_form.phone' | t }}"
-    >
+    <!-- Row 2: Email & Confirm Email -->
+    <div class="contact-form__form-row">
+      <div class="contact-form__field">
+        <label class="contact-form__label" for="ContactForm-email">
+          {{ 'blocks.contact_form.email' | t | default: 'Email' }}<span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="email"
+          id="ContactForm-email"
+          class="contact-form__input"
+          autocomplete="email"
+          name="contact[email]"
+          spellcheck="false"
+          autocapitalize="off"
+          value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+          aria-required="true"
+          required
+          {% if form.errors contains 'email' and form_matches %}
+            aria-invalid="true"
+            aria-describedby="ContactForm-email-error"
+          {% endif %}
+          placeholder="Your email"
+        >
+      </div>
 
-    <label
-      class="visually-hidden"
-      for="ContactForm-body"
-    >
-      {{- 'blocks.contact_form.comment' | t -}}
-    </label>
-    <textarea
-      rows="10"
-      id="ContactForm-body"
-      class="contact-form__input contact-form__input--textarea"
-      name="contact[body]"
-      placeholder="{{ 'blocks.contact_form.comment' | t }}"
-    >
-      {{- form.body -}}
-    </textarea>
+      <div class="contact-form__field">
+        <label class="contact-form__label" for="ContactForm-email-confirm">
+          Confirm email<span aria-hidden="true">*</span>
+        </label>
+        <input
+          type="email"
+          id="ContactForm-email-confirm"
+          class="contact-form__input"
+          autocomplete="off"
+          name="contact[email_confirmation]"
+          spellcheck="false"
+          autocapitalize="off"
+          required
+          placeholder="Your email"
+        >
+      </div>
+    </div>
 
-    {{ submit_button }}
+    <!-- Row 3: Message / Comment -->
+    <div class="contact-form__field">
+      <label class="contact-form__label" for="ContactForm-body">
+        {{ 'blocks.contact_form.comment' | t | default: 'Message' }}<span aria-hidden="true">*</span>
+      </label>
+      <textarea
+        rows="6"
+        id="ContactForm-body"
+        class="contact-form__input contact-form__input--textarea"
+        name="contact[body]"
+        placeholder="How can we help you?"
+        required
+      >{{- form.body -}}</textarea>
+    </div>
+
+    <div class="contact-form__submit-wrapper">
+      {{ submit_button }}
+    </div>
   {%- endform -%}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('{{ form_id }}');
+    if (!form) return;
+
+    const email = document.getElementById('ContactForm-email');
+    const emailConfirm = document.getElementById('ContactForm-email-confirm');
+
+    form.addEventListener('submit', function(e) {
+      if (email.value !== emailConfirm.value) {
+        e.preventDefault();
+        emailConfirm.setCustomValidity('Email addresses do not match.');
+        emailConfirm.reportValidity();
+      } else {
+        emailConfirm.setCustomValidity('');
+      }
+    });
+
+    emailConfirm.addEventListener('input', function() {
+      emailConfirm.setCustomValidity('');
+    });
+  });
+</script>
 
 {% stylesheet %}
   .contact-form__form {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-md);
+    gap: var(--gap-md, 1rem);
   }
 
   .contact-form__form-row {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-md);
+    gap: var(--gap-md, 1rem);
 
     @media screen and (min-width: 750px) {
       flex-direction: row;
-      align-items: center;
     }
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    width: 100%;
+  }
+
+  .contact-form__label {
+    font-size: 0.95rem;
+    color: var(--color-input-text, #333);
   }
 
   .contact-form__input {
@@ -158,15 +214,22 @@
     text-overflow: ellipsis;
     color: var(--color-input-text);
     background-color: var(--color-input-background);
-    padding: var(--padding-lg) var(--padding-xl);
-    border-radius: var(--style-border-radius-inputs);
-    border: var(--style-border-width-inputs) solid var(--color-input-border);
+    padding: var(--padding-lg, 12px) var(--padding-xl, 16px);
+    border-radius: var(--style-border-radius-inputs, 20px);
+    border: var(--style-border-width-inputs, 1px) solid var(--color-input-border, #ccc);
     -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
   }
 
   .contact-form__input--textarea {
     resize: vertical;
-    min-height: var(--input-textarea-min-height);
+    min-height: 120px;
+  }
+
+  .contact-form__submit-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
   }
 
   .contact-form__error,
