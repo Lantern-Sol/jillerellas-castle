@@ -10,6 +10,17 @@
   assign effective_submenu_color = block_settings.background_color | default: settings.page_background_color
 %}
 
+{%- comment -%}
+  Collections card submenu: merchants add "Collection card" nested blocks to
+  this Menu block; they render as a card dropdown under the top-level menu
+  item whose title matches the cards_menu_item setting.
+{%- endcomment -%}
+{% capture collection_cards %}{% content_for 'blocks' %}{% endcapture %}
+{% liquid
+  assign collection_cards = collection_cards | strip
+  assign cards_item_key = block_settings.cards_menu_item | default: 'Collections' | strip | downcase
+%}
+
 {% case variant %}
   {% when 'mobile' %}
     <div
@@ -22,7 +33,9 @@
         linklist: block_settings.menu,
         data_header_drawer_type: 'mobile-drawer',
         block: block,
-        section: section
+        section: section,
+        collection_cards: collection_cards,
+        cards_item_key: cards_item_key
       %}
     </div>
 
@@ -104,6 +117,53 @@
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
+        {%- liquid
+          assign is_cards_item = false
+          if collection_cards != blank
+            assign link_title_key = link.title | strip | downcase
+            if link_title_key == cards_item_key
+              assign is_cards_item = true
+            endif
+          endif
+        -%}
+        {%- if is_cards_item -%}
+          <li
+            role="presentation"
+            class="menu-list__list-item"
+            on:focus="/activate"
+            on:blur="/deactivate"
+            on:pointerenter="/activate"
+            on:pointerleave="/deactivate"
+          >
+            <a
+              href="{{ link.url }}"
+              data-skip-node-update="true"
+              class="menu-list__link{% if link.active %} menu-list__link--active{% endif %} menu-list__link--has-children"
+              aria-controls="submenu-cards-{{ forloop.index }}"
+              aria-haspopup="true"
+              aria-expanded="false"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+              ref="menuitem"
+            >
+              <span class="menu-list__link-title">{{- link.title -}}</span>
+              {% render 'icon-chevron-down' %}
+            </a>
+            <div class="menu-list__submenu{{ background_color_classes }}" ref="submenu[]">
+              <div
+                id="submenu-cards-{{ forloop.index }}"
+                class="menu-list__submenu-inner"
+              >
+                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                  <div class="collection-cards">
+                    {{ collection_cards }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        {%- else -%}
         <li
           role="presentation"
           class="menu-list__list-item"
@@ -171,6 +231,7 @@
             </div>
           {%- endif -%}
         </li>
+        {%- endif -%}
       {% endfor %}
       <li
         class="menu-list__list-item"
@@ -400,27 +461,57 @@
     padding-inline: 0;
   }
 
-  /* LS: pill-shaped top-level nav links (Figma header). Rounded corners at
-     rest; a subtle tinted fill on hover/focus/active reads as the pill from
+  /* LS: pill-shaped top-level nav links (Figma header). Hover, focus, the
+     active page, and an open submenu all render the filled brand pill from
      the design. Scoped to desktop menu mode and to top-level items only, so
-     the mega-menu "more" overflow and submenu links are untouched. */
+     the mega-menu "more" overflow and submenu links are untouched.
+
+     The <li> keeps the full header height as the hover target (so moving
+     the pointer down to the mega panel doesn't close it); the visible link
+     is a compact 35px capsule centered inside it, per the Figma. */
   @media screen and (min-width: 750px) {
+    #header-component[data-menu-style='menu'] .menu-list__list-item:not([slot='overflow']) {
+      justify-content: center;
+    }
+
     #header-component[data-menu-style='menu'] .menu-list__list-item:not([slot='overflow']) > .menu-list__link {
+      flex-direction: row;
+      align-items: center;
+      align-self: center;
+      gap: 8px;
+      height: auto;
+      min-height: 35px;
+      padding: 8px 12px;
       border-radius: 20px;
       transition: background-color var(--animation-speed) var(--animation-easing),
-        color var(--header-content-transition-timing);
+        color var(--animation-speed) var(--animation-easing);
     }
 
     #header-component[data-menu-style='menu']
-      .menu-list__list-item:not([slot='overflow']):hover
-      > .menu-list__link,
+      .menu-list__list-item:not([slot='overflow'])
+      > .menu-list__link
+      .menu-list__link-title {
+      padding-inline: 0;
+    }
+
+    /* Figma: 24px between top-level links. The theme default packs items
+       edge-to-edge (gap 0 + inner title padding + negative end margins). */
+    #header-component[data-menu-style='menu'] .header-menu .overflow-menu::part(list) {
+      gap: 24px;
+      margin-inline: 0;
+    }
+
     #header-component[data-menu-style='menu']
-      .menu-list__list-item:not([slot='overflow']):focus-within
+      .menu-list__list-item:not([slot='overflow']):is(:hover, :focus-within)
       > .menu-list__link,
     #header-component[data-menu-style='menu']
       .menu-list__list-item:not([slot='overflow'])
-      > .menu-list__link--active {
-      background-color: rgb(var(--color-foreground-rgb) / 0.06);
+      > .menu-list__link--active,
+    #header-component[data-menu-style='menu']
+      .menu-list__list-item:not([slot='overflow'])
+      > .menu-list__link[aria-expanded='true'] {
+      background-color: var(--mega-menu-brand, #5a3884);
+      color: var(--mega-menu-on-brand, #fefefe);
     }
   }
 
@@ -827,18 +918,179 @@
   .menu-list__list-item:not(:has([aria-expanded='true'])) > .menu-list__submenu product-component {
     display: none;
   }
+
+  /* ============================================================
+     Text mega menu (Figma) — desktop
+     ============================================================ */
+  @media screen and (min-width: 750px) {
+    /* Caret: points down at rest, rotates up while the item is hovered or
+       its submenu is open (the purple pill itself comes from the shared
+       top-level hover rule). */
+    .menu-list__link--has-children .icon-chevron-down {
+      transition: transform var(--animation-speed) var(--animation-easing);
+    }
+
+    #header-component[data-menu-style='menu']
+      .menu-list__list-item:not([slot='overflow']):is(:hover, :focus-within)
+      > .menu-list__link--has-children .icon-chevron-down,
+    .menu-list__link--has-children[aria-expanded='true'] .icon-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    /* Panel insets per Figma: 24px top, 40px bottom, 52px left, 24px right. */
+    .menu-list__submenu-inner:has(.mega-menu__list--text) {
+      --submenu-padding-block-start: 24px;
+      --submenu-padding-block-end: 40px;
+
+      padding-inline: 52px 24px;
+    }
+
+    /* Let the text list own the layout (equal flex columns) instead of the
+       theme's grid/subgrid. */
+    .mega-menu:has(.mega-menu__list--text),
+    .mega-menu__grid:has(.mega-menu__list--text) {
+      display: block;
+      padding-inline: 0;
+    }
+
+    .mega-menu__list--text {
+      display: flex;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .mega-menu__column--text {
+      flex: 1 1 0;
+      min-width: 0;
+      grid-column: auto;
+    }
+
+    .mega-menu__text-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mega-menu__text-links {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 0;
+    }
+
+    /* Collections card submenu: panel insets per Figma (24 top / 40 bottom),
+       cards as equal-width flex columns. The .section wrapper's grid provides
+       the page-width side margins. */
+    .menu-list__submenu-inner:has(.collection-cards) {
+      --submenu-padding-block-start: 24px;
+      --submenu-padding-block-end: 40px;
+    }
+
+    .collection-cards {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .collection-cards .menu-collection-card {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  /* Category heading (Jost Medium 18px, brand purple). */
+  .mega-menu__link--heading.mega-menu__link--parent {
+    font-family: var(--font-subheading--family);
+    font-weight: var(--font-subheading--weight, 500);
+    font-size: 18px;
+    line-height: 1.1;
+    color: var(--mega-menu-brand, #5a3884);
+    padding-block: 0;
+  }
+
+  .mega-menu__link--heading:hover {
+    color: var(--mega-menu-brand, #5a3884);
+    opacity: var(--opacity-subdued-text, 0.7);
+  }
+
+  /* Category links (Jost Regular 16px, #2B2B2B). */
+  .mega-menu__text-links .mega-menu__link {
+    font-size: 16px;
+    line-height: 1.2;
+    color: var(--mega-menu-text, #2b2b2b);
+    padding-block: 4px;
+  }
+
+  /* Hover = underline, color stays (Figma). */
+  .mega-menu__text-links .mega-menu__link:hover {
+    color: var(--mega-menu-text, #2b2b2b);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* "View all" link (Jost Medium 14px + angle-right). */
+  .mega-menu__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: max-content;
+    font-family: var(--font-subheading--family);
+    font-weight: var(--font-subheading--weight, 500);
+    font-size: 14px;
+    line-height: 1.2;
+    color: var(--mega-menu-text, #2b2b2b);
+    text-decoration: none;
+  }
+
+  .mega-menu__view-all:hover {
+    color: var(--mega-menu-brand, #5a3884);
+  }
+
+  .mega-menu__view-all-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .mega-menu__view-all-icon svg {
+    width: auto;
+    height: 11px;
+  }
 {% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:names.menu",
   "tag": null,
+  "blocks": [
+    {
+      "type": "_menu-collection-card"
+    }
+  ],
   "settings": [
     {
       "type": "link_list",
       "id": "menu",
       "label": "t:settings.menu",
       "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Collections card submenu"
+    },
+    {
+      "type": "paragraph",
+      "content": "Add \"Collection card\" blocks to this Menu block to build a card dropdown. It opens under the top-level menu item named below."
+    },
+    {
+      "type": "text",
+      "id": "cards_menu_item",
+      "label": "Menu item title",
+      "default": "Collections",
+      "info": "Case-insensitive title of the top-level menu item that opens the cards."
     },
     {
       "type": "header",

@@ -40,13 +40,8 @@
     object-fit: contain;
   }
 
-  /* Match the per-context sizing/padding the default SVGs receive, so an
-     uploaded icon is a true drop-in replacement rather than rendering larger. */
-
-  /* Account button insets its default svg by 2px (border-box) -> ~18px glyph. */
-  .header-actions__action.account-button .header-icon-custom {
-    padding: 2px;
-  }
+  /* Match the per-context sizing the default SVGs receive, so an uploaded
+     icon is a true drop-in replacement rather than rendering larger. */
 
   /* The mobile drawer hamburger toggle sizes its default svg to --icon-size-sm. */
   .header__icon--summary .header-drawer-icon .header-icon-custom {
