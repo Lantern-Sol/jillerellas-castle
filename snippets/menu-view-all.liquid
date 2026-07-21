@@ -1,0 +1,16 @@
+{%- doc -%}
+  Renders a "View all" link with a trailing angle-right icon, used in the text
+  mega menu (desktop) and the mobile menu drawer to link to a category page.
+
+  @param {string} url - The category/collection URL.
+  @param {string} [class] - Extra class(es) for the link.
+
+  @example
+  {% render 'menu-view-all', url: link.url %}
+{%- enddoc -%}
+<a href="{{ url }}" class="mega-menu__view-all{% if class != blank %} {{ class }}{% endif %}">
+  <span>{{ 'actions.view_all' | t }}</span>
+  <span class="svg-wrapper mega-menu__view-all-icon" aria-hidden="true">
+    {{- 'icon-angle-right.svg' | inline_asset_content -}}
+  </span>
+</a>

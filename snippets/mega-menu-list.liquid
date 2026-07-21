@@ -71,11 +71,54 @@
     endif
   endif
 %}
-<ul
-  data-menu-list-id="{{ id }}"
-  class="mega-menu__list list-unstyled"
-  style="--menu-image-border-radius: {{ image_border_radius }}px;"
->
+{%- if menu_content_type == 'text' -%}
+  {%- comment -%}
+    Text mega menu (Figma): each top-level child is its own equal column —
+    a category heading, its links, and a "View all" link back to the category.
+  {%- endcomment -%}
+  <ul
+    data-menu-list-id="{{ id }}"
+    class="mega-menu__list mega-menu__list--text list-unstyled"
+    style="--menu-image-border-radius: {{ image_border_radius }}px;"
+  >
+    {%- for link in parent_link.links -%}
+      <li class="mega-menu__column mega-menu__column--text">
+        <div class="mega-menu__text-column">
+          <a
+            href="{{ link.url }}"
+            class="mega-menu__link mega-menu__link--parent mega-menu__link--heading"
+          >
+            <span class="wrap-text">{{- link.title -}}</span>
+          </a>
+          {%- if link.links != blank -%}
+            <ul class="mega-menu__text-links list-unstyled">
+              {%- for childLink in link.links -%}
+                {%- assign child_title_key = childLink.title | strip | downcase -%}
+                {%- if child_title_key == 'view all' -%}
+                  {%- comment -%} Style the merchant's own "View all" link (arrow), don't duplicate it. {%- endcomment -%}
+                  <li class="mega-menu__text-links-view-all">
+                    {% render 'menu-view-all', url: childLink.url %}
+                  </li>
+                {%- else -%}
+                  <li>
+                    <a href="{{ childLink.url }}" class="mega-menu__link">
+                      <span class="wrap-text">{{- childLink.title -}}</span>
+                    </a>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- else -%}
+  <ul
+    data-menu-list-id="{{ id }}"
+    class="mega-menu__list list-unstyled"
+    style="--menu-image-border-radius: {{ image_border_radius }}px;"
+  >
   {% for link in parent_link.links %}
     {%- liquid
       # When the menu is in featured_collections mode, the collection-type links
@@ -191,7 +234,8 @@
       endif
     %}
   {% endfor %}
-</ul>
+  </ul>
+{%- endif -%}
 
 {% liquid
   # decide how many grid columns are needed for the menu list, and how many columns are needed for the featured content

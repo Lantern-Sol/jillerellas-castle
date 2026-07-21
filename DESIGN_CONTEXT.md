@@ -328,6 +328,106 @@ works on mobile and matches the desktop Figma glyph). The expanded search bar's 
 mirrors the visible placeholder (WCAG 2.5.3), the placeholder is suppressed in `Text` display mode to
 avoid a doubled label, and its margin-reset is scoped to both left and right columns.
 
+## 5d. Mega menu — Figma pass (`feature/new-navigation-bar`)
+
+Desktop node `7116:15914`, mobile node `7116:14581`. Verified live in Chrome DevTools MCP
+against `http://127.0.0.1:9292` (theme dev). The Figma is a **text-column** mega menu, so the
+header-menu block was switched from `featured_collections` → **`menu_style: text`** and its
+`background_color` → **`#FCFAF9`** (panel matches the header). `drawer_dividers` → **false**.
+
+**Desktop (`snippets/mega-menu-list.liquid` text branch + `blocks/_header-menu.liquid` CSS):**
+- The theme's text mode grouped childless links into one column; replaced it with a dedicated
+  branch that renders **each top-level child as its own equal flex column** (heading + links +
+  "View all"). Purple 18px Jost-Medium heading (`.mega-menu__link--heading`), 16px `#2B2B2B`
+  links, panel insets 24/40/52/24, 24px column gap.
+- Active/open parent nav item → **filled purple pill** (`#5A3884`/`#FEFEFE`).
+
+**Mobile (`snippets/header-drawer.liquid` markup + CSS):** the top-level drawer items were converted
+from the theme's **slide-in** submenu to a true **inline accordion** — removed
+`on:click="header-drawer/open/submenu"` from the top-level `<summary>` so native `<details>` toggles
+it in place; CSS makes `.menu-drawer__menu-container > .menu-drawer__submenu` flow inline
+(static, no `translateX`), hides the slide-only back/close row, lays categories out in a 2-column
+`columns:2` block, 18px pill items (active = purple), purple headings, 16px links. The menu scrolls
+inside `.menu-drawer__navigation` so the **Account bar stays pinned** at the bottom (label changed
+`Login` → `content.account_title` = "Account"). Verified: real clicks toggle the accordion; the
+whole-drawer open/close still works.
+
+**"View all" (both):** the merchant's menu already contains a **"View all" child link** in each
+category — the theme was injecting a second one (the reported duplicate). Fix: detect a child/grandchild
+whose title is `view all` (case-insensitive) and render it via the shared `snippets/menu-view-all.liquid`
+(text + `assets/icon-angle-right.svg`); render nothing extra. **Caveat:** the arrow treatment is keyed
+on the literal title "View all", so a renamed/localized link degrades to a plain link.
+
+**Known deviations from the mock:** the mobile 2-column category order is column-major
+(`columns:2` balances height, short categories stack) rather than the Figma's hand-grouped row-major
+placement — a content-aware layout that can't be reproduced generically. Reversible via
+`sections/header-group.json` (`menu_style` back to `featured_collections`).
+
+**Follow-up fixes (user-reported, browser-verified):**
+- **Hover = brand pill:** all top-level nav links (with or without children) now hover/focus/
+  active/open to the filled `#5A3884` pill with `#FEFEFE` text (was a light-gray tint).
+- **Desktop caret animates:** `.icon-chevron-down` rotates 180° (up) when its item is hovered or
+  `[aria-expanded='true']`, with the standard transition.
+- **Mobile pill caret:** the legacy `.svg-wrapper.icon-caret--forward` caret collapsed to 0 width in
+  the pill's flex context (unresolvable legacy-CSS interaction — inline width and identical injected
+  rules also lost). Replaced with a dedicated `.menu-drawer__caret` element rendering the shared
+  `icon-chevron-down` snippet: visible, down at rest, up+white when the pill is open.
+- **Hamburger size:** drawer toggle icon bumped `--icon-size-xs` (13.6px) → `--icon-size-sm` (20px)
+  to match the search/cart icons (equal boxes in the Figma).
+- **Compact pill + 24px nav gaps:** the theme's top-level links were full-header-height with inner
+  title padding and a zero-gap list — the purple hover fill painted a giant "fatty" pill and links
+  looked glued together. Now the `<li>` keeps the full height (hover target / mega-panel hover
+  bridge preserved), while the visible link is the Figma's **35px capsule** (`padding: 8px 12px`,
+  radius 20, centered) and the list gets `gap: 24px` (negative end-margins removed, title padding
+  zeroed). Scoped to desktop menu mode, top-level, non-overflow items.
+- **Submenu link hover = underline:** category links in the text mega menu now underline on hover
+  (`text-underline-offset: .2em`) with the color pinned to `#2B2B2B` (was a purple color-swap).
+  Headings/View-all hover behavior unchanged.
+- **Account icon size:** removed the legacy `.account-button svg { padding: 2px }` inset (tuned for
+  the old stroked glyph) — it shrank the Figma person to ~18px vs the 22px cart. Now both render
+  22px; the matching inset for uploaded custom account images was removed too, keeping default and
+  custom drop-in consistent.
+
+## 5e. Collections card submenu (`feature/new-navigation-bar`)
+
+Figma desktop `7116:15915`, mobile `7116:14653` — the "Collections" nav item opens a dropdown of
+**gradient promo cards** (desktop: equal-width row in the mega panel; mobile: 2-column grid inline
+in the drawer accordion). Fully **merchant-editable**, browser-verified at both breakpoints.
+
+**Architecture:**
+- **`blocks/_menu-collection-card.liquid`** (new, name ≠ existing `_collection-card` which belongs to
+  collection lists): one card = one theme block. Settings: `title`, `subtitle`, `button_label`,
+  `link` (url), **`card_background` (`color_background` — solid or CSS gradient)**, `text_color`.
+  Card markup: `<a class="menu-collection-card">` with `--card-background`/`--card-text` inline vars;
+  radius 16, bottom-left content, title 20→24px SemiBold, subtitle 14→16px, CTA 14px Medium +
+  `icon-angle-right`; mobile `padding-top: 60px`, desktop `min-height: 168px`.
+- **`blocks/_header-menu.liquid`**: schema gained `"blocks": [{"type": "_menu-collection-card"}]` +
+  a `cards_menu_item` text setting (default **"Collections"**). The block file captures
+  `{% content_for 'blocks' %}` once and (a) desktop: in the children loop, the top-level link whose
+  title matches `cards_menu_item` (case-insensitive) renders as a has-children item whose
+  `.menu-list__submenu` contains `.collection-cards` (flex row, 16px gap, panel insets 24/40, page
+  margins via the `.section` grid wrapper — do NOT `display:block` it, that kills the margins);
+  (b) mobile: passes the captured HTML + key into `header-drawer` as `collection_cards`/`cards_item_key`.
+- **`snippets/header-drawer.liquid`**: matching top-level item renders an inline-accordion
+  `<details>` (same pill/caret as other items) whose panel is `.menu-drawer__collection-cards`
+  (grid, 2 columns, 16px gap). Also added a **desktop-drawer fallback** (`[data-menu-style='drawer']`
+  ≥750px): since the top-level slide-in JS binding was removed, submenus/card panels open inline
+  there too (the theme auto-switches to drawer mode when the desktop menu overflows).
+- **`sections/header-group.json`**: seeded 4 default cards matching the Figma — Women
+  `#EC4B9B→#A90255`, Men `#297EC6→#005094`, Kids `#F9A826→#BE7500`, Gifts `#16C0A8→#0D7365`
+  (117deg, white text, links → `shopify://collections/all`). The stale duplicate `"blocks": {}` key
+  on the header-menu entry was removed (duplicate JSON keys: last one wins → would wipe the cards).
+
+**Merchant flow:** Theme editor → Header → **Menu** block → add **Collection card** blocks
+(add/remove/reorder); each card's link/colors/text are block settings; which nav item hosts the
+dropdown is the Menu block's "Menu item title" setting. If no cards are added, the item falls back
+to a plain link (no empty dropdown).
+
+**Gotcha (fixed):** the desktop submenu is a descendant of `.menu-list__list-item`, which sets
+`white-space: nowrap` for the nav pills — card text inherited it and clipped at narrow widths.
+`.menu-collection-card` resets `white-space: normal` + `overflow-wrap: break-word`; cards use
+`min-height` (not fixed height) so they grow as text wraps. Verified at 860/1200/1440px.
+
 ## 6. Key decisions & deviations (read before changing)
 
 1. **Jost is native (Shopify library), not self-hosted.** Confirmed present in the theme editor font picker.

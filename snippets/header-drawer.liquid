@@ -6,6 +6,9 @@
   @param {string} [data_header_drawer_type] - The type of header drawer to render
   @param {object} [block] - The block that can be used to provide settings
   @param {object} [section] - The section that can be used to provide settings
+  @param {string} [collection_cards] - Captured "Collection card" blocks HTML; rendered
+    as an inline card grid under the top-level item matching cards_item_key.
+  @param {string} [cards_item_key] - Downcased title of the menu item that opens the cards.
 
   @example
   {% render 'header-drawer', linklist: section.settings.menu, class: 'header-drawer--mobile' %}
@@ -111,7 +114,43 @@
                 class="menu-drawer__list-item"
                 style="--menu-drawer-animation-index: {{ animation_index }};"
               >
-                {%- if link.links != blank -%}
+                {%- liquid
+                  assign is_cards_item = false
+                  if collection_cards != blank
+                    assign link_title_key = link.title | strip | downcase
+                    if link_title_key == cards_item_key
+                      assign is_cards_item = true
+                    endif
+                  endif
+                -%}
+                {%- if is_cards_item -%}
+                  {%- comment -%}
+                    Collections card submenu: inline accordion with the merchant's
+                    Collection card blocks in a 2-column grid (Figma mobile).
+                  {%- endcomment -%}
+                  <details
+                    id="Details-menu-drawer-menu-item-{{ forloop.index }}"
+                    class="menu-drawer__menu-container"
+                  >
+                    <summary
+                      id="HeaderDrawer-{{ link.handle }}"
+                      class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                    >
+                      <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                      <span class="menu-drawer__caret" aria-hidden="true">
+                        {% render 'icon-chevron-down' %}
+                      </span>
+                    </summary>
+                    <div
+                      class="menu-drawer__submenu has-submenu menu-drawer__submenu--cards"
+                      tabindex="-1"
+                    >
+                      <div class="menu-drawer__collection-cards">
+                        {{ collection_cards }}
+                      </div>
+                    </div>
+                  </details>
+                {%- elsif link.links != blank -%}
                   {%- comment -%}
                     Regardless of the Accordion setting, in menus with 3 levels of links, we use a details element to handle the top level of the menu for links that have children.
                   {%- endcomment -%}
@@ -122,11 +161,10 @@
                     <summary
                       id="HeaderDrawer-{{ link.handle }}"
                       class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
-                      on:click="header-drawer/open/submenu"
                     >
                       <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
-                      <span class="svg-wrapper icon-caret icon-caret--forward">
-                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                      <span class="menu-drawer__caret" aria-hidden="true">
+                        {% render 'icon-chevron-down' %}
                       </span>
                     </summary>
                     <div
@@ -352,25 +390,30 @@
                                         class="menu-drawer__list-item"
                                         style="--menu-drawer-animation-index: {{ forloop.index }};"
                                       >
-                                        <a
-                                          id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                          href="{{ grandchildlink.url }}"
-                                          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
-                                          {% if grandchildlink.current %}
-                                            aria-current="page"
-                                          {% endif %}
-                                        >
-                                          {% if render_link_image %}
-                                            {% render 'link-featured-image',
-                                              link: grandchildlink,
-                                              class: 'menu-drawer__link-image',
-                                              sizes: 'auto, 400px'
-                                            %}
-                                          {% endif %}
-                                          <span class="menu-drawer__menu-item-text wrap-text">
-                                            {{- grandchildlink.title | escape -}}
-                                          </span>
-                                        </a>
+                                        {%- assign gc_title_key = grandchildlink.title | strip | downcase -%}
+                                        {%- if gc_title_key == 'view all' -%}
+                                          {% render 'menu-view-all', url: grandchildlink.url, class: 'menu-drawer__view-all' %}
+                                        {%- else -%}
+                                          <a
+                                            id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                            href="{{ grandchildlink.url }}"
+                                            class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                            {% if grandchildlink.current %}
+                                              aria-current="page"
+                                            {% endif %}
+                                          >
+                                            {% if render_link_image %}
+                                              {% render 'link-featured-image',
+                                                link: grandchildlink,
+                                                class: 'menu-drawer__link-image',
+                                                sizes: 'auto, 400px'
+                                              %}
+                                            {% endif %}
+                                            <span class="menu-drawer__menu-item-text wrap-text">
+                                              {{- grandchildlink.title | escape -}}
+                                            </span>
+                                          </a>
+                                        {%- endif -%}
                                       </li>
                                     {%- endfor -%}
                                   </ul>
@@ -588,7 +631,7 @@
                   slot="signed-out-avatar"
                   class="menu-drawer__account-label"
                 >
-                  Login
+                  {{- 'content.account_title' | t -}}
                 </span>
               {% endif %}
             </shopify-account>
@@ -677,8 +720,16 @@
 
   .header__icon--summary .header-drawer-icon {
     margin: auto;
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
+    /* Match the size of the other header action icons (search/cart, 20px) —
+       the previous --icon-size-xs (13.6px) rendered the hamburger visibly
+       smaller than its neighbors (Figma boxes are equal). */
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+  }
+
+  .header__icon--summary .header-drawer-icon > svg {
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
   }
 
   .menu-drawer__featured-content {
@@ -1378,5 +1429,240 @@
 
   .drawer-localization .language-selector .svg-wrapper.icon-caret svg {
     transform: none;
+  }
+
+  /* ============================================================
+     Mobile inline-accordion mega menu (Figma "Menu | Mobile").
+     Top-level items expand their categories in place (native
+     <details>), with the other items still visible below.
+     ============================================================ */
+  @media screen and (max-width: 749px) {
+    .menu-drawer {
+      background-color: var(--mega-menu-surface, #fcfaf9);
+    }
+
+    /* Top-level list: left-aligned pills stacked with 24px gaps. */
+    .menu-drawer__navigation .menu-drawer__menu.has-submenu {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+      padding-block: 8px;
+    }
+
+    .menu-drawer__navigation .menu-drawer__menu.has-submenu > .menu-drawer__list-item {
+      width: 100%;
+      padding-block: 0;
+    }
+
+    /* Top-level item = compact pill, 18px Jost Medium. */
+    .menu-drawer__menu-item--mainlist {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      width: max-content;
+      max-width: 100%;
+      min-height: 0;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 20px;
+      list-style: none;
+      font-family: var(--font-subheading--family);
+      font-weight: var(--font-subheading--weight, 500);
+      font-size: 18px;
+      line-height: 1.1;
+      color: var(--mega-menu-text, #2b2b2b);
+    }
+
+    .menu-drawer__menu-item--mainlist::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Open/active top-level -> filled purple pill. */
+    .menu-drawer__menu-container[open] > summary.menu-drawer__menu-item--mainlist,
+    .menu-drawer__menu-item--mainlist.menu-drawer__menu-item--active {
+      background-color: var(--mega-menu-brand, #5a3884);
+      color: var(--mega-menu-on-brand, #fefefe);
+    }
+
+    /* Caret: dedicated element (the legacy `.svg-wrapper.icon-caret--forward`
+       combo collapses to 0 width in this flex context) using the same
+       chevron as the desktop nav. Points down at rest, up when open. */
+    .menu-drawer__caret {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .menu-drawer__caret .icon-chevron-down {
+      width: 13px;
+      height: 7px;
+      transition: transform var(--animation-speed) var(--animation-easing);
+    }
+
+    .menu-drawer__menu-container[open] > summary .menu-drawer__caret .icon-chevron-down {
+      transform: rotate(180deg);
+    }
+
+    /* --- Inline accordion: submenu flows below the summary --- */
+    .menu-drawer__menu-container > .menu-drawer__submenu {
+      position: static;
+      inset: auto;
+      width: auto;
+      height: auto;
+      transform: none;
+      visibility: visible;
+      opacity: 1;
+      overflow: visible;
+      background: transparent;
+      padding-block: 16px 0;
+    }
+
+    .menu-drawer__menu-container:not([open]) > .menu-drawer__submenu {
+      display: none;
+    }
+
+    /* Back/close row is only for the slide-in UX. */
+    .menu-drawer__menu-container > .menu-drawer__submenu .menu-drawer__nav-buttons {
+      display: none;
+    }
+
+    .menu-drawer__menu-container > .menu-drawer__submenu .menu-drawer__inner-submenu {
+      padding: 0;
+    }
+
+    /* Categories flow into 2 balanced columns (short ones stack). */
+    .menu-drawer__menu-container > .menu-drawer__submenu .menu-drawer__menu--childlist {
+      display: block;
+      columns: 2;
+      column-gap: 8px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu-drawer__menu-container
+      > .menu-drawer__submenu
+      .menu-drawer__menu--childlist
+      > .menu-drawer__list-item {
+      display: block;
+      width: 100%;
+      margin-block-end: 24px;
+      padding-block: 0;
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+    }
+
+    /* Category heading (purple 18px). */
+    .menu-drawer__menu--childlist .menu-drawer__menu-item--parent {
+      min-height: 0;
+      padding: 0 0 8px;
+      font-family: var(--font-subheading--family);
+      font-weight: var(--font-subheading--weight, 500);
+      font-size: 18px;
+      line-height: 1.1;
+      color: var(--mega-menu-brand, #5a3884);
+    }
+
+    /* Category links (16px #2B2B2B). */
+    .menu-drawer__menu--childlist .menu-drawer__menu--grandchildlist {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0;
+    }
+
+    .menu-drawer__menu--childlist .menu-drawer__menu-item--child {
+      min-height: 0;
+      padding: 4px 0;
+      font-size: 16px;
+      line-height: 1.2;
+      color: var(--mega-menu-text, #2b2b2b);
+    }
+
+    /* "View all" link inside the drawer. */
+    .menu-drawer__view-all {
+      padding-block: 4px;
+      color: var(--mega-menu-text, #2b2b2b);
+    }
+
+    /* Collections card submenu: 2-column grid (Figma mobile). */
+    .menu-drawer__collection-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /* The menu scrolls internally so the Account bar stays pinned at the
+       bottom (Figma fixed footer), instead of the whole drawer scrolling. */
+    .menu-drawer {
+      overflow: hidden;
+    }
+
+    .menu-drawer__navigation {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+    }
+
+    .menu-drawer__utility-links {
+      flex: 0 0 auto;
+      margin: 0;
+      padding: 0;
+      background-color: var(--mega-menu-surface, #fcfaf9);
+      border-top: 1px solid var(--mega-menu-border, #f8f5ef);
+      box-shadow: 0 -2px 6px rgb(0 0 0 / 0.04);
+    }
+
+    .menu-drawer__account-wrapper {
+      margin: 0;
+      padding: 24px 15px;
+      gap: 16px;
+    }
+
+    .menu-drawer__account-label {
+      font-family: var(--font-subheading--family);
+      font-weight: var(--font-subheading--weight, 500);
+      font-size: 18px;
+      line-height: 1.1;
+      text-transform: none;
+      color: var(--mega-menu-text, #2b2b2b);
+    }
+  }
+
+  /* Desktop drawer fallback: when the desktop menu overflows, the theme
+     switches to data-menu-style='drawer' at >=750px, where the mobile
+     media block above does not apply. The top-level summaries no longer
+     use the slide-in JS, so make their submenus open inline here too. */
+  @media screen and (min-width: 750px) {
+    #header-component[data-menu-style='drawer'] .menu-drawer__menu-container > .menu-drawer__submenu {
+      position: static;
+      inset: auto;
+      width: auto;
+      height: auto;
+      transform: none;
+      visibility: visible;
+      opacity: 1;
+      overflow: visible;
+      background: transparent;
+      padding-block: 16px 0;
+    }
+
+    #header-component[data-menu-style='drawer'] .menu-drawer__menu-container:not([open]) > .menu-drawer__submenu {
+      display: none;
+    }
+
+    #header-component[data-menu-style='drawer']
+      .menu-drawer__menu-container
+      > .menu-drawer__submenu
+      .menu-drawer__nav-buttons {
+      display: none;
+    }
+
+    #header-component[data-menu-style='drawer'] .menu-drawer__collection-cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
   }
 {% endstylesheet %}
