@@ -40,6 +40,15 @@
   assign settings = settings | default: empty
   assign carousel_ref = carousel_ref | default: 'resourceListCarousel'
   assign slide_count = slide_count | default: 0
+
+  # The carousel is handed `list_items_array` as its slides, so the dot count has to
+  # come from that same array. Callers pass the configured maximum (max_products /
+  # max_collections), which renders dead dots whenever the collection holds fewer
+  # items than the maximum.
+  if list_items_array != empty and list_items_array.size > 0
+    assign slide_count = list_items_array.size
+  endif
+
   assign content_type = content_type | default: 'collections'
   assign test_id = test_id | default: ''
 
