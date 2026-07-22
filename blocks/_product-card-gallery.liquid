@@ -10,6 +10,21 @@
     endif
   endfor
 
+  # "New in" badge. Tag-driven so merchants control it from the product admin with no
+  # metafield setup. The tag is matched case-insensitively against a handleized form so
+  # "New In", "new-in" and "NEW IN" all work.
+  assign show_new_badge = false
+  if block.settings.show_new_badge and block.settings.new_badge_tag != blank
+    assign wanted_tag = block.settings.new_badge_tag | handleize
+    for tag in product.tags
+      assign tag_handle = tag | handleize
+      if tag_handle == wanted_tag
+        assign show_new_badge = true
+        break
+      endif
+    endfor
+  endif
+
   assign hover_tagline = product.metafields.custom.card_hover_tagline.value
   assign hover_background = product.metafields.custom.card_hover_background.value
   assign hover_icon = product.metafields.custom.card_hover_icon.value
@@ -42,19 +57,28 @@
         --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
       "
     >
-      {%- if product.available == false or product.compare_at_price > product.price -%}
-        <div
-          class="
-            product-badges__badge product-badges__badge--rectangle
-            {% if product.available == false %} color-custom-badge-sold-out{% elsif product.compare_at_price > product.price %} color-custom-badge-sale{% endif %}
-          "
-        >
-          {%- if product.available == false -%}
-            {{ 'content.product_badge_sold_out' | t }}
-          {%- elsif product.compare_at_price > product.price -%}
-            {{ 'content.product_badge_sale' | t }}
-          {%- endif -%}
+      {%- if product.available == false -%}
+        <div class="product-badges__badge product-badges__badge--rectangle color-custom-badge-sold-out">
+          {{- 'content.product_badge_sold_out' | t -}}
         </div>
+      {%- else -%}
+        {%- comment -%}
+          Not sold out: "New in" and "Sale" can both apply, so they stack rather than
+          competing for the single slot the sold-out state occupies.
+        {%- endcomment -%}
+        {%- if show_new_badge -%}
+          <div
+            class="product-badges__badge product-badges__badge--rectangle product-badges__badge--new"
+            style="--badge-new-background: {{ block.settings.new_badge_background }}; --badge-new-text: {{ block.settings.new_badge_text_color }};"
+          >
+            {{- 'content.product_badge_new' | t -}}
+          </div>
+        {%- endif -%}
+        {%- if product.compare_at_price > product.price -%}
+          <div class="product-badges__badge product-badges__badge--rectangle color-custom-badge-sale">
+            {{- 'content.product_badge_sale' | t -}}
+          </div>
+        {%- endif -%}
       {%- endif -%}
     </div>
     {%- if block.settings.show_overlay_quick_add and settings.quick_add or block.settings.show_overlay_quick_add and settings.mobile_quick_add -%}
@@ -178,6 +202,39 @@
       "label": "Show quick-add over media",
       "info": "Turn off if you're using the separate Quick add block elsewhere on the card. Requires the theme-wide Quick add setting to be enabled.",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "New in badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_badge",
+      "label": "Show \"New in\" badge",
+      "info": "Shows on products carrying the tag below. Hidden on sold-out products.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "new_badge_tag",
+      "label": "Product tag",
+      "default": "new-in",
+      "info": "Case and punctuation are ignored, so \"New In\" also matches.",
+      "visible_if": "{{ block.settings.show_new_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "new_badge_background",
+      "label": "Badge background",
+      "default": "#9B5DE5",
+      "visible_if": "{{ block.settings.show_new_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "new_badge_text_color",
+      "label": "Badge text",
+      "default": "#FEFEFE",
+      "visible_if": "{{ block.settings.show_new_badge }}"
     },
     {
       "type": "header",

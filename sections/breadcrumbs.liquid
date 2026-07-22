@@ -26,6 +26,17 @@
 
       {%- case template.name -%}
         {%- when 'collection' -%}
+          {%- if section.settings.show_collection_parent -%}
+            {%- liquid
+              assign parent_label = section.settings.collection_parent_label
+              if parent_label == blank
+                assign parent_label = 'Collection'
+              endif
+            -%}
+            <li class="breadcrumbs__item">
+              <a class="breadcrumbs__link" href="{{ routes.collections_url }}">{{ parent_label }}</a>
+            </li>
+          {%- endif -%}
           <li class="breadcrumbs__item" aria-current="page">
             <span class="breadcrumbs__current">{{ collection.title }}</span>
           </li>
@@ -126,6 +137,8 @@
     width: 100%;
   }
 
+  /* Type is in px, not rem: the theme scales the root font-size on mobile
+     (CLAUDE.md gotcha #4), which would inflate a rem value well past the 14px spec. */
   .breadcrumbs__list {
     list-style: none;
     margin: 0;
@@ -133,39 +146,41 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.25rem 0.5rem;
-    font-size: var(--breadcrumbs-font-size, 0.875rem);
-    line-height: 1.4;
-    color: var(--color-foreground);
+    gap: 4px;
+    font-size: var(--breadcrumbs-font-size, 14px);
+    line-height: 1.2;
+    color: var(--breadcrumbs-color-current, #2b2b2b);
   }
 
   .breadcrumbs__item {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 4px;
   }
 
   .breadcrumbs__item + .breadcrumbs__item::before {
     content: var(--breadcrumbs-separator, '/');
-    opacity: 0.6;
+    color: var(--breadcrumbs-color-link, #676767);
     display: inline-block;
   }
 
   .breadcrumbs__link {
-    color: inherit;
+    color: var(--breadcrumbs-color-link, #676767);
     text-decoration: none;
-    opacity: 0.75;
-    transition: opacity 120ms ease;
+    transition: color 120ms ease;
   }
 
   .breadcrumbs__link:hover,
   .breadcrumbs__link:focus-visible {
-    opacity: 1;
+    color: var(--breadcrumbs-color-current, #2b2b2b);
     text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
+  /* The trailing crumb is the current page: same weight as the rest, darker. */
   .breadcrumbs__current {
-    font-weight: 500;
+    color: var(--breadcrumbs-color-current, #2b2b2b);
+    font-weight: 400;
   }
 {% endstylesheet %}
 
@@ -183,6 +198,20 @@
       "id": "home_label",
       "label": "Home label",
       "default": "Home"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_parent",
+      "label": "Show \"Collection\" crumb",
+      "info": "Adds a link to the all-collections page between Home and the collection name.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "collection_parent_label",
+      "label": "Collection crumb label",
+      "default": "Collection",
+      "visible_if": "{{ section.settings.show_collection_parent }}"
     },
     {
       "type": "select",

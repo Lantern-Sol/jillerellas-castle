@@ -33,7 +33,14 @@
 {% # theme-check-disable-next-line UnknownFilter %}
 <collection-component view-event-payload="{{ collection | standard_event_data: 'view' | escape }}">
   <results-list
-    class="section product-grid-container{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+    {% comment %}
+      collection-results is the hook for the Figma card design in
+      assets/collection-page.css. sections/search-results.liquid also carries
+      product-grid-container but configures its cards differently (adapt ratio,
+      no title/price presets), so the card rules key on this class instead to
+      avoid half-applying the design there.
+    {% endcomment %}
+    class="section product-grid-container collection-results{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
     style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
     section-id="{{ section.id }}"
     infinite-scroll="{{ section.settings.enable_infinite_scroll }}"

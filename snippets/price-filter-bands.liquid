@@ -1,0 +1,230 @@
+{%- doc -%}
+  Renders Shopify's price_range facet as a set of preset price bands (radio buttons)
+  instead of the stock min/max number inputs.
+
+  Shopify's price facet is a single numeric range (filter.v.price.gte / .lte), so only
+  one band can ever be active — which is why these are radios rather than the checkboxes
+  every other (multi-select) facet uses.
+
+  The radios themselves must not be submitted — the facets form serialises every named
+  input inside it, which would leak the radio group into the URL. They carry
+  form="price-bands-detached", an id no form element has: per the HTML spec that leaves
+  them with no form owner (so FormData skips them) while still grouping them by name.
+  On change, price-bands.js copies the selected band's bounds into the two hidden
+  gte/lte inputs, which the form does serialise, then asks it to refresh the results.
+
+  @param {object} filter - The price_range filter object.
+  @param {string} filter_style - 'horizontal' or 'vertical'.
+  @param {string} thresholds - Comma separated upper bounds, e.g. "20,40,60".
+  @param {string} [id_prefix] - Unique prefix to avoid duplicate IDs when rendered twice.
+
+  @example
+  {% render 'price-filter-bands', filter: filter, filter_style: 'vertical', thresholds: '20,40,60' %}
+{%- enddoc -%}
+
+{%- liquid
+  assign is_vertical = false
+  if filter_style == 'vertical'
+    assign is_vertical = true
+  endif
+
+  assign bounds = thresholds | default: '20,40,60' | split: ','
+  # `section` is not in scope inside a snippet rendered from a block, so the group name is
+  # built from the facet param and the caller's prefix (horizontal vs dialog), which is
+  # unique enough for the two instances rendered on a page.
+  assign param_slug = filter.param_name | replace: '.', '-'
+  assign group_name = 'price-band-' | append: param_slug | append: '-' | append: id_prefix
+
+  # Values come back from Shopify in cents.
+  assign active_min = filter.min_value.value | divided_by: 100.0
+  assign active_max = filter.max_value.value | divided_by: 100.0
+  assign has_active = false
+  if filter.min_value.value != null or filter.max_value.value != null
+    assign has_active = true
+  endif
+-%}
+
+{%- capture accordion_children -%}
+  <details class="facets__panel" {% if is_vertical %}open{% endif %}>
+    <summary class="facets__summary" data-testid="price-filter-bands">
+      <span class="facets__label">{{ filter.label }}</span>
+      <span class="svg-wrapper icon-caret icon-animated">
+        {{- 'icon-caret-custom.svg' | inline_asset_content -}}
+      </span>
+    </summary>
+
+    <floating-panel-component
+      {% unless is_vertical %}data-close-on-resize{% endunless %}
+      class="facets__panel-content details-content{% unless is_vertical %} color-custom-popover{% endunless %}"
+    >
+      <price-bands-component class="price-bands">
+        {%- comment -%}
+          These two carry the real facet values. They are disabled while empty so the
+          form does not serialise a blank gte/lte pair.
+        {%- endcomment -%}
+        <input
+          type="hidden"
+          name="{{ filter.min_value.param_name }}"
+          data-price-gte
+          value="{% if filter.min_value.value != null %}{{ active_min }}{% endif %}"
+          {% if filter.min_value.value == null %}disabled{% endif %}
+        >
+        <input
+          type="hidden"
+          name="{{ filter.max_value.param_name }}"
+          data-price-lte
+          value="{% if filter.max_value.value != null %}{{ active_max }}{% endif %}"
+          {% if filter.max_value.value == null %}disabled{% endif %}
+        >
+
+        <ul class="facets__inputs-list price-bands__list list-unstyled" role="list">
+          {%- for bound in bounds -%}
+            {%- liquid
+              assign upper = bound | strip | times: 1
+              assign lower = 0
+              if forloop.index0 > 0
+                assign prev_index = forloop.index0 | minus: 1
+                assign lower = bounds[prev_index] | strip | times: 1
+              endif
+
+              if forloop.first
+                assign band_label = 'content.price_band_under' | t: max: upper
+              else
+                assign band_label = 'content.price_band_between' | t: min: lower, max: upper
+              endif
+
+              assign band_checked = false
+              if has_active and active_min == lower and active_max == upper
+                assign band_checked = true
+              endif
+            -%}
+            <li class="facets__inputs-list-item price-bands__item">
+              <label class="price-bands__option" for="{{ group_name }}-{{ forloop.index }}">
+                <input
+                  type="radio"
+                  class="price-bands__radio"
+                  id="{{ group_name }}-{{ forloop.index }}"
+                  name="{{ group_name }}"
+                  form="price-bands-detached"
+                  data-gte="{{ lower }}"
+                  data-lte="{{ upper }}"
+                  {% if band_checked %}checked{% endif %}
+                >
+                <span class="price-bands__label-text">{{ band_label }}</span>
+              </label>
+            </li>
+          {%- endfor -%}
+
+          {%- liquid
+            assign last_index = bounds.size | minus: 1
+            assign final_lower = bounds[last_index] | strip | times: 1
+            assign final_checked = false
+            if has_active and active_min == final_lower and filter.max_value.value == null
+              assign final_checked = true
+            endif
+          -%}
+          <li class="facets__inputs-list-item price-bands__item">
+            <label class="price-bands__option" for="{{ group_name }}-up">
+              <input
+                type="radio"
+                class="price-bands__radio"
+                id="{{ group_name }}-up"
+                name="{{ group_name }}"
+                form="price-bands-detached"
+                data-gte="{{ final_lower }}"
+                data-lte=""
+                {% if final_checked %}checked{% endif %}
+              >
+              <span class="price-bands__label-text">
+                {{- 'content.price_band_over' | t: min: final_lower -}}
+              </span>
+            </label>
+          </li>
+        </ul>
+      </price-bands-component>
+    </floating-panel-component>
+  </details>
+{%- endcapture -%}
+
+{% render 'accordion-custom-component',
+  children: accordion_children,
+  class: 'facets__item',
+  open: is_vertical,
+  open_by_default_on_desktop: is_vertical,
+  open_by_default_on_mobile: is_vertical,
+  disable_animation_on_desktop: false,
+  close_with_escape: false
+%}
+
+{% stylesheet %}
+  .price-bands__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .price-bands__item + .price-bands__item {
+    margin-block-start: 4px;
+  }
+
+  .price-bands__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-block: 4px;
+    cursor: pointer;
+  }
+
+  /* Matches the Figma's `form/radius` control: a 24px ring that fills brand
+     purple when selected, with a white centre dot. */
+  .price-bands .price-bands__radio {
+    appearance: none;
+    position: relative;
+    flex: 0 0 auto;
+    inline-size: 24px;
+    block-size: 24px;
+    margin: 0;
+    border: 1.5px solid #9d9d9d;
+    border-radius: 99px;
+    background-color: #fefefe;
+    cursor: pointer;
+  }
+
+  /* base.css:3167 positions this dot absolutely and centres it with
+     `transform: translate(-50%, -50%)`. The scale has to be composed with that
+     translate — setting `transform: scale()` alone replaces it and drops the dot
+     down-right of centre. */
+  .price-bands .price-bands__radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 99px;
+    background-color: #fefefe;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 120ms ease;
+  }
+
+  .price-bands .price-bands__radio:checked {
+    border-color: #5a3884;
+    background-color: #5a3884;
+  }
+
+  .price-bands .price-bands__radio:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .price-bands .price-bands__radio:focus-visible {
+    outline: var(--focus-outline-width) solid currentcolor;
+    outline-offset: var(--focus-outline-offset);
+  }
+
+  .price-bands__label-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #2b2b2b;
+  }
+{% endstylesheet %}

@@ -136,7 +136,11 @@
             </button>
           </div>
         {% else %}
-          <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
+          {% comment %}
+            In vertical mode the "Filters" heading belongs to the sidebar itself, not this
+            toolbar row — it is rendered at the top of .facets--vertical below. Rendering it
+            here as well would give screen readers two competing headings for one region.
+          {% endcomment %}
         {% endif %}
       {% endif %}
 
@@ -148,7 +152,7 @@
           {% if products_count > 25000 %}
             {{- 'content.item_count_cutoff' | t: count: 25000 -}}
           {% else %}
-            {{- 'content.item_count' | t: count: products_count -}}
+            {{- 'content.collection_product_count' | t: count: products_count -}}
           {% endif %}
         </span>
       </div>
@@ -200,6 +204,15 @@
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
       aria-label="{{ 'accessibility.filters' | t }}"
     >
+      {% if block_settings.filter_style == 'vertical' %}
+        <div class="facets__sidebar-heading">
+          <span class="svg-wrapper facets__sidebar-icon">
+            {{- 'icon-filter.svg' | inline_asset_content -}}
+          </span>
+          <h2 class="facets__sidebar-title">{{ 'content.filters' | t }}</h2>
+        </div>
+      {% endif %}
+
       <facets-form-component
         class="facets__form-wrapper"
         section-id="{{ section.id }}"
@@ -242,7 +255,11 @@
                           assign should_render_clear = false
                         endif
 
-                        render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear, id_prefix: 'horizontal'
+                        if block_settings.price_filter_style == 'bands'
+                          render 'price-filter-bands', filter: filter, filter_style: block_settings.filter_style, thresholds: block_settings.price_bands, id_prefix: 'horizontal'
+                        else
+                          render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear, id_prefix: 'horizontal'
+                        endif
                       -%}
                     {% else %}
                       {% liquid
@@ -337,7 +354,7 @@
                   {% if products_count > 25000 %}
                     {{- 'content.item_count_cutoff' | t: count: 25000 -}}
                   {% else %}
-                    {{- 'content.item_count' | t: count: products_count -}}
+                    {{- 'content.collection_product_count' | t: count: products_count -}}
                   {% endif %}
                 </span>
               </div>
@@ -462,6 +479,7 @@
     data-skip-node-update
     no-persist
     class="facets-block-wrapper facets-block-wrapper--vertical color-custom-drawer{{ desktop_drawer_class }}"
+    style="--filters-drawer-icon: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 21 20'%3E%3Cpath d='M16.823 6h-12m10 4h-8m2 4h4' stroke='white' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E&quot;);"
   >
     <dialog
       ref="panel"
@@ -500,7 +518,11 @@
               </span>
             {% endif %}
           {% endcapture %}
-          {% assign filters_drawer_title = 'blocks.filter' | t %}
+          {% comment %}
+            "Filters" (content.filters), matching the desktop sidebar heading and the
+            Figma, rather than the singular "Filter" the drawer used before.
+          {% endcomment %}
+          {% assign filters_drawer_title = 'content.filters' | t %}
           {% render 'theme-drawer-header',
             title: filters_drawer_title,
             drawer_id: 'filters-drawer',
@@ -532,7 +554,11 @@
                           assign is_active = true
                         endif
 
-                        render 'price-filter', filter: filter, filter_style: 'vertical', should_render_clear: false, id_prefix: 'dialog'
+                        if block_settings.price_filter_style == 'bands'
+                          render 'price-filter-bands', filter: filter, filter_style: 'vertical', thresholds: block_settings.price_bands, id_prefix: 'dialog'
+                        else
+                          render 'price-filter', filter: filter, filter_style: 'vertical', should_render_clear: false, id_prefix: 'dialog'
+                        endif
                       -%}
                     {% else %}
                       {% liquid
@@ -560,9 +586,15 @@
           data-url="{{ results_url }}"
           active-class="facets__clear-all--active"
         >
+          {%- comment -%}
+            Neither drawer button carries .button / .button-secondary:
+            brand-components.css injects a chevron into text-only buttons with
+            those classes, and the Figma footer (node 7251:9185) has none.
+            .facets__drawer-button supplies the pill styling instead.
+          {%- endcomment -%}
           <button
             type="button"
-            class="button-secondary facets__clear-all{% if is_active %} facets__clear-all--active{% endif %}"
+            class="facets__drawer-button facets__clear-all{% if is_active %} facets__clear-all--active{% endif %}"
             ref="clearButton"
             on:click="/removeFilter?form={{ form_component }}"
             on:keydown="/removeFilter?form={{ form_component }}"
@@ -571,15 +603,19 @@
           </button>
         </facet-remove-component>
 
-        {% if products_count > 0 %}
-          <button
-            class="button facets__see-results"
-            type="button"
-            on:click="#filters-drawer/close"
-          >
-            {{- 'actions.see_items' | t: count: products_count -}}
-          </button>
-        {% endif %}
+        {%- comment -%}
+          The Figma labels this "Apply filters" rather than the stock
+          "See {{ count }} items", so it no longer depends on the result count
+          and renders unconditionally — the footer keeps both pills at all times
+          instead of reflowing to one when a filter combination matches nothing.
+        {%- endcomment -%}
+        <button
+          class="facets__drawer-button facets__apply-filters"
+          type="button"
+          on:click="#filters-drawer/close"
+        >
+          {{- 'actions.apply_filters' | t -}}
+        </button>
       </div>
     </dialog>
   </theme-drawer>
@@ -1342,7 +1378,7 @@
     }
   }
 
-  .facets__see-results {
+  .facets__apply-filters {
     min-width: var(--facets-see-results-min-width);
     flex-grow: 1;
     padding-block: var(--padding-lg);
@@ -1422,6 +1458,265 @@
   }
   scroll-hint.facets-drawer__filters summary {
     padding-block: 1rem;
+  }
+
+  /* ==============================================================
+   * Figma collection filters (desktop 7251:8926, drawer 7251:9128).
+   * These live here rather than in assets/collection-page.css because
+   * Shopify bundles every section and block stylesheet block into
+   * styles.css, which loads AFTER the asset stylesheets — so rules in
+   * an asset file lose to the ones above however the tags are ordered.
+   *
+   * px, not rem: the theme scales the root font-size on mobile
+   * (CLAUDE.md gotcha #4).
+   * ============================================================== */
+
+  /* Sidebar heading: 13px icon + 20px Jost SemiBold, brand purple. */
+  .facets__sidebar-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-block-end: 24px;
+  }
+
+  .facets__sidebar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 13px;
+    height: 13px;
+    color: #5a3884;
+  }
+
+  .facets__sidebar-icon svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .facets__sidebar-title {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: #5a3884;
+  }
+
+  /* The drawer supplies its own header. */
+  #filters-drawer .facets__sidebar-heading {
+    display: none;
+  }
+
+  /* Group headers: 16px Jost Medium. The inline sidebar is .facets--vertical and the
+     mobile drawer is .facets--drawer, so every rule below covers both. */
+  :is(.facets--vertical, .facets--drawer) .facets__summary {
+    padding-block: 4px;
+  }
+
+  :is(.facets--vertical, .facets--drawer) .facets__summary .facets__label {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #2b2b2b;
+  }
+
+  /* The Figma sidebar separates groups with spacing, not rules. Covers both the
+     base rule (which sets content on every item) and the >=750px rule that
+     re-enables it for :not(:first-of-type). */
+  .facets-block-wrapper--vertical :is(.facets--vertical, .facets--drawer) :is(.facets__item, .sorting-filter)::before {
+    content: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .facets-block-wrapper--vertical :is(.facets--vertical, .facets--drawer) .facets__item:not(:first-of-type)::before,
+    .facets-block-wrapper--vertical :is(.facets--vertical, .facets--drawer) .sorting-filter::before {
+      content: none;
+    }
+  }
+
+  :is(.facets--vertical, .facets--drawer) .facets__item + .facets__item {
+    margin-block-start: 8px;
+  }
+
+  /* Option rows: 16px label; the visible control is the .icon-checkmark SVG,
+     not the <input> (base.css hides that at opacity 0). */
+  /* snippets/list-filter.liquid has an equal-specificity (0,4,0) rule painting this
+     --color-foreground-subdued, and it is bundled into styles.css AFTER this block,
+     so it wins any tie. The extra wrapper class puts this at (0,5,0). */
+  .facets-block-wrapper--vertical :is(.facets--vertical, .facets--drawer) .checkbox:not(.checkbox--disabled) .checkbox__label-text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    color: #2b2b2b;
+    white-space: normal;
+  }
+
+  :is(.facets--vertical, .facets--drawer) .checkbox__label {
+    gap: 8px;
+  }
+
+  :is(.facets--vertical, .facets--drawer) .checkbox .icon-checkmark {
+    --checkbox-size: 24px;
+    --checkbox-border: 1.5px solid #9d9d9d;
+    --checkbox-border-radius: 99px;
+    --checkbox-color: #5a3884;
+
+    border-width: 1.5px;
+  }
+
+  :is(.facets--vertical, .facets--drawer) .facets__inputs-list--swatches {
+    --variant-picker-swatch-width: 30px;
+    --variant-picker-swatch-height: 30px;
+
+    gap: 12px;
+  }
+
+  /* Toolbar: the Figma puts the product count at the far left of the row;
+     base.css pins it right with margin-left:auto. */
+  .facets--horizontal.facets-controls-wrapper {
+    align-items: center;
+    gap: 16px;
+  }
+
+  .facets--horizontal .products-count-wrapper {
+    order: -1;
+    margin-left: 0;
+    margin-right: auto;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #676767;
+  }
+
+  .facets-controls-wrapper .sorting-filter :is(.facets__label, .facets__status) {
+    font-size: 14px;
+    line-height: 1.2;
+    color: #2b2b2b;
+  }
+
+  @media screen and (max-width: 749px) {
+    /* Mobile shows the Filters button instead of the count. */
+    .facets--horizontal .products-count-wrapper {
+      display: none;
+    }
+
+    .facets-toggle .facets-toggle__button {
+      font-size: 14px;
+      font-weight: 500;
+      color: #2b2b2b;
+    }
+
+    .facets-toggle .facets-toggle__button .svg-wrapper {
+      width: 13px;
+      height: 13px;
+      color: #5a3884;
+    }
+  }
+
+  /* Drawer: 340px wide with a two-button action bar pinned at the bottom. */
+  #filters-drawer {
+    --theme-drawer-width: 340px;
+  }
+
+  /* Header, per Figma 7251:9130 — 13px purple icon + 20px SemiBold "Filters".
+     The icon is a mask so it takes its colour from the heading. */
+  #filters-drawer .theme-drawer__title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body--family);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: #5a3884;
+  }
+
+  #filters-drawer .theme-drawer__title::before {
+    content: '';
+    flex: 0 0 auto;
+    inline-size: 13px;
+    block-size: 13px;
+    background-color: currentColor;
+    -webkit-mask: var(--filters-drawer-icon) center / contain no-repeat;
+    mask: var(--filters-drawer-icon) center / contain no-repeat;
+  }
+
+  /* theme-drawer-styles.liquid sets `display: flex` on the badge, which beats the
+     browser's `[hidden] { display: none }` — so the count rendered as a bare "0"
+     even though the Liquid had already marked it hidden. */
+  #filters-drawer .theme-drawer__badge[hidden] {
+    display: none;
+  }
+
+  /* Figma shows a plain thin X, not the theme's bordered circle. */
+  #filters-drawer .theme-drawer__close-button {
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  /* ---------------------------------------------------------------
+   * Drawer footer — Figma node 7251:9185: two equal 151x48 pills on a
+   * #FCFAF9 bar, outlined "Clear all" beside a gold "Apply filters".
+   * --------------------------------------------------------------- */
+
+  /* A grid guarantees equal columns whatever the labels are; flex-basis alone is
+     easy to lose to the button's own intrinsic sizing. */
+  #filters-drawer .facets__drawer-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 16px 15px;
+    background-color: #fcfaf9;
+
+    /* Stock fades the bar into the list behind it with a gradient; the Figma bar
+       is flat, so the gradient is cleared rather than tinted. */
+    background-image: none;
+  }
+
+  #filters-drawer .facets__drawer-actions > * {
+    min-inline-size: 0;
+    inline-size: 100%;
+  }
+
+  /* "Clear all" is wrapped in <facet-remove-component>, so sizing the grid child only
+     stretches the wrapper — the button inside stays content-width. Size the buttons
+     themselves, not the columns. */
+  #filters-drawer .facets__drawer-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: 48px;
+    padding-block: 0;
+    padding-inline: 24px;
+    overflow: hidden;
+    border-radius: 50px;
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  /* `display` is set above rather than here so it also beats the stock
+     `.facets__clear-all { display: none }`, which otherwise hides this button until
+     a filter is active. The Figma shows both pills at all times, so the footer does
+     not reflow as filters come and go. */
+  #filters-drawer .facets__clear-all {
+    border: 1px solid #2b2b2b;
+    background-color: transparent;
+    color: #2b2b2b;
+  }
+
+  #filters-drawer .facets__apply-filters {
+    border: 1px solid #bc9d62;
+    background-color: #bc9d62;
+    color: #fefefe;
   }
 {% endstylesheet %}
 
@@ -1509,6 +1804,26 @@
       "label": "t:settings.show_filter_label",
       "default": false,
       "visible_if": "{{ block.settings.enable_filtering == true }}"
+    },
+    {
+      "type": "select",
+      "id": "price_filter_style",
+      "label": "Price filter style",
+      "info": "Shopify's price filter is a single range, so bands are radio buttons — only one can be active at a time.",
+      "options": [
+        { "value": "range", "label": "Minimum / maximum boxes" },
+        { "value": "bands", "label": "Preset price bands" }
+      ],
+      "default": "range",
+      "visible_if": "{{ block.settings.enable_filtering == true }}"
+    },
+    {
+      "type": "text",
+      "id": "price_bands",
+      "label": "Price band steps",
+      "info": "Comma separated upper bounds. \"20,40,60\" gives Under $20, $20 – $40, $40 – $60, $60 & up.",
+      "default": "20,40,60",
+      "visible_if": "{{ block.settings.price_filter_style == 'bands' }}"
     },
     {
       "type": "checkbox",

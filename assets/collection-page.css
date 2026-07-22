@@ -1,0 +1,232 @@
+/* ============================================================
+ * Jillerellas Castle — collection page
+ * Page-level styling for the Figma collection design
+ * (desktop node 7251:8897, mobile 7251:9053).
+ *
+ * Filter sidebar / toolbar / drawer styling deliberately does NOT
+ * live here: Shopify bundles every section and block {% stylesheet %}
+ * into styles.css, which loads AFTER asset stylesheets, so rules in
+ * this file lose to blocks/filters.liquid regardless of tag order.
+ * Those rules are co-located in blocks/filters.liquid instead.
+ *
+ * Brand: purple #5A3884 · gold #BC9D62 · text #2B2B2B
+ *
+ * px, not rem: the theme scales the root font-size on mobile
+ * (CLAUDE.md gotcha #4), which inflates rem past the Figma spec.
+ * ============================================================ */
+
+/* ---------------------------------------------------------------
+ * Pagination — the Figma uses a 32px hit area and a plain numeric
+ * scale (current page Medium, the rest Regular).
+ * Scoped with .product-grid-container so it outranks the equal-
+ * specificity rules in snippets/pagination-controls.liquid.
+ * --------------------------------------------------------------- */
+.product-grid-container .pagination {
+  --pagination-size: 32px;
+
+  padding-block-start: 32px;
+  padding-block-end: 8px;
+}
+
+.product-grid-container .pagination .pagination__list {
+  gap: 8px;
+}
+
+.product-grid-container .pagination .pagination__link {
+  font-size: 14px;
+  font-weight: 400;
+  color: #2b2b2b;
+}
+
+.product-grid-container .pagination .pagination__link--current {
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------
+ * Product card — Figma desktop 7251:9018, mobile 7251:9096.
+ *
+ * A white panel: media flush to the top edge, then a 12px (8px mobile)
+ * inset holding title and price, clipped to a 16px (8px mobile) radius
+ * with a two-layer shadow.
+ *
+ * Scope is .collection-results, added to the results list in
+ * sections/main-collection.liquid. sections/search-results.liquid also carries
+ * product-grid-container but configures its cards differently (adapt image
+ * ratio, no title/price presets), so scoping there would half-apply the design.
+ * Homepage carousels render through resource-list and are untouched.
+ *
+ * Specificity note: base.css:1149 styles the card through a doubled
+ * `.product-grid__card.product-grid__card` selector (0,2,0), and repeats
+ * it inside a max-width:749px query. Every rule here that competes with
+ * it carries three classes so it wins at both breakpoints.
+ * --------------------------------------------------------------- */
+.collection-results .product-card__content.product-grid__card {
+  --product-card-inset: 12px;
+  --product-card-row-gap: 8px;
+
+  /* Title. base.css:1130 drives `.paragraph` from these variables, so redefining
+     them here is cheaper than out-specifying `.paragraph > *` on every property.
+     px, not rem: the theme scales the root font-size on mobile (CLAUDE.md gotcha
+     #4), which would push a rem past the Figma spec. */
+  --font-paragraph--size: 16px;
+  --font-paragraph--weight: 500;
+  --font-paragraph--line-height: 1.2;
+
+  padding: var(--product-card-inset);
+  gap: var(--product-card-row-gap);
+  background-color: #fefefe;
+  box-shadow:
+    0 1px 2px -1px rgb(0 0 0 / 0.1),
+    0 1px 3px 0 rgb(0 0 0 / 0.1);
+
+  /* Both the title block and product-price carry an empty `--color:` inline, which
+     makes their own `color: var(--color, …)` invalid at computed-value time and so
+     resolves to `inherit`. Setting the colour once here therefore reaches all of
+     them, while any element with a real colour of its own (sale price) keeps it. */
+  color: #2b2b2b;
+}
+
+/* The media bleeds out to the card edge; only title and price sit inside the
+   inset. The column gap already spaces the media from the title, so just the
+   remainder of the inset is added back to reach the Figma's 12px. */
+.collection-results .product-card__content > .card-gallery {
+  margin-block-start: calc(-1 * var(--product-card-inset));
+  margin-block-end: calc(var(--product-card-inset) - var(--product-card-row-gap));
+  margin-inline: calc(-1 * var(--product-card-inset));
+}
+
+/* Two lines in both Figma frames. Clamping rather than wrapping freely also keeps
+   every card in a row the same height. */
+.collection-results .product-card__content .text-block.rte > p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Price is an h6 preset, so it is retuned through the h6 variables rather than the
+   paragraph ones the title uses. */
+.collection-results .product-card__content product-price {
+  --font-h6--size: 14px;
+  --font-h6--weight: 400;
+  --font-h6--line-height: 1.2;
+
+  /* h6 inherits --letter-spacing--heading-loose (0.02em). The Figma's Caption/Regular
+     is tracked at 0, matching the title beside it. */
+  --font-h6--letter-spacing: normal;
+}
+
+@media screen and (max-width: 749px) {
+  .collection-results .product-card__content.product-grid__card {
+    --product-card-inset: 8px;
+    --font-paragraph--size: 14px;
+
+    /* `_product-card` has no mobile border-radius setting, so the 16px picked in
+       templates/collection.json only covers desktop. */
+    border-radius: 8px;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Badges — 12px uppercase pill, inset 16px (8px mobile) from the top
+ * left of the media.
+ * --------------------------------------------------------------- */
+.collection-results .product-badges {
+  --badge-inset: 16px;
+}
+
+.collection-results .product-badges__badge {
+  --badge-font-size: 12px;
+
+  padding: 4px 8px;
+}
+
+@media screen and (max-width: 749px) {
+  .collection-results .product-badges {
+    --badge-inset: 8px;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Quick add — the Figma shows a filled circular "+" at the bottom
+ * right of the card image, visible at rest.
+ *
+ * This mirrors the override already proven on the homepage
+ * (templates/index.json custom-liquid blocks); lifting it here means
+ * the collection grid gets the same treatment without repeating it
+ * per template.
+ * --------------------------------------------------------------- */
+
+/* 32px circle inset 16px (8px mobile) from the media's right and bottom edges.
+   Both are read by quick-add-styles.liquid, so setting the variables is enough. */
+.collection-results .quick-add {
+  --button-size-md: 32px;
+  --quick-add-offset: 16px;
+}
+
+@media screen and (max-width: 749px) {
+  .collection-results .quick-add {
+    --quick-add-offset: 8px;
+  }
+}
+
+.collection-results .quick-add__button {
+  opacity: 1;
+  background: var(--quick-add-background, #5a3884);
+  color: var(--quick-add-text, #fefefe);
+
+  /* Pin it square so border-radius:50% can only ever draw a circle. The stock button
+     sets height but leaves width to its content, which is what let it stretch. */
+  inline-size: var(--button-size-md);
+  block-size: var(--button-size-md);
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 50%;
+
+  /* Stock draws a 2px translucent ring so the button reads against a photo; the
+     Figma circle is flat, and the ring would eat 4px of the 32px diameter. */
+  border: 0;
+}
+
+/* Stock hover expands .add-to-cart-text__content from 0fr to 1fr to reveal an
+   "Add to cart" label, turning the circle into a pill. The Figma keeps a static
+   circular "+", so the column stays collapsed here.
+   Specificity (0,4,0) beats the theme's nested (0,3,0) rule, which matters because
+   snippet stylesheets bundle into styles.css and load after this file. */
+.collection-results .quick-add__button:is(:hover, :focus-visible) .add-to-cart-text__content {
+  grid-template-columns: 0fr;
+}
+
+.collection-results .quick-add__button .add-to-cart-text__content > span > span {
+  padding-right: 0;
+}
+
+/* Swap the stock bag-with-plus glyph for a plain "+". */
+.collection-results .quick-add__button .add-to-cart-icon {
+  display: none;
+}
+
+.collection-results .quick-add__button .add-to-cart-text {
+  font-size: 0;
+  line-height: 0;
+}
+
+.collection-results .quick-add__button .add-to-cart-text::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 32px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath d='M7 1v12M1 7h12' stroke='white' stroke-width='1.75' stroke-linecap='round'/%3E%3C/svg%3E")
+    center / 16px no-repeat;
+}
+
+/* Multi-variant products render a "Choose options" button instead; keep the
+   same circular affordance rather than a wide pill. */
+.collection-results quick-add-component[data-quick-add-button='choose'] add-to-cart-component {
+  display: inline;
+}
+
+.collection-results .quick-add__button--choose {
+  display: none;
+}

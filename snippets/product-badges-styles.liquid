@@ -11,6 +11,17 @@
 
     position: absolute;
     z-index: var(--layer-flat);
+
+    /* More than one badge can apply at once (e.g. "New in" alongside "Sale"), so the
+       container lays them out explicitly instead of letting them butt together. */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--padding-xs);
+  }
+
+  .product-badges--top-right {
+    align-items: flex-end;
   }
 
   .product-badges--bottom-left {
@@ -47,5 +58,12 @@
   .product-badges__badge--rectangle {
     padding-block: var(--badge-rectangle-padding-block);
     padding-inline: var(--badge-rectangle-padding-inline);
+  }
+
+  /* Colours come from the gallery block's settings as inline custom properties, so this
+     badge stays self-contained rather than needing its own theme palette slots. */
+  .product-badges__badge--new {
+    background: var(--badge-new-background, #5a3884);
+    color: var(--badge-new-text, #fefefe);
   }
 {% endstylesheet %}

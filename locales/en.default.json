@@ -74,6 +74,8 @@
     "added": "Added",
     // Button to apply discount code to cart
     "apply": "Apply",
+    // Button that confirms the filter selection and closes the mobile filter dialog
+    "apply_filters": "Apply filters",
     "back": "Back",
     "back_to": "Back to {{ title }}",
     "choose": "Choose",
@@ -209,6 +211,15 @@
       "other": "{{ count }} items"
     },
     "item_count_cutoff": "More than {{ count }} items",
+    "collection_product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    },
+    "collection_view_more": "View more",
+    "collection_view_less": "View less",
+    "price_band_under": "Under ${{ max }}",
+    "price_band_between": "${{ min }} – ${{ max }}",
+    "price_band_over": "${{ min }} & up",
     "language": "Language",
     "localization_region_and_language": "Region and language",
     "no_products_found": "No products found.",
@@ -239,6 +250,7 @@
     "product_total": "Product total",
     "product_badge_sold_out": "Sold out",
     "product_badge_sale": "Sale",
+    "product_badge_new": "New in",
     "product_card_placeholder": "Product title",
     "placeholder_image": "Placeholder image",
     "quantity": "Quantity",
@@ -254,6 +266,8 @@
     "search_input_placeholder": "Search",
     "search_bar_placeholder": "What are you looking for?",
     "all_rights_reserved": "All rights reserved.",
+    // Theme-editor-only placeholder shown when a footer menu block has no menu selected
+    "footer_menu_empty": "Pick a menu for this column.",
     "search": "Search",
     "search_results": "Search results",
     "search_results_label": "Search results",
