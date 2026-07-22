@@ -428,6 +428,55 @@ to a plain link (no empty dropdown).
 `.menu-collection-card` resets `white-space: normal` + `overflow-wrap: break-word`; cards use
 `min-height` (not fixed height) so they grow as text wraps. Verified at 860/1200/1440px.
 
+## 5f. Footer — Figma pass (`sections/footer.liquid`)
+
+Desktop node `7134:17312`, mobile node `7134:17433`. Verified live in Chrome DevTools MCP against
+`http://127.0.0.1:9292` at 1440 and 390. The Figma footer is one cohesive purple block whose layout
+is **asymmetric** (410px newsletter + three equal menu columns + logo) and whose bottom bar carries
+**payment icons + a "Designed by" credit**. Neither is reachable with the stock footer grid
+(`repeat(N, 1fr)`) or with `footer-utilities` (which only accepts copyright / policy-list /
+social-links blocks), so `sections/footer.liquid` was rewritten as a **pure custom section** —
+option 2 in CLAUDE.md's "two ways to build a section".
+
+**Structure** — `.footer-custom` inside the theme's existing `.section section--page-width` wrapper
+(kept, so the footer's content column lines up with the header and every other section). At 1440 that
+column is **exactly 1340px**, which is the Figma divider width — the design and the theme's
+`page-width-narrow` (90rem, 50px margin) agree.
+
+- Top row: newsletter (`flex: 0 0 min(410px, 32%)`) + three `link_list` menu columns + inverse logo
+  (right-aligned, `settings.logo_inverse` → falls back to `settings.logo` → shop name).
+- Bottom bar: 1px divider (30% tint of the text color), copyright + credit left, payment icons right.
+- Breakpoints: `<750px` mobile (everything stacks; input above button; **menu links in `columns: 2`**,
+  which reproduces the Figma's column-major split exactly for all three menus; logo centered at 192px),
+  `750–989px` newsletter stacks above the menu row, `≥990px` the full Figma desktop row.
+
+**Type / color are px-exact to the Figma** (px, not rem — gotcha #4's fluid rem scaling would inflate
+mobile): heading 32/600, menu headings 18/500, links 16/400, captions 14/400, all `#FEFEFE`; input
+`#FCFAF9` fill / `#E0D2B7` border / 32px radius / `#676767` placeholder; Subscribe pill `#BC9D62`,
+50px radius, 16/500. Jost 600 is real (not synthetic) — `theme-styles-variables.liquid` emits
+`@font-face` for weights 100–900.
+
+**Two specificity traps (both fixed, don't undo them):**
+1. `base.css:1517` `input:not([type='checkbox'], [type='radio'])` is **(0,1,1)** and forces
+   `--color-input-background`/`--color-input-border` onto the email field, beating a single class.
+   The rule is scoped `.footer-custom .footer-custom__input` to win. (Its border color matching
+   `#E0D2B7` was a coincidence — `palette_input_border` is already color3.)
+2. The local `.footer-custom a { text-decoration: none }` reset is also (0,1,1) and killed the
+   underline on "Lantern Sol"; that rule is scoped `.footer-custom .footer-custom__credit-link`.
+
+**Deliberate deviations:** page margin is the theme's 50px desktop / 12px mobile rather than the
+Figma's 40/16, so the footer stays aligned with the rest of the site — this makes each menu column
+182.5px instead of 187.5px. The Subscribe button uses its own class, **not** `.button` /
+`.button-secondary`, so `brand-components.css` does not inject a chevron into it (see §5b).
+
+**Payment icons** come from `shop.enabled_payment_types` (same source as the theme's `payment-icons`
+block) and therefore render nothing on a dev store with no payment provider configured — the Figma's
+six icons will appear once payments are enabled. `sections/footer-group.json` was reduced to the single
+`footer` section; the old `utilities` (`footer-utilities`) section was removed because the design drops
+the policy list and social links — recover it from git history if it is ever wanted back.
+
+Also added locale key `content.all_rights_reserved` ("All rights reserved.") in `locales/en.default.json`.
+
 ## 6. Key decisions & deviations (read before changing)
 
 1. **Jost is native (Shopify library), not self-hosted.** Confirmed present in the theme editor font picker.
@@ -461,7 +510,8 @@ to a plain link (no empty dropdown).
 - [ ] Favicon: not provided in the style guide — supply/set separately.
 - [x] **Header** — matched to Figma (`7116:14012` desktop, `7116:14572`/`7063:11510` mobile) on
   `feature/new-navigation-bar`. See **§5c**. Localization is hidden to match the design (reversible).
-- [ ] **Footer section** — the Figma footer mock still needs a matching pass (separate task).
+- [x] **Footer section** — matched to Figma (`7134:17312` desktop, `7134:17433` mobile). See **§5f**.
+  Payment icons stay hidden until a payment provider is enabled on the store.
 - [ ] Optional: decide whether body line-height should be the exact Figma 1.2 (`body-tight`) vs current 1.4.
 
 ---

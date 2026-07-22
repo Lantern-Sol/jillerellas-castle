@@ -2,6 +2,27 @@
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
+
+  assign footer_logo = settings.logo_inverse
+  if footer_logo == blank
+    assign footer_logo = settings.logo
+  endif
+
+  capture sizes_attr
+    echo '(min-width: 750px) '
+    echo section.settings.logo_width
+    echo 'px, 192px'
+  endcapture
+
+  assign menu_handles = section.settings.menu_1 | append: ','
+  assign menu_handles = menu_handles | append: section.settings.menu_2 | append: ','
+  assign menu_handles = menu_handles | append: section.settings.menu_3
+  assign menu_handles = menu_handles | split: ','
+
+  assign menu_headings = section.settings.menu_1_heading | append: '|'
+  assign menu_headings = menu_headings | append: section.settings.menu_2_heading | append: '|'
+  assign menu_headings = menu_headings | append: section.settings.menu_3_heading
+  assign menu_headings = menu_headings | split: '|'
 %}
 
 <div
@@ -10,89 +31,503 @@
 <div
   class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
 >
-  {% liquid
-    assign total_blocks = section.blocks.size
-
-    # Grid layout calculations
-    assign grid_columns = total_blocks | at_most: 4
-
-    # Calculate last row counts using modulo arithmetic
-    # last_row_count = (total_blocks - 1) % N + 1
-    assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
-    assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
-
-    # Check if there are orphaned elements (single item in last row)
-    assign has_isolated_grid_item_desktop = false
-    assign has_isolated_grid_item_tablet = false
-
-    if total_blocks > 4 and last_row_count == 1
-      assign has_isolated_grid_item_desktop = true
-    endif
-
-    if total_blocks == 5
-      assign has_isolated_grid_item_tablet = true
-    endif
-  %}
   <div
-    class="
-      footer-content
-      spacing-style
-      {% if has_isolated_grid_item_desktop %}footer-content--isolated-grid-item-desktop{% endif %}
-      {% if has_isolated_grid_item_tablet %}footer-content--isolated-grid-item-tablet{% endif %}
-    "
+    class="footer-custom"
     style="
-      {%  render 'spacing-style', settings: section.settings %}
-      --footer-gap: {{ section.settings.gap }}px;
-      --grid-columns: {{ grid_columns }};
-      --last-row-count: {{ last_row_count }};
-      --tablet-last-row-count: {{ tablet_last_row_count }};
+      --footer-fg: {{ section.settings.text_color | default: '#FEFEFE' }};
+      --footer-divider: {% if section.settings.divider_color != blank %}{{ section.settings.divider_color }}{% else %}color-mix(in srgb, {{ section.settings.text_color | default: '#FEFEFE' }} 30%, transparent){% endif %};
+      --footer-logo-width: {{ section.settings.logo_width }}px;
+      padding-block: {{ section.settings['padding-block-start'] }}px {{ section.settings['padding-block-end'] }}px;
     "
   >
-    {% content_for 'blocks' %}
+    <div class="footer-custom__top">
+      {%- if section.settings.show_newsletter -%}
+        <div class="footer-custom__newsletter">
+          {%- if section.settings.newsletter_heading != blank -%}
+            <h2 class="footer-custom__newsletter-heading">{{ section.settings.newsletter_heading }}</h2>
+          {%- endif -%}
+
+          {%- if section.settings.newsletter_text != blank -%}
+            <p class="footer-custom__newsletter-text">{{ section.settings.newsletter_text }}</p>
+          {%- endif -%}
+
+          {%- form 'customer', class: 'footer-custom__form' -%}
+            <div class="footer-custom__form-row">
+              <label for="FooterEmail-{{ section.id }}" class="visually-hidden">
+                {{ 'blocks.email_signup.label' | t }}
+              </label>
+              <input
+                id="FooterEmail-{{ section.id }}"
+                class="footer-custom__input"
+                type="email"
+                name="contact[email]"
+                autocorrect="off"
+                autocapitalize="off"
+                autocomplete="email"
+                placeholder="{{ section.settings.newsletter_placeholder | escape }}"
+                required
+                {% if form.errors and form.id == blank %}
+                  autofocus
+                  aria-invalid="true"
+                  aria-describedby="FooterEmail-error-{{ section.id }}"
+                {% elsif form.posted_successfully? and form.id == blank %}
+                  aria-describedby="FooterEmail-success-{{ section.id }}"
+                {% endif %}
+              >
+              <button type="submit" class="footer-custom__subscribe">
+                {{- section.settings.newsletter_button_label -}}
+              </button>
+            </div>
+
+            {%- if form.errors and form.id == blank -%}
+              <div id="FooterEmail-error-{{ section.id }}" class="footer-custom__form-message" tabindex="-1">
+                {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
+              </div>
+            {%- endif -%}
+
+            {%- if form.posted_successfully? and form.id == blank -%}
+              <div id="FooterEmail-success-{{ section.id }}" class="footer-custom__form-message" tabindex="-1">
+                {{- 'blocks.email_signup.success' | t -}}
+              </div>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      <div class="footer-custom__columns">
+        {%- for handle in menu_handles -%}
+          {%- liquid
+            assign menu = linklists[handle]
+            assign heading = menu_headings[forloop.index0] | strip
+            if heading == blank
+              assign heading = menu.title
+            endif
+          -%}
+          {%- if menu != blank and menu.links.size > 0 -%}
+            <nav class="footer-custom__menu" aria-label="{{ heading | escape }}">
+              <h2 class="footer-custom__menu-heading">{{ heading }}</h2>
+              <ul class="footer-custom__links" role="list">
+                {%- for link in menu.links -%}
+                  <li class="footer-custom__links-item">
+                    <a href="{{ link.url }}" class="footer-custom__link">{{ link.title }}</a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if section.settings.show_logo -%}
+          <div class="footer-custom__brand">
+            <a href="{{ routes.root_url }}" class="footer-custom__logo">
+              {%- if footer_logo != blank -%}
+                {{
+                  footer_logo
+                  | image_url: width: 800
+                  | image_tag:
+                    width: footer_logo.width,
+                    height: footer_logo.height,
+                    widths: '200, 400, 600, 800',
+                    sizes: sizes_attr,
+                    alt: shop.name,
+                    loading: 'lazy',
+                    class: 'footer-custom__logo-image'
+                }}
+              {%- else -%}
+                <span class="footer-custom__logo-text">{{ shop.name }}</span>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="footer-custom__bottom">
+      <div class="footer-custom__divider" role="presentation"></div>
+      <div class="footer-custom__bottom-row">
+        <div class="footer-custom__legal">
+          <p class="footer-custom__copyright">
+            {%- if section.settings.copyright_text != blank -%}
+              {{ section.settings.copyright_text }}
+            {%- else -%}
+              &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'content.all_rights_reserved' | t }}
+            {%- endif -%}
+          </p>
+          {%- if section.settings.designed_by_name != blank -%}
+            <p class="footer-custom__credit">
+              {{ section.settings.designed_by_text }}
+              {%- if section.settings.designed_by_link != blank -%}
+                <a href="{{ section.settings.designed_by_link }}" class="footer-custom__credit-link">
+                  {{- section.settings.designed_by_name -}}
+                </a>
+              {%- else -%}
+                <span class="footer-custom__credit-link">{{ section.settings.designed_by_name }}</span>
+              {%- endif -%}
+            </p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+          <div class="footer-custom__payments">
+            <span class="visually-hidden">{{ 'blocks.payment_methods' | t }}</span>
+            <ul class="footer-custom__payments-list" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="footer-custom__payments-item">
+                  {{ type | payment_type_svg_tag: class: 'footer-custom__payment-icon' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
   </div>
 </div>
 
 {% stylesheet %}
-  .footer-content {
-    contain: content;
-    content-visibility: auto;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--footer-gap);
-    align-items: start;
+  .footer-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    color: var(--footer-fg);
+    font-family: var(--font-body--family);
   }
 
-  .footer-content .menu__heading__default {
-    font-weight: var(--font-heading--weight);
+  .footer-custom a {
+    color: inherit;
+    text-decoration: none;
   }
 
-  @media screen and (min-width: 750px) and (max-width: 989px) {
-    .footer-content {
-      grid-template-columns: repeat(min(var(--grid-columns), 3), 1fr);
-      grid-auto-flow: row;
+  /* ---------- Top area ---------- */
+
+  .footer-custom__top {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .footer-custom__columns {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* ---------- Newsletter ---------- */
+
+  .footer-custom__newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .footer-custom__newsletter-heading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+    color: var(--footer-fg);
+  }
+
+  .footer-custom__newsletter-text {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .footer-custom__form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .footer-custom__form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  /* Scoped to out-specify base.css `input:not([type='checkbox'], [type='radio'])`,
+     which otherwise forces --color-input-background/-border onto this field. */
+  .footer-custom .footer-custom__input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 48px;
+    padding-inline: 16px;
+    border: 1px solid #e0d2b7;
+    border-radius: 32px;
+    background-color: #fcfaf9;
+    color: #2b2b2b;
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    box-shadow: none;
+  }
+
+  .footer-custom .footer-custom__input::placeholder {
+    color: #676767;
+    opacity: 1;
+  }
+
+  .footer-custom__input:focus-visible {
+    outline: 2px solid var(--footer-fg);
+    outline-offset: 2px;
+  }
+
+  .footer-custom__subscribe {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 48px;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 50px;
+    background-color: #bc9d62;
+    color: var(--footer-fg);
+    font-family: var(--font-body--family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
+  }
+
+  .footer-custom__subscribe:hover {
+    background-color: #856f46;
+  }
+
+  .footer-custom__form-message {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  /* ---------- Menus ---------- */
+
+  .footer-custom__menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-custom__menu-heading {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0;
+    color: var(--footer-fg);
+  }
+
+  .footer-custom__links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /* Two balanced columns on mobile — matches the Figma's column-major split. */
+    columns: 2;
+    column-gap: 16px;
+  }
+
+  .footer-custom__links-item {
+    break-inside: avoid;
+    margin-bottom: 8px;
+  }
+
+  .footer-custom__link {
+    display: inline-block;
+    padding-block: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .footer-custom__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  /* ---------- Logo ---------- */
+
+  .footer-custom__brand {
+    display: flex;
+    justify-content: center;
+  }
+
+  .footer-custom__logo {
+    display: flex;
+    width: 192px;
+    max-width: 100%;
+  }
+
+  .footer-custom__logo-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .footer-custom__logo-text {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* ---------- Bottom bar ---------- */
+
+  .footer-custom__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .footer-custom__divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--footer-divider);
+  }
+
+  .footer-custom__bottom-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-custom__legal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-custom__copyright,
+  .footer-custom__credit {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /* Outranks the `.footer-custom a` decoration reset above. */
+  .footer-custom .footer-custom__credit-link {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .footer-custom__payments-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer-custom__payments-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-custom__payment-icon {
+    display: block;
+    width: 38px;
+    height: 24px;
+  }
+
+  /* ---------- Tablet and up ---------- */
+
+  @media screen and (min-width: 750px) {
+    .footer-custom__columns {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 50px;
     }
 
-    .footer-content[style*='--grid-columns: 4'] {
-      grid-template-columns: repeat(2, 1fr);
+    .footer-custom__menu {
+      flex: 1 1 0;
+      min-width: 0;
     }
 
-    .footer-content--isolated-grid-item-tablet > :last-child {
-      grid-column: 1 / -1;
+    .footer-custom__links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      columns: auto;
+    }
+
+    .footer-custom__links-item {
+      margin-bottom: 0;
+    }
+
+    .footer-custom__brand {
+      flex: 1 1 0;
+      min-width: 0;
+      justify-content: flex-end;
+    }
+
+    .footer-custom__logo {
+      width: var(--footer-logo-width);
+    }
+
+    .footer-custom__bottom-row {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .footer-custom__legal {
+      flex-direction: row;
+      gap: 40px;
+    }
+
+    .footer-custom__payments-list {
+      justify-content: flex-end;
     }
   }
+
+  /* ---------- Desktop ---------- */
 
   @media screen and (min-width: 990px) {
-    .footer-content {
-      grid-template-columns: repeat(var(--grid-columns), 1fr);
+    .footer-custom__top {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 50px;
     }
 
-    /* Single item centered */
-    .footer-content[style*='--grid-columns: 1'] {
-      justify-items: center;
+    .footer-custom__newsletter {
+      flex: 0 0 min(410px, 32%);
     }
 
-    .footer-content--isolated-grid-item-desktop > :last-child {
-      grid-column: 1 / -1;
+    .footer-custom__columns {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .footer-custom__form-row {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .footer-custom__input {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .footer-custom__subscribe {
+      width: auto;
+      flex: 0 0 auto;
     }
   }
 {% endstylesheet %}
@@ -101,50 +536,6 @@
 {
   "name": "t:names.footer",
   "class": "section-wrapper",
-  "blocks": [
-    {
-      "type": "_divider"
-    },
-    {
-      "type": "@app"
-    },
-    {
-      "type": "button"
-    },
-    {
-      "type": "follow-on-shop"
-    },
-    {
-      "type": "group"
-    },
-    {
-      "type": "icon"
-    },
-    {
-      "type": "image"
-    },
-    {
-      "type": "menu"
-    },
-    {
-      "type": "payment-icons"
-    },
-    {
-      "type": "text"
-    },
-    {
-      "type": "logo"
-    },
-    {
-      "type": "jumbo-text"
-    },
-    {
-      "type": "social-links"
-    },
-    {
-      "type": "email-signup"
-    }
-  ],
   "enabled_on": {
     "groups": ["footer"]
   },
@@ -166,20 +557,147 @@
       "default": "page-width"
     },
     {
-      "type": "range",
-      "id": "gap",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
       "type": "color",
       "id": "background_color",
       "label": "t:settings.background_color",
-      "default": "{{ settings.color_palette.foreground }}"
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FEFEFE"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "info": "Leave empty to use a 30% tint of the text color."
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Join the castle list"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Description",
+      "default": "First looks, little restocks, and a treat now and then."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Input placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "header",
+      "content": "Menus"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "First menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_heading",
+      "label": "First menu heading",
+      "info": "Leave empty to use the menu name."
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Second menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_heading",
+      "label": "Second menu heading",
+      "info": "Leave empty to use the menu name."
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Third menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_3_heading",
+      "label": "Third menu heading",
+      "info": "Leave empty to use the menu name."
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_logo",
+      "label": "Show logo",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width",
+      "min": 80,
+      "max": 320,
+      "step": 4,
+      "unit": "px",
+      "default": 188,
+      "info": "Uses the inverse logo from theme settings when one is set."
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "info": "Leave empty to show the year and store name automatically."
+    },
+    {
+      "type": "text",
+      "id": "designed_by_text",
+      "label": "Credit label",
+      "default": "Designed by"
+    },
+    {
+      "type": "text",
+      "id": "designed_by_name",
+      "label": "Credit name",
+      "default": "Lantern Sol"
+    },
+    {
+      "type": "url",
+      "id": "designed_by_link",
+      "label": "Credit link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
     },
     {
       "type": "header",
@@ -193,7 +711,7 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 20
+      "default": 40
     },
     {
       "type": "range",
@@ -203,59 +721,13 @@
       "max": 100,
       "step": 1,
       "unit": "px",
-      "default": 20
+      "default": 40
     }
   ],
   "presets": [
     {
       "name": "t:names.footer",
-      "category": "t:categories.footer",
-      "settings": {
-        "gap": 20,
-        "padding-block-start": 36,
-        "padding-block-end": 36
-      },
-      "blocks": {
-        "newsletter-group": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "gap": 6,
-            "width": "fill"
-          },
-          "blocks": {
-            "newsletter-heading": {
-              "type": "text",
-              "settings": {
-                "text": "t:html_defaults.join_our_email_list",
-                "width": "100%",
-                "alignment": "left",
-                "type_preset": "h3"
-              }
-            },
-            "newsletter-text": {
-              "type": "text",
-              "settings": {
-                "text": "t:html_defaults.get_exclusive_deals_and_early_access_to_new_products",
-                "width": "100%",
-                "alignment": "left",
-                "type_preset": "rte"
-              }
-            }
-          },
-          "block_order": ["newsletter-heading", "newsletter-text"]
-        },
-        "newsletter-form": {
-          "type": "email-signup",
-          "settings": {
-            "width": "fill"
-          }
-        }
-      },
-      "block_order": ["newsletter-group", "newsletter-form"]
+      "category": "t:categories.footer"
     }
   ]
 }
