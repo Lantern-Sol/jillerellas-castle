@@ -14,36 +14,6 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu_kJYXia": {
-          "type": "menu",
-          "name": "t:names.menu",
-          "settings": {
-            "menu": "main-menu",
-            "heading": "",
-            "menu_spacing": 12,
-            "show_as_accordion": false,
-            "accordion_icon": "caret",
-            "accordion_dividers": false,
-            "background_color": "",
-            "text_color": "",
-            "heading_preset": "",
-            "heading_font": "var(--font-heading--family)",
-            "heading_enable_custom_font_weight": false,
-            "heading_weight": "600",
-            "heading_font_size": "1rem",
-            "heading_line_height": "normal",
-            "heading_custom_line_height": 1.2,
-            "heading_letter_spacing": "normal",
-            "heading_case": "none",
-            "heading_color": "var(--color-foreground-heading)",
-            "link_preset": "paragraph",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "group_wErUQf": {
           "type": "group",
           "name": "Join our email list",
@@ -201,7 +171,7 @@
                 "custom_button_border": "{{ settings.color_palette.background }}",
                 "link_text_color": "",
                 "display_type": "text",
-                "label": "Sign up",
+                "label": "Subscribe",
                 "integrated_button": false,
                 "button_type_preset": "paragraph",
                 "padding-block-start": 0,
@@ -218,10 +188,40 @@
             "email-signup_HafH7P"
           ]
         },
+        "menu_kJYXia": {
+          "type": "menu",
+          "name": "t:names.menu",
+          "settings": {
+            "menu": "shop",
+            "heading": "",
+            "menu_spacing": 12,
+            "show_as_accordion": false,
+            "accordion_icon": "caret",
+            "accordion_dividers": false,
+            "background_color": "",
+            "text_color": "",
+            "heading_preset": "",
+            "heading_font": "var(--font-heading--family)",
+            "heading_enable_custom_font_weight": false,
+            "heading_weight": "600",
+            "heading_font_size": "1rem",
+            "heading_line_height": "normal",
+            "heading_custom_line_height": 1.2,
+            "heading_letter_spacing": "normal",
+            "heading_case": "none",
+            "heading_color": "var(--color-foreground-heading)",
+            "link_preset": "paragraph",
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "menu_footer": {
           "type": "menu",
           "settings": {
-            "menu": "footer",
+            "menu": "collections",
             "heading": "",
             "menu_spacing": 12,
             "show_as_accordion": false,
@@ -250,7 +250,7 @@
         "menu_main": {
           "type": "menu",
           "settings": {
-            "menu": "main-menu",
+            "menu": "company",
             "heading": "",
             "menu_spacing": 12,
             "show_as_accordion": false,
@@ -275,13 +275,35 @@
             "padding-inline-end": 0
           },
           "blocks": {}
+        },
+        "logo_Kep8QX": {
+          "type": "logo",
+          "name": "t:names.logo",
+          "settings": {
+            "inverse": true,
+            "font": "heading",
+            "text_color": "",
+            "unit": "percent",
+            "percent_width": 34,
+            "pixel_height": 48,
+            "custom_mobile_size": false,
+            "unit_mobile": "percent",
+            "percent_width_mobile": 100,
+            "pixel_height_mobile": 120,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
         }
       },
       "block_order": [
-        "menu_kJYXia",
         "group_wErUQf",
+        "menu_kJYXia",
         "menu_footer",
-        "menu_main"
+        "menu_main",
+        "logo_Kep8QX"
       ],
       "name": "t:names.footer",
       "settings": {
