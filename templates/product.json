@@ -151,7 +151,7 @@
                     "height_mode": "auto",
                     "desktop_height": "",
                     "mobile_height": "",
-                    "type_preset": "h3",
+                    "type_preset": "h1",
                     "font": "var(--font-primary--family)",
                     "enable_custom_font_weight": false,
                     "weight": "400",
@@ -233,7 +233,7 @@
               "type": "variant-picker",
               "settings": {
                 "variant_style": "buttons",
-                "show_swatches": false,
+                "show_swatches": true,
                 "option_label_text_color": "",
                 "variant_style_class": "default",
                 "custom_variant_background": "{{ settings.color_palette.background }}",
