@@ -13,36 +13,103 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "newsletter": {
+          "type": "footer-newsletter",
+          "settings": {
+            "heading": "Join the castle list",
+            "text": "First looks, little restocks, and a treat now and then.",
+            "placeholder": "Your email address",
+            "button_label": "Subscribe"
+          }
+        },
+        "menu_shop": {
+          "type": "footer-menu",
+          "settings": {
+            "menu": "shop",
+            "heading": ""
+          }
+        },
+        "menu_collections": {
+          "type": "footer-menu",
+          "settings": {
+            "menu": "collections",
+            "heading": ""
+          }
+        },
+        "menu_company": {
+          "type": "footer-menu",
+          "settings": {
+            "menu": "company",
+            "heading": ""
+          }
+        },
+        "logo": {
+          "type": "footer-logo",
+          "settings": {
+            "logo_width": 188,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "newsletter",
+        "menu_shop",
+        "menu_collections",
+        "menu_company",
+        "logo"
+      ],
       "name": "t:names.footer",
       "settings": {
         "section_width": "page-width",
         "background_color": "{{ settings.color_palette.color1 }}",
         "text_color": "#fefefe",
-        "divider_color": "",
-        "show_newsletter": true,
-        "newsletter_heading": "Join the castle list",
-        "newsletter_text": "First looks, little restocks, and a treat now and then.",
-        "newsletter_placeholder": "Your email address",
-        "newsletter_button_label": "Subscribe",
-        "menu_1": "shop",
-        "menu_1_heading": "",
-        "menu_2": "collections",
-        "menu_2_heading": "",
-        "menu_3": "company",
-        "menu_3_heading": "",
-        "show_logo": true,
-        "logo_width": 188,
-        "copyright_text": "",
-        "designed_by_text": "Designed by",
-        "designed_by_name": "Lantern Sol",
-        "designed_by_link": "https://www.lanternsol.com/",
-        "show_payment_icons": true,
+        "column_gap": 50,
         "padding-block-start": 40,
+        "padding-block-end": 40
+      }
+    },
+    "footer_bottom": {
+      "type": "footer-bottom",
+      "blocks": {
+        "copyright": {
+          "type": "copyright",
+          "settings": {
+            "text": ""
+          }
+        },
+        "credit": {
+          "type": "credit",
+          "settings": {
+            "label": "Designed by",
+            "name": "Lantern Sol",
+            "link": "https://www.lanternsol.com/"
+          }
+        },
+        "payment_icons": {
+          "type": "payment_icons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "copyright",
+        "credit",
+        "payment_icons"
+      ],
+      "name": "Footer bottom bar",
+      "settings": {
+        "section_width": "page-width",
+        "background_color": "{{ settings.color_palette.color1 }}",
+        "text_color": "#fefefe",
+        "show_divider": true,
+        "divider_color": "",
+        "padding-block-start": 0,
         "padding-block-end": 40
       }
     }
   },
   "order": [
-    "footer"
+    "footer",
+    "footer_bottom"
   ]
 }

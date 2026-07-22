@@ -1,28 +1,19 @@
+{% comment %}
+  The footer's top row is composed of theme blocks rendered through
+  {% content_for 'blocks' %}, so it accepts the dedicated footer blocks
+  (Footer email signup / Footer menu / Footer logo) AND every generic theme block —
+  group, text, image, button, icon, spacer and so on — plus app blocks.
+
+  Because Shopify does not let a section mix locally-defined blocks with @theme, the three
+  footer blocks live in blocks/footer-*.liquid rather than in this schema.
+
+  The bottom bar is its own section (sections/footer-bottom.liquid).
+{% endcomment %}
+
 {% liquid
   if section.settings.background_color != blank
     render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
   endif
-
-  assign footer_logo = settings.logo_inverse
-  if footer_logo == blank
-    assign footer_logo = settings.logo
-  endif
-
-  capture sizes_attr
-    echo '(min-width: 750px) '
-    echo section.settings.logo_width
-    echo 'px, 192px'
-  endcapture
-
-  assign menu_handles = section.settings.menu_1 | append: ','
-  assign menu_handles = menu_handles | append: section.settings.menu_2 | append: ','
-  assign menu_handles = menu_handles | append: section.settings.menu_3
-  assign menu_handles = menu_handles | split: ','
-
-  assign menu_headings = section.settings.menu_1_heading | append: '|'
-  assign menu_headings = menu_headings | append: section.settings.menu_2_heading | append: '|'
-  assign menu_headings = menu_headings | append: section.settings.menu_3_heading
-  assign menu_headings = menu_headings | split: '|'
 %}
 
 <div
@@ -35,151 +26,30 @@
     class="footer-custom"
     style="
       --footer-fg: {{ section.settings.text_color | default: '#FEFEFE' }};
-      --footer-divider: {% if section.settings.divider_color != blank %}{{ section.settings.divider_color }}{% else %}color-mix(in srgb, {{ section.settings.text_color | default: '#FEFEFE' }} 30%, transparent){% endif %};
-      --footer-logo-width: {{ section.settings.logo_width }}px;
+      --footer-column-gap: {{ section.settings.column_gap }}px;
       padding-block: {{ section.settings['padding-block-start'] }}px {{ section.settings['padding-block-end'] }}px;
     "
   >
-    <div class="footer-custom__top">
-      {%- if section.settings.show_newsletter -%}
-        <div class="footer-custom__newsletter">
-          {%- if section.settings.newsletter_heading != blank -%}
-            <h2 class="footer-custom__newsletter-heading">{{ section.settings.newsletter_heading }}</h2>
-          {%- endif -%}
-
-          {%- if section.settings.newsletter_text != blank -%}
-            <p class="footer-custom__newsletter-text">{{ section.settings.newsletter_text }}</p>
-          {%- endif -%}
-
-          {%- form 'customer', class: 'footer-custom__form' -%}
-            <div class="footer-custom__form-row">
-              <label for="FooterEmail-{{ section.id }}" class="visually-hidden">
-                {{ 'blocks.email_signup.label' | t }}
-              </label>
-              <input
-                id="FooterEmail-{{ section.id }}"
-                class="footer-custom__input"
-                type="email"
-                name="contact[email]"
-                autocorrect="off"
-                autocapitalize="off"
-                autocomplete="email"
-                placeholder="{{ section.settings.newsletter_placeholder | escape }}"
-                required
-                {% if form.errors and form.id == blank %}
-                  autofocus
-                  aria-invalid="true"
-                  aria-describedby="FooterEmail-error-{{ section.id }}"
-                {% elsif form.posted_successfully? and form.id == blank %}
-                  aria-describedby="FooterEmail-success-{{ section.id }}"
-                {% endif %}
-              >
-              <button type="submit" class="footer-custom__subscribe">
-                {{- section.settings.newsletter_button_label -}}
-              </button>
-            </div>
-
-            {%- if form.errors and form.id == blank -%}
-              <div id="FooterEmail-error-{{ section.id }}" class="footer-custom__form-message" tabindex="-1">
-                {{- form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email -}}
-              </div>
-            {%- endif -%}
-
-            {%- if form.posted_successfully? and form.id == blank -%}
-              <div id="FooterEmail-success-{{ section.id }}" class="footer-custom__form-message" tabindex="-1">
-                {{- 'blocks.email_signup.success' | t -}}
-              </div>
-            {%- endif -%}
-          {%- endform -%}
-        </div>
-      {%- endif -%}
-
-      <div class="footer-custom__columns">
-        {%- for handle in menu_handles -%}
-          {%- liquid
-            assign menu = linklists[handle]
-            assign heading = menu_headings[forloop.index0] | strip
-            if heading == blank
-              assign heading = menu.title
-            endif
-          -%}
-          {%- if menu != blank and menu.links.size > 0 -%}
-            <nav class="footer-custom__menu" aria-label="{{ heading | escape }}">
-              <h2 class="footer-custom__menu-heading">{{ heading }}</h2>
-              <ul class="footer-custom__links" role="list">
-                {%- for link in menu.links -%}
-                  <li class="footer-custom__links-item">
-                    <a href="{{ link.url }}" class="footer-custom__link">{{ link.title }}</a>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </nav>
-          {%- endif -%}
-        {%- endfor -%}
-
-        {%- if section.settings.show_logo -%}
-          <div class="footer-custom__brand">
-            <a href="{{ routes.root_url }}" class="footer-custom__logo">
-              {%- if footer_logo != blank -%}
-                {{
-                  footer_logo
-                  | image_url: width: 800
-                  | image_tag:
-                    width: footer_logo.width,
-                    height: footer_logo.height,
-                    widths: '200, 400, 600, 800',
-                    sizes: sizes_attr,
-                    alt: shop.name,
-                    loading: 'lazy',
-                    class: 'footer-custom__logo-image'
-                }}
-              {%- else -%}
-                <span class="footer-custom__logo-text">{{ shop.name }}</span>
-              {%- endif -%}
-            </a>
-          </div>
-        {%- endif -%}
-      </div>
-    </div>
-
-    <div class="footer-custom__bottom">
-      <div class="footer-custom__divider" role="presentation"></div>
-      <div class="footer-custom__bottom-row">
-        <div class="footer-custom__legal">
-          <p class="footer-custom__copyright">
-            {%- if section.settings.copyright_text != blank -%}
-              {{ section.settings.copyright_text }}
-            {%- else -%}
-              &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'content.all_rights_reserved' | t }}
-            {%- endif -%}
-          </p>
-          {%- if section.settings.designed_by_name != blank -%}
-            <p class="footer-custom__credit">
-              {{ section.settings.designed_by_text }}
-              {%- if section.settings.designed_by_link != blank -%}
-                <a href="{{ section.settings.designed_by_link }}" class="footer-custom__credit-link">
-                  {{- section.settings.designed_by_name -}}
-                </a>
-              {%- else -%}
-                <span class="footer-custom__credit-link">{{ section.settings.designed_by_name }}</span>
-              {%- endif -%}
-            </p>
-          {%- endif -%}
-        </div>
-
-        {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-          <div class="footer-custom__payments">
-            <span class="visually-hidden">{{ 'blocks.payment_methods' | t }}</span>
-            <ul class="footer-custom__payments-list" role="list">
-              {%- for type in shop.enabled_payment_types -%}
-                <li class="footer-custom__payments-item">
-                  {{ type | payment_type_svg_tag: class: 'footer-custom__payment-icon' }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
-      </div>
+    {%- comment -%}
+      layout-panel-flex / --row / mobile-column are the theme's own flex container classes.
+      They matter because the block width rules in base.css:4943 are scoped to
+      `.layout-panel-flex--row > .group-block--width-*`: without them a stock group set to
+      "fill" falls back to `width: 100%` with no flex-grow and swallows the whole row,
+      collapsing the menu columns to zero. With them, every stock block sizes here exactly
+      as it does in any other section.
+    {%- endcomment -%}
+    <div
+      class="footer-custom__top layout-panel-flex layout-panel-flex--row mobile-column"
+      style="
+        --flex-wrap: wrap;
+        --gap: {{ section.settings.column_gap }}px;
+        --mobile-gap: 24px;
+        --horizontal-alignment: flex-start;
+        --vertical-alignment: flex-start;
+        --vertical-alignment-mobile: flex-start;
+      "
+    >
+      {% content_for 'blocks' %}
     </div>
   </div>
 </div>
@@ -188,346 +58,71 @@
   .footer-custom {
     display: flex;
     flex-direction: column;
-    gap: 40px;
     width: 100%;
     color: var(--footer-fg);
     font-family: var(--font-body--family);
   }
 
-  .footer-custom a {
-    color: inherit;
-    text-decoration: none;
-  }
+  /* ---------- Top area ----------
+     Direction and gap come from the layout-panel-flex classes on the element itself
+     (column below 750 via mobile-column, row above, --gap / --mobile-gap inline). Only the
+     footer-specific column proportions live here; generic theme blocks keep whatever width
+     the merchant sets on them in the editor. */
 
-  /* ---------- Top area ---------- */
-
-  .footer-custom__top {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-  }
-
-  .footer-custom__columns {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-
-  /* ---------- Newsletter ---------- */
-
-  .footer-custom__newsletter {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .footer-custom__newsletter-heading {
-    margin: 0;
-    font-family: var(--font-body--family);
-    font-size: 32px;
-    font-weight: 600;
-    line-height: 1.2;
-    letter-spacing: 0;
-    color: var(--footer-fg);
-  }
-
-  .footer-custom__newsletter-text {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.2;
-  }
-
-  .footer-custom__form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
-
-  .footer-custom__form-row {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
-
-  /* Scoped to out-specify base.css `input:not([type='checkbox'], [type='radio'])`,
-     which otherwise forces --color-input-background/-border onto this field. */
-  .footer-custom .footer-custom__input {
-    box-sizing: border-box;
-    width: 100%;
-    height: 48px;
-    padding-inline: 16px;
-    border: 1px solid #e0d2b7;
-    border-radius: 32px;
-    background-color: #fcfaf9;
-    color: #2b2b2b;
-    font-family: var(--font-body--family);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.2;
-    box-shadow: none;
-  }
-
-  .footer-custom .footer-custom__input::placeholder {
-    color: #676767;
-    opacity: 1;
-  }
-
-  .footer-custom__input:focus-visible {
-    outline: 2px solid var(--footer-fg);
-    outline-offset: 2px;
-  }
-
-  .footer-custom__subscribe {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    height: 48px;
-    padding: 12px 24px;
-    border: 0;
-    border-radius: 50px;
-    background-color: #bc9d62;
-    color: var(--footer-fg);
-    font-family: var(--font-body--family);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.2;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: background-color var(--animation-speed, 0.2s) var(--animation-easing, ease);
-  }
-
-  .footer-custom__subscribe:hover {
-    background-color: #856f46;
-  }
-
-  .footer-custom__form-message {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.2;
-  }
-
-  /* ---------- Menus ---------- */
-
-  .footer-custom__menu {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .footer-custom__menu-heading {
-    margin: 0;
-    font-family: var(--font-body--family);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: normal;
-    letter-spacing: 0;
-    color: var(--footer-fg);
-  }
-
-  .footer-custom__links {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    /* Two balanced columns on mobile — matches the Figma's column-major split. */
-    columns: 2;
-    column-gap: 16px;
-  }
-
-  .footer-custom__links-item {
-    break-inside: avoid;
-    margin-bottom: 8px;
-  }
-
-  .footer-custom__link {
-    display: inline-block;
-    padding-block: 4px;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.2;
-  }
-
-  .footer-custom__link:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
-  }
-
-  /* ---------- Logo ---------- */
-
-  .footer-custom__brand {
-    display: flex;
-    justify-content: center;
-  }
-
-  .footer-custom__logo {
-    display: flex;
-    width: 192px;
-    max-width: 100%;
-  }
-
-  .footer-custom__logo-image {
-    width: 100%;
+  /* .layout-panel-flex sets height: 100%, which is meaningless for an auto-height footer
+     and would stretch this row if the section ever gained a fixed height. */
+  .footer-custom .footer-custom__top {
     height: auto;
-    object-fit: contain;
   }
 
-  .footer-custom__logo-text {
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 1.2;
+  /* base.css:2878 `.mobile-column` aligns its children to --horizontal-alignment, which
+     leaves each column at its own content width. The footer stacks full-bleed on mobile,
+     so the cross-axis is stretched back. */
+  @media screen and (max-width: 749px) {
+    .footer-custom .footer-custom__top {
+      align-items: stretch;
+    }
   }
 
-  /* ---------- Bottom bar ---------- */
-
-  .footer-custom__bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  /* Mobile stacks at 24px, but the Figma leaves 40px under the newsletter before the first
+     menu. :not(:last-child) so a trailing newsletter adds no dead space. */
+  .footer-custom__top > .footer-block--newsletter:not(:last-child) {
+    margin-block-end: 16px;
   }
 
-  .footer-custom__divider {
-    width: 100%;
-    height: 1px;
-    background-color: var(--footer-divider);
-  }
-
-  .footer-custom__bottom-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .footer-custom__legal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .footer-custom__copyright,
-  .footer-custom__credit {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-
-  /* Outranks the `.footer-custom a` decoration reset above. */
-  .footer-custom .footer-custom__credit-link {
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
-  }
-
-  .footer-custom__payments-list {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .footer-custom__payments-item {
-    display: flex;
-    align-items: center;
-  }
-
-  .footer-custom__payment-icon {
-    display: block;
-    width: 38px;
-    height: 24px;
-  }
-
-  /* ---------- Tablet and up ---------- */
+  /* ---------- Tablet ----------
+     Menus and logo share a row while the newsletter keeps the full width above them, which
+     is what the fixed two-tier markup produced at this size. */
 
   @media screen and (min-width: 750px) {
-    .footer-custom__columns {
-      flex-direction: row;
+    /* Row gap only — the column gap stays merchant-controlled through --gap. */
+    .footer-custom .footer-custom__top {
+      row-gap: 40px;
       align-items: flex-start;
-      gap: 50px;
     }
 
-    .footer-custom__menu {
+    .footer-custom__top > .footer-block--newsletter {
+      flex: 1 0 100%;
+      margin-block-end: 0;
+    }
+
+    .footer-custom__top > .footer-block--menu,
+    .footer-custom__top > .footer-block--logo {
       flex: 1 1 0;
       min-width: 0;
-    }
-
-    .footer-custom__links {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      columns: auto;
-    }
-
-    .footer-custom__links-item {
-      margin-bottom: 0;
-    }
-
-    .footer-custom__brand {
-      flex: 1 1 0;
-      min-width: 0;
-      justify-content: flex-end;
-    }
-
-    .footer-custom__logo {
-      width: var(--footer-logo-width);
-    }
-
-    .footer-custom__bottom-row {
-      flex-direction: row;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .footer-custom__legal {
-      flex-direction: row;
-      gap: 40px;
-    }
-
-    .footer-custom__payments-list {
-      justify-content: flex-end;
     }
   }
 
   /* ---------- Desktop ---------- */
 
   @media screen and (min-width: 990px) {
-    .footer-custom__top {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 50px;
+    .footer-custom .footer-custom__top {
+      flex-wrap: nowrap;
+      row-gap: var(--footer-column-gap);
     }
 
-    .footer-custom__newsletter {
+    .footer-custom__top > .footer-block--newsletter {
       flex: 0 0 min(410px, 32%);
-    }
-
-    .footer-custom__columns {
-      flex: 1 1 0;
-      min-width: 0;
-    }
-
-    .footer-custom__form-row {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .footer-custom__input {
-      flex: 1 1 0;
-      min-width: 0;
-    }
-
-    .footer-custom__subscribe {
-      width: auto;
-      flex: 0 0 auto;
     }
   }
 {% endstylesheet %}
@@ -539,6 +134,14 @@
   "enabled_on": {
     "groups": ["footer"]
   },
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
   "settings": [
     {
       "type": "select",
@@ -569,135 +172,14 @@
       "default": "#FEFEFE"
     },
     {
-      "type": "color",
-      "id": "divider_color",
-      "label": "Divider color",
-      "info": "Leave empty to use a 30% tint of the text color."
-    },
-    {
-      "type": "header",
-      "content": "Newsletter"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_newsletter",
-      "label": "Show newsletter signup",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "newsletter_heading",
-      "label": "Heading",
-      "default": "Join the castle list"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_text",
-      "label": "Description",
-      "default": "First looks, little restocks, and a treat now and then."
-    },
-    {
-      "type": "text",
-      "id": "newsletter_placeholder",
-      "label": "Input placeholder",
-      "default": "Your email address"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_button_label",
-      "label": "Button label",
-      "default": "Subscribe"
-    },
-    {
-      "type": "header",
-      "content": "Menus"
-    },
-    {
-      "type": "link_list",
-      "id": "menu_1",
-      "label": "First menu"
-    },
-    {
-      "type": "text",
-      "id": "menu_1_heading",
-      "label": "First menu heading",
-      "info": "Leave empty to use the menu name."
-    },
-    {
-      "type": "link_list",
-      "id": "menu_2",
-      "label": "Second menu"
-    },
-    {
-      "type": "text",
-      "id": "menu_2_heading",
-      "label": "Second menu heading",
-      "info": "Leave empty to use the menu name."
-    },
-    {
-      "type": "link_list",
-      "id": "menu_3",
-      "label": "Third menu"
-    },
-    {
-      "type": "text",
-      "id": "menu_3_heading",
-      "label": "Third menu heading",
-      "info": "Leave empty to use the menu name."
-    },
-    {
-      "type": "header",
-      "content": "Logo"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_logo",
-      "label": "Show logo",
-      "default": true
-    },
-    {
       "type": "range",
-      "id": "logo_width",
-      "label": "Logo width",
-      "min": 80,
-      "max": 320,
-      "step": 4,
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 16,
+      "max": 100,
+      "step": 2,
       "unit": "px",
-      "default": 188,
-      "info": "Uses the inverse logo from theme settings when one is set."
-    },
-    {
-      "type": "header",
-      "content": "Bottom bar"
-    },
-    {
-      "type": "text",
-      "id": "copyright_text",
-      "label": "Copyright text",
-      "info": "Leave empty to show the year and store name automatically."
-    },
-    {
-      "type": "text",
-      "id": "designed_by_text",
-      "label": "Credit label",
-      "default": "Designed by"
-    },
-    {
-      "type": "text",
-      "id": "designed_by_name",
-      "label": "Credit name",
-      "default": "Lantern Sol"
-    },
-    {
-      "type": "url",
-      "id": "designed_by_link",
-      "label": "Credit link"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "Show payment icons",
-      "default": true
+      "default": 50
     },
     {
       "type": "header",
@@ -727,7 +209,24 @@
   "presets": [
     {
       "name": "t:names.footer",
-      "category": "t:categories.footer"
+      "category": "t:categories.footer",
+      "blocks": [
+        {
+          "type": "footer-newsletter"
+        },
+        {
+          "type": "footer-menu"
+        },
+        {
+          "type": "footer-menu"
+        },
+        {
+          "type": "footer-menu"
+        },
+        {
+          "type": "footer-logo"
+        }
+      ]
     }
   ]
 }

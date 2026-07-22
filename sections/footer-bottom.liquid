@@ -1,0 +1,347 @@
+{% comment %}
+  The footer's bottom strip — divider, copyright, credit and payment icons — split
+  out of sections/footer.liquid so it can be removed, reordered or restyled on its
+  own. It sits directly under the footer inside the footer group and repeats the
+  same background colour, so the two read as one block of colour.
+
+  Each item is a block, so the strip can hold any combination in any order.
+{% endcomment %}
+
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+></div>
+<div
+  class="section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+>
+  <div
+    class="footer-bottom"
+    style="
+      --footer-bottom-fg: {{ section.settings.text_color | default: '#FEFEFE' }};
+      --footer-bottom-divider: {% if section.settings.divider_color != blank %}{{ section.settings.divider_color }}{% else %}color-mix(in srgb, {{ section.settings.text_color | default: '#FEFEFE' }} 30%, transparent){% endif %};
+      padding-block: {{ section.settings['padding-block-start'] }}px {{ section.settings['padding-block-end'] }}px;
+    "
+  >
+    {%- if section.settings.show_divider -%}
+      <div class="footer-bottom__divider" role="presentation"></div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="footer-bottom__row">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+
+            {%- when 'copyright' -%}
+              <p
+                class="footer-bottom__block footer-bottom__block--copyright"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.text != blank -%}
+                  {{ block.settings.text }}
+                {%- else -%}
+                  &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'content.all_rights_reserved' | t }}
+                {%- endif -%}
+              </p>
+
+            {%- when 'credit' -%}
+              {%- if block.settings.name != blank -%}
+                <p
+                  class="footer-bottom__block footer-bottom__block--credit"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ block.settings.label }}
+                  {%- if block.settings.link != blank -%}
+                    <a href="{{ block.settings.link }}" class="footer-bottom__credit-link">
+                      {{- block.settings.name -}}
+                    </a>
+                  {%- else -%}
+                    <span class="footer-bottom__credit-link">{{ block.settings.name }}</span>
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+
+            {%- when 'payment_icons' -%}
+              {%- if shop.enabled_payment_types.size > 0 -%}
+                <div
+                  class="footer-bottom__block footer-bottom__block--payments"
+                  {{ block.shopify_attributes }}
+                >
+                  <span class="visually-hidden">{{ 'blocks.payment_methods' | t }}</span>
+                  <ul class="footer-bottom__payments-list" role="list">
+                    {%- for type in shop.enabled_payment_types -%}
+                      <li class="footer-bottom__payments-item">
+                        {{ type | payment_type_svg_tag: class: 'footer-bottom__payment-icon' }}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              {%- endif -%}
+
+            {%- when 'text' -%}
+              {%- if block.settings.text != blank -%}
+                <div
+                  class="footer-bottom__block footer-bottom__block--text"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ block.settings.text }}
+                </div>
+              {%- endif -%}
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    color: var(--footer-bottom-fg);
+    font-family: var(--font-body--family);
+  }
+
+  .footer-bottom a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .footer-bottom__divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--footer-bottom-divider);
+  }
+
+  .footer-bottom__row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-bottom__block {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .footer-bottom__block--copyright,
+  .footer-bottom__block--credit {
+    white-space: nowrap;
+  }
+
+  .footer-bottom__block--text :where(p) {
+    margin: 0;
+  }
+
+  /* Outranks the `.footer-bottom a` decoration reset above. */
+  .footer-bottom .footer-bottom__credit-link {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .footer-bottom__payments-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer-bottom__payments-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-bottom__payment-icon {
+    display: block;
+    width: 38px;
+    height: 24px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .footer-bottom__row {
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* Text blocks group on the left; the payment icons take the remaining space and
+       sit hard right, which is what the design shows however the blocks are ordered. */
+    .footer-bottom__block--payments {
+      margin-inline-start: auto;
+    }
+
+    .footer-bottom__payments-list {
+      justify-content: flex-end;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer bottom bar",
+  "class": "section-wrapper",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "copyright",
+      "name": "Copyright",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "info": "Leave empty to show the year and store name automatically."
+        }
+      ]
+    },
+    {
+      "type": "credit",
+      "name": "Credit",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Designed by"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Lantern Sol"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "payment_icons",
+      "name": "Payment icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the payment methods enabled in your Shopify payment settings."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "default": "{{ settings.color_palette.color1 }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FEFEFE"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show divider",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "info": "Leave empty to use a 30% tint of the text color.",
+      "visible_if": "{{ section.settings.show_divider }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer bottom bar",
+      "category": "t:categories.footer",
+      "blocks": [
+        {
+          "type": "copyright"
+        },
+        {
+          "type": "credit"
+        },
+        {
+          "type": "payment_icons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
