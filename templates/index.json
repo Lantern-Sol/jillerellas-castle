@@ -3315,12 +3315,74 @@
               },
               "blocks": {
                 "wij_card_1_icon": {
-                  "type": "custom-liquid",
-                  "name": "Crown icon",
+                  "type": "group",
+                  "name": "Icon tile",
                   "settings": {
-                    "custom_liquid": "<span class=\"wij-tile\" style=\"background:#ec4b9b\" aria-hidden=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M5.80762 20.2852V19.2227H19.5254V20.2852H5.80762ZM5.74317 17.2209L4.13428 9.10234C4.09724 9.11651 4.05576 9.1243 4.00984 9.12572C3.96317 9.12784 3.92132 9.12891 3.88428 9.12891C3.53539 9.12891 3.24539 9.01557 3.01428 8.78891C2.78317 8.56224 2.66724 8.28741 2.6665 7.96441C2.6665 7.62936 2.78243 7.34461 3.01428 7.11016C3.24539 6.87641 3.53576 6.75953 3.88539 6.75953C4.23502 6.75953 4.53243 6.87641 4.77762 7.11016C5.02206 7.34461 5.14428 7.62936 5.14428 7.96441C5.14428 8.03807 5.14132 8.10643 5.13539 8.16947C5.12947 8.23251 5.10762 8.29484 5.06984 8.35647L8.62761 9.72178L11.9287 5.42397C11.768 5.32339 11.6406 5.19022 11.5465 5.02447C11.4524 4.85943 11.4054 4.68128 11.4054 4.49003C11.4054 4.1557 11.528 3.8713 11.7732 3.63684C12.0176 3.40239 12.315 3.28516 12.6654 3.28516C13.015 3.28516 13.3128 3.40203 13.5587 3.63578C13.8047 3.86953 13.9276 4.15286 13.9276 4.48578C13.9276 4.68695 13.8806 4.86828 13.7865 5.02978C13.6924 5.1927 13.565 5.32409 13.4043 5.42397L16.7043 9.72178L20.2632 8.35647C20.2432 8.2998 20.2258 8.23782 20.211 8.17053C20.1961 8.10253 20.1887 8.03382 20.1887 7.96441C20.1887 7.62936 20.3043 7.34461 20.5354 7.11016C20.7665 6.87641 21.0569 6.75953 21.4065 6.75953C21.7561 6.75953 22.0535 6.87641 22.2987 7.11016C22.5439 7.34461 22.6665 7.62936 22.6665 7.96441C22.6665 8.28599 22.5435 8.56047 22.2976 8.78784C22.0517 9.01522 21.7532 9.12891 21.4021 9.12891C21.3739 9.12891 21.3421 9.12466 21.3065 9.11616C21.2709 9.10766 21.2324 9.10305 21.191 9.10234L19.5898 17.2198L5.74317 17.2209ZM6.69206 16.1584H18.641L20.0043 9.63784L16.3187 11.0435L12.6665 6.26441L9.01539 11.0435L5.32873 9.63784L6.69206 16.1584Z\" fill=\"#FEFEFE\"/></svg></span><style>.wij-tile{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;flex-shrink:0}.wij-tile svg{display:block}</style>"
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "center",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": false,
+                    "mobile_horizontal_alignment": "center",
+                    "mobile_vertical_alignment": "center",
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "use_mobile_gap": false,
+                    "mobile_gap": 0,
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "#ec4b9b",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 8,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 8,
+                    "padding-block-end-mobile": 8,
+                    "padding-inline-start-mobile": 8,
+                    "padding-inline-end-mobile": 8
                   },
-                  "blocks": {}
+                  "blocks": {
+                    "wij_card_1_icon_img": {
+                      "type": "icon",
+                      "name": "Icon",
+                      "settings": {
+                        "icon": "heart",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "icon_color": "#fefefe"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "wij_card_1_icon_img"
+                  ]
                 },
                 "wij_card_1_text": {
                   "type": "group",
@@ -3521,12 +3583,74 @@
               },
               "blocks": {
                 "wij_card_2_icon": {
-                  "type": "custom-liquid",
-                  "name": "Star icon",
+                  "type": "group",
+                  "name": "Icon tile",
                   "settings": {
-                    "custom_liquid": "<span class=\"wij-tile\" style=\"background:#16c0a8\" aria-hidden=\"true\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9.65 8.76L12 3L14.35 8.76L20.56 9.22L15.8 13.24L17.29 19.28L12 16L6.71 19.28L8.2 13.24L3.44 9.22L9.65 8.76Z\" stroke=\"#FEFEFE\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><style>.wij-tile{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;flex-shrink:0}.wij-tile svg{display:block}</style>"
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "center",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": false,
+                    "mobile_horizontal_alignment": "center",
+                    "mobile_vertical_alignment": "center",
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "use_mobile_gap": false,
+                    "mobile_gap": 0,
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "#16c0a8",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 8,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 8,
+                    "padding-block-end-mobile": 8,
+                    "padding-inline-start-mobile": 8,
+                    "padding-inline-end-mobile": 8
                   },
-                  "blocks": {}
+                  "blocks": {
+                    "wij_card_2_icon_img": {
+                      "type": "icon",
+                      "name": "Icon",
+                      "settings": {
+                        "icon": "star",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "icon_color": "#fefefe"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "wij_card_2_icon_img"
+                  ]
                 },
                 "wij_card_2_text": {
                   "type": "group",
@@ -3727,12 +3851,74 @@
               },
               "blocks": {
                 "wij_card_3_icon": {
-                  "type": "custom-liquid",
-                  "name": "Gift icon",
+                  "type": "group",
+                  "name": "Icon tile",
                   "settings": {
-                    "custom_liquid": "<span class=\"wij-tile\" style=\"background:#f9a826\" aria-hidden=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 19.5 19.5\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M9.75 18.75V9.75M9.75 4.75H5.7C2.93 4.75 2.76 0.75 5.7 0.75C8.85 0.75 9.75 4.75 9.75 4.75ZM9.75 4.75H13.8C16.696 4.75 16.696 0.75 13.8 0.75C10.65 0.75 9.75 4.75 9.75 4.75Z\" stroke=\"#FEFEFE\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M17.75 9.75V16.75C17.75 17.2804 17.5393 17.7891 17.1642 18.1642C16.7891 18.5393 16.2804 18.75 15.75 18.75H3.75C3.21957 18.75 2.71086 18.5393 2.33579 18.1642C1.96071 17.7891 1.75 17.2804 1.75 16.75V9.75M18.75 9.75V6.75C18.75 6.21957 18.5393 5.71086 18.1642 5.33579C17.7891 4.96071 17.2804 4.75 16.75 4.75H2.75C2.21957 4.75 1.71086 4.96071 1.33579 5.33579C0.960714 5.71086 0.75 6.21957 0.75 6.75V9.75H18.75Z\" stroke=\"#FEFEFE\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span><style>.wij-tile{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:8px;flex-shrink:0}.wij-tile svg{display:block}</style>"
+                    "content_direction": "row",
+                    "vertical_on_mobile": false,
+                    "horizontal_alignment": "center",
+                    "vertical_alignment": "center",
+                    "align_baseline": false,
+                    "horizontal_alignment_flex_direction_column": "center",
+                    "vertical_alignment_flex_direction_column": "center",
+                    "use_mobile_alignment": false,
+                    "mobile_horizontal_alignment": "center",
+                    "mobile_vertical_alignment": "center",
+                    "mobile_horizontal_alignment_flex_direction_column": "center",
+                    "mobile_vertical_alignment_flex_direction_column": "center",
+                    "gap": 0,
+                    "use_mobile_gap": false,
+                    "mobile_gap": 0,
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100,
+                    "height": "fit",
+                    "custom_height": 100,
+                    "background_media": "none",
+                    "background_color": "#f9a826",
+                    "video_position": "cover",
+                    "background_image_position": "cover",
+                    "toggle_overlay": false,
+                    "overlay_color": "#00000026",
+                    "overlay_style": "solid",
+                    "gradient_direction": "to top",
+                    "border": "none",
+                    "border_width": 1,
+                    "border_opacity": 100,
+                    "border_color": "",
+                    "border_radius": 8,
+                    "link": "",
+                    "open_in_new_tab": false,
+                    "placeholder": "",
+                    "padding-block-start": 8,
+                    "padding-block-end": 8,
+                    "padding-inline-start": 8,
+                    "padding-inline-end": 8,
+                    "use_mobile_padding": false,
+                    "padding-block-start-mobile": 8,
+                    "padding-block-end-mobile": 8,
+                    "padding-inline-start-mobile": 8,
+                    "padding-inline-end-mobile": 8
                   },
-                  "blocks": {}
+                  "blocks": {
+                    "wij_card_3_icon_img": {
+                      "type": "icon",
+                      "name": "Icon",
+                      "settings": {
+                        "icon": "box",
+                        "width": 24,
+                        "width-mobile": 24,
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "icon_color": "#fefefe"
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "wij_card_3_icon_img"
+                  ]
                 },
                 "wij_card_3_text": {
                   "type": "group",
