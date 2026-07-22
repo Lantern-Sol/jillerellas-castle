@@ -44,9 +44,15 @@
   mask: var(--brand-chevron) center / contain no-repeat;
 }
 
-/* Hover swap: primary purple → gold, secondary gold → purple */
-.button:hover,
-.button:focus-visible {
+/* Hover swap: primary purple → gold, secondary gold → purple.
+   `.button-unstyled` is excluded (same exclusion idiom as base.css:1501):
+   icon-only controls — quantity ±, gallery zoom, video play, drawer close,
+   facet clears — carry both `button` and `button-unstyled`, and base.css
+   deliberately neutralises their background (`.button-unstyled:hover
+   { background-color: inherit }`). Without the :not() this file loads later
+   and repaints them all with a solid gold block. */
+.button:not(.button-unstyled):hover,
+.button:not(.button-unstyled):focus-visible {
   background-color: var(--color-secondary-500, #bc9d62);
   color: #fefefe;
 }
@@ -131,3 +137,8 @@ select[aria-invalid="true"] {
 .quantity-selector {
   border-radius: 50px;
 }
+
+/* The stepper's filled hover state lives in product-page.css, next to the rule
+   that gives that pill its 48px height — the fill has to match the pill it
+   sits in, so the two belong together. Not done globally: the cart's stepper
+   pill is only 36px and its caps are deliberately allowed to overflow it. */

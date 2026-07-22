@@ -1,0 +1,334 @@
+{%- doc -%}
+  Product status badge for the product details column.
+
+  The card badge lives inside `_product-card-gallery`, absolutely positioned over the
+  media. The Figma puts the same pill above the product title on the PDP, in normal
+  flow, so this block reuses the badge look with static positioning and drives the
+  "New in" match from the same product tag the card uses.
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+  assign product = closest.product
+
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign is_sold_out = false
+  if product != blank and product.available == false
+    assign is_sold_out = true
+  endif
+
+  assign is_on_sale = false
+  if product.compare_at_price > product.price
+    assign is_on_sale = true
+  endif
+
+  # Matched case- and punctuation-insensitively so "New In", "new-in" and "NEW IN"
+  # all work, same as blocks/_product-card-gallery.liquid.
+  assign is_new = false
+  if block_settings.show_new_badge and block_settings.new_badge_tag != blank
+    assign wanted_tag = block_settings.new_badge_tag | handleize
+    for tag in product.tags
+      assign tag_handle = tag | handleize
+      if tag_handle == wanted_tag
+        assign is_new = true
+        break
+      endif
+    endfor
+  endif
+
+  # Labels fall back to the shared locale strings when a merchant clears the field.
+  # `| t` is applied to the locale key only — running it over a literal label would
+  # come back as "Translation missing".
+  assign sale_label = block_settings.sale_label
+  if sale_label == blank
+    assign sale_label = 'content.product_badge_sale' | t
+  endif
+
+  assign new_badge_label = block_settings.new_badge_label
+  if new_badge_label == blank
+    assign new_badge_label = 'content.product_badge_new' | t
+  endif
+
+  assign sold_out_label = block_settings.sold_out_label
+  if sold_out_label == blank
+    assign sold_out_label = 'content.product_badge_sold_out' | t
+  endif
+-%}
+
+{%- if product != blank -%}
+  {%- capture badges -%}
+    {%- if is_sold_out and block_settings.show_sold_out_badge -%}
+      <span
+        class="product-status-badge product-status-badge--sold-out"
+        style="--product-status-badge-background: {{ block_settings.sold_out_background }}; --product-status-badge-text: {{ block_settings.sold_out_text_color }};"
+      >
+        {{- sold_out_label -}}
+      </span>
+    {%- else -%}
+      {%- if is_new -%}
+        <span
+          class="product-status-badge product-status-badge--new"
+          style="--product-status-badge-background: {{ block_settings.new_badge_background }}; --product-status-badge-text: {{ block_settings.new_badge_text_color }};"
+        >
+          {{- new_badge_label -}}
+        </span>
+      {%- endif -%}
+      {%- if is_on_sale and block_settings.show_sale_badge -%}
+        <span
+          class="product-status-badge product-status-badge--sale"
+          style="--product-status-badge-background: {{ block_settings.sale_background }}; --product-status-badge-text: {{ block_settings.sale_text_color }};"
+        >
+          {{- sale_label -}}
+        </span>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endcapture -%}
+
+  {%- comment -%}
+    Nothing to show is the common case (a plain in-stock, full-price product), and an
+    empty flex row would still contribute its gap to the details column. Render nothing.
+  {%- endcomment -%}
+  {%- if badges != blank -%}
+    <div
+      class="product-status-badges product-status-badges--{{ block_settings.alignment }} spacing-style"
+      style="
+        {% render 'spacing-style', settings: block_settings %}
+        --product-status-badge-radius: {{ block_settings.corner_radius }}px;
+        --product-status-badge-size: {{ block_settings.font_size }}px;
+      "
+      {{ block.shopify_attributes }}
+    >
+      {{ badges }}
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .product-status-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .product-status-badges--center {
+    justify-content: center;
+  }
+
+  .product-status-badges--right {
+    justify-content: flex-end;
+  }
+
+  /* px, not rem — the theme scales the root font-size on mobile (CLAUDE.md gotcha #4)
+     and the Figma pill is 12px at both breakpoints. */
+  .product-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: var(--product-status-badge-radius, 48px);
+    background: var(--product-status-badge-background, #f4623a);
+    color: var(--product-status-badge-text, #fefefe);
+    font-family: var(--font-body--family);
+    font-size: var(--product-status-badge-size, 12px);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: normal;
+    white-space: nowrap;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product badge",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows the product's status above the title. Nothing renders when none of the states below apply."
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "t:settings.alignment",
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "t:settings.size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Sale"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show \"Sale\" badge",
+      "info": "Shows when the product has a compare-at price above its price.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sale_label",
+      "label": "t:settings.label",
+      "default": "SALE",
+      "visible_if": "{{ block.settings.show_sale_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "sale_background",
+      "label": "t:settings.background",
+      "default": "#F4623A",
+      "visible_if": "{{ block.settings.show_sale_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "sale_text_color",
+      "label": "t:settings.text",
+      "default": "#FEFEFE",
+      "visible_if": "{{ block.settings.show_sale_badge }}"
+    },
+    {
+      "type": "header",
+      "content": "New in"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_new_badge",
+      "label": "Show \"New in\" badge",
+      "info": "Shows on products carrying the tag below. Hidden on sold-out products.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "new_badge_tag",
+      "label": "Product tag",
+      "default": "new-in",
+      "info": "Case and punctuation are ignored, so \"New In\" also matches.",
+      "visible_if": "{{ block.settings.show_new_badge }}"
+    },
+    {
+      "type": "text",
+      "id": "new_badge_label",
+      "label": "t:settings.label",
+      "default": "NEW IN",
+      "visible_if": "{{ block.settings.show_new_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "new_badge_background",
+      "label": "t:settings.background",
+      "default": "#9B5DE5",
+      "visible_if": "{{ block.settings.show_new_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "new_badge_text_color",
+      "label": "t:settings.text",
+      "default": "#FEFEFE",
+      "visible_if": "{{ block.settings.show_new_badge }}"
+    },
+    {
+      "type": "header",
+      "content": "Sold out"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sold_out_badge",
+      "label": "Show \"Sold out\" badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sold_out_label",
+      "label": "t:settings.label",
+      "default": "SOLD OUT",
+      "visible_if": "{{ block.settings.show_sold_out_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "sold_out_background",
+      "label": "t:settings.background",
+      "default": "#FDECEC",
+      "visible_if": "{{ block.settings.show_sold_out_badge }}"
+    },
+    {
+      "type": "color",
+      "id": "sold_out_text_color",
+      "label": "t:settings.text",
+      "default": "#A73030",
+      "visible_if": "{{ block.settings.show_sold_out_badge }}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product badge",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

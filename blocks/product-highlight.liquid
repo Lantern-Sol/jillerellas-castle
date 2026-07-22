@@ -1,0 +1,459 @@
+{%- doc -%}
+  One reassurance line in the product highlights grid — a filled, rounded icon tile
+  followed by a bold headline and a lighter supporting line.
+
+  Lives inside `product-highlights`, which owns the grid; this block only draws a row.
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+  assign icon_size = block_settings.tile_size | times: 0.6 | round
+-%}
+
+<div
+  class="product-highlight"
+  style="
+    --product-highlight-tile-size: {{ block_settings.tile_size }}px;
+    --product-highlight-tile-radius: {{ block_settings.tile_radius }}px;
+    --product-highlight-tile-background: {{ block_settings.tile_background }};
+    --product-highlight-icon-color: {{ block_settings.icon_color }};
+    --product-highlight-gap: {{ block_settings.gap }}px;
+    {% if block_settings.title_color != blank %}--product-highlight-title-color: {{ block_settings.title_color }};{% endif %}
+    {% if block_settings.subtitle_color != blank %}--product-highlight-subtitle-color: {{ block_settings.subtitle_color }};{% endif %}
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if block_settings.image_upload != blank -%}
+    <span class="product-highlight__tile">
+      {{
+        block_settings.image_upload
+        | image_url: width: 120
+        | image_tag: loading: 'lazy', alt: '', class: 'product-highlight__image', widths: '40, 80, 120'
+      }}
+    </span>
+  {%- elsif block_settings.icon != 'none' -%}
+    <span class="product-highlight__tile">
+      <svg
+        class="product-highlight__icon"
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="{{ icon_size }}"
+        height="{{ icon_size }}"
+        viewBox="0 0 20 20"
+      >
+        {%- render 'icon', icon: block_settings.icon -%}
+      </svg>
+    </span>
+  {%- endif -%}
+
+  <span class="product-highlight__text">
+    {%- if block_settings.title != blank -%}
+      <span class="product-highlight__title">{{ block_settings.title }}</span>
+    {%- endif -%}
+    {%- if block_settings.subtitle != blank -%}
+      <span class="product-highlight__subtitle">{{ block_settings.subtitle }}</span>
+    {%- endif -%}
+  </span>
+</div>
+
+{% stylesheet %}
+  .product-highlight {
+    display: flex;
+    align-items: center;
+    gap: var(--product-highlight-gap, 12px);
+    min-width: 0;
+  }
+
+  .product-highlight__tile {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--product-highlight-tile-size, 32px);
+    block-size: var(--product-highlight-tile-size, 32px);
+    border-radius: var(--product-highlight-tile-radius, 6px);
+    background: var(--product-highlight-tile-background, #5a3884);
+    color: var(--product-highlight-icon-color, #fefefe);
+    overflow: hidden;
+  }
+
+  /* `fill: currentColor` is what makes the glyph take the tile's colour. Most paths in
+     snippets/icon.liquid carry no `fill` of their own and would otherwise render black —
+     the stock icon block gets this from `.icon-default` in base.css. */
+  .product-highlight__icon {
+    display: block;
+    fill: currentColor;
+  }
+
+  .product-highlight__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .product-highlight__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  /* px, not rem: the theme scales the root font-size on mobile (CLAUDE.md gotcha #4)
+     and the Figma keeps these at 14/12 on both breakpoints. */
+  .product-highlight__title {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: var(--product-highlight-title-color, #2b2b2b);
+  }
+
+  .product-highlight__subtitle {
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: var(--product-highlight-subtitle-color, #676767);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product highlight",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:settings.heading",
+      "default": "Solid 925 sterling"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Supporting text",
+      "default": "Real silver, never plated"
+    },
+    {
+      "type": "header",
+      "content": "t:settings.icon"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:settings.icon",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "apple",
+          "label": "t:options.apple"
+        },
+        {
+          "value": "arrow",
+          "label": "t:options.arrow"
+        },
+        {
+          "value": "banana",
+          "label": "t:options.banana"
+        },
+        {
+          "value": "bottle",
+          "label": "t:options.bottle"
+        },
+        {
+          "value": "box",
+          "label": "t:options.box"
+        },
+        {
+          "value": "carrot",
+          "label": "t:options.carrot"
+        },
+        {
+          "value": "chat_bubble",
+          "label": "t:options.chat_bubble"
+        },
+        {
+          "value": "check_box",
+          "label": "t:options.check_box"
+        },
+        {
+          "value": "clipboard",
+          "label": "t:options.clipboard"
+        },
+        {
+          "value": "dairy",
+          "label": "t:options.dairy"
+        },
+        {
+          "value": "dairy_free",
+          "label": "t:options.dairy_free"
+        },
+        {
+          "value": "dryer",
+          "label": "t:options.dryer"
+        },
+        {
+          "value": "eye",
+          "label": "t:options.eye"
+        },
+        {
+          "value": "fire",
+          "label": "t:options.fire"
+        },
+        {
+          "value": "gluten_free",
+          "label": "t:options.gluten_free"
+        },
+        {
+          "value": "heart",
+          "label": "t:options.heart"
+        },
+        {
+          "value": "iron",
+          "label": "t:options.iron"
+        },
+        {
+          "value": "leaf",
+          "label": "t:options.leaf"
+        },
+        {
+          "value": "leather",
+          "label": "t:options.leather"
+        },
+        {
+          "value": "lightning_bolt",
+          "label": "t:options.lightning_bolt"
+        },
+        {
+          "value": "lipstick",
+          "label": "t:options.lipstick"
+        },
+        {
+          "value": "lock",
+          "label": "t:options.lock"
+        },
+        {
+          "value": "map_pin",
+          "label": "t:options.map_pin"
+        },
+        {
+          "value": "nut_free",
+          "label": "t:options.nut_free"
+        },
+        {
+          "value": "pants",
+          "label": "t:options.pants"
+        },
+        {
+          "value": "paw_print",
+          "label": "t:options.paw_print"
+        },
+        {
+          "value": "pepper",
+          "label": "t:options.pepper"
+        },
+        {
+          "value": "perfume",
+          "label": "t:options.perfume"
+        },
+        {
+          "value": "plane",
+          "label": "t:options.plane"
+        },
+        {
+          "value": "plant",
+          "label": "t:options.plant"
+        },
+        {
+          "value": "price_tag",
+          "label": "t:options.price_tag"
+        },
+        {
+          "value": "question_mark",
+          "label": "t:options.question_mark"
+        },
+        {
+          "value": "recycle",
+          "label": "t:options.recycle"
+        },
+        {
+          "value": "return",
+          "label": "t:options.return"
+        },
+        {
+          "value": "ruler",
+          "label": "t:options.ruler"
+        },
+        {
+          "value": "serving_dish",
+          "label": "t:options.serving_dish"
+        },
+        {
+          "value": "shirt",
+          "label": "t:options.shirt"
+        },
+        {
+          "value": "shoe",
+          "label": "t:options.shoe"
+        },
+        {
+          "value": "silhouette",
+          "label": "t:options.silhouette"
+        },
+        {
+          "value": "bluesky",
+          "label": "t:options.social_bluesky"
+        },
+        {
+          "value": "facebook",
+          "label": "t:options.social_facebook"
+        },
+        {
+          "value": "instagram",
+          "label": "t:options.social_instagram"
+        },
+        {
+          "value": "linkedin",
+          "label": "t:options.social_linkedin"
+        },
+        {
+          "value": "pinterest",
+          "label": "t:options.social_pinterest"
+        },
+        {
+          "value": "snapchat",
+          "label": "t:options.social_snapchat"
+        },
+        {
+          "value": "spotify",
+          "label": "t:options.social_spotify"
+        },
+        {
+          "value": "threads",
+          "label": "t:options.social_threads"
+        },
+        {
+          "value": "tiktok",
+          "label": "t:options.social_tiktok"
+        },
+        {
+          "value": "tumblr",
+          "label": "t:options.social_tumblr"
+        },
+        {
+          "value": "twitter",
+          "label": "t:options.social_twitter"
+        },
+        {
+          "value": "vimeo",
+          "label": "t:options.social_vimeo"
+        },
+        {
+          "value": "youtube",
+          "label": "t:options.social_youtube"
+        },
+        {
+          "value": "whatsapp",
+          "label": "t:options.social_whatsapp"
+        },
+        {
+          "value": "snowflake",
+          "label": "t:options.snowflake"
+        },
+        {
+          "value": "star",
+          "label": "t:options.star"
+        },
+        {
+          "value": "stopwatch",
+          "label": "t:options.stopwatch"
+        },
+        {
+          "value": "truck",
+          "label": "t:options.truck"
+        },
+        {
+          "value": "washing",
+          "label": "t:options.washing"
+        }
+      ],
+      "default": "star"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_upload",
+      "label": "t:settings.image_icon",
+      "info": "Replaces the icon when set."
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon colour",
+      "default": "#FEFEFE"
+    },
+    {
+      "type": "color",
+      "id": "tile_background",
+      "label": "Tile background",
+      "default": "#5A3884"
+    },
+    {
+      "type": "range",
+      "id": "tile_size",
+      "label": "Tile size",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "tile_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "t:content.appearance"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading colour",
+      "default": "#2B2B2B"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Supporting text colour",
+      "default": "#676767"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product highlight"
+    }
+  ]
+}
+{% endschema %}

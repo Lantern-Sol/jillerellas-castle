@@ -1,0 +1,226 @@
+{%- doc -%}
+  Grid of reassurance lines under the buy buttons ("Solid 925 sterling", "Ships in 24
+  hours", …). Owns the grid; each row is a `product-highlight` child block.
+
+  The Figma lays these out as two columns of fit-content items separated by a wide
+  gutter, so the tracks are sized to their content rather than stretched to equal
+  fractions — that is what puts the second column's icon at a fixed offset instead of
+  drifting with the container width.
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+
+  if block_settings.column_sizing == 'equal'
+    assign track = '1fr'
+  else
+    assign track = 'minmax(0, max-content)'
+  endif
+-%}
+
+<div
+  class="product-highlights spacing-style"
+  style="
+    {% render 'spacing-style', settings: block_settings %}
+    --product-highlights-columns: repeat({{ block_settings.columns }}, {{ track }});
+    --product-highlights-columns-mobile: repeat({{ block_settings.mobile_columns }}, {{ track }});
+    --product-highlights-column-gap: {{ block_settings.column_gap }}px;
+    --product-highlights-column-gap-mobile: {{ block_settings.mobile_column_gap }}px;
+    --product-highlights-row-gap: {{ block_settings.row_gap }}px;
+    --product-highlights-justify: {{ block_settings.alignment }};
+  "
+  {{ block.shopify_attributes }}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% stylesheet %}
+  .product-highlights {
+    display: grid;
+    grid-template-columns: var(--product-highlights-columns, repeat(2, minmax(0, max-content)));
+    justify-content: var(--product-highlights-justify, start);
+    column-gap: var(--product-highlights-column-gap, 80px);
+    row-gap: var(--product-highlights-row-gap, 16px);
+    width: 100%;
+  }
+
+  @media screen and (max-width: 749px) {
+    .product-highlights {
+      grid-template-columns: var(--product-highlights-columns-mobile, repeat(2, minmax(0, max-content)));
+      column-gap: var(--product-highlights-column-gap-mobile, 16px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product highlights",
+  "tag": null,
+  "blocks": [
+    {
+      "type": "product-highlight"
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:settings.columns",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "t:settings.mobile_columns",
+      "options": [
+        { "value": "1", "label": "t:options.one_number" },
+        { "value": "2", "label": "t:options.two_number" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "column_sizing",
+      "label": "Column sizing",
+      "options": [
+        { "value": "fit", "label": "Fit content" },
+        { "value": "equal", "label": "Equal width" }
+      ],
+      "default": "fit"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:settings.alignment",
+      "options": [
+        { "value": "start", "label": "t:options.left" },
+        { "value": "center", "label": "t:options.center" },
+        { "value": "space-between", "label": "Space between" }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "t:settings.horizontal_gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "mobile_column_gap",
+      "label": "Mobile horizontal gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "t:settings.vertical_gap",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product highlights",
+      "category": "t:categories.product",
+      "blocks": {
+        "highlight-1": {
+          "type": "product-highlight",
+          "settings": {
+            "icon": "star",
+            "tile_background": "#EC4B9B",
+            "title": "Solid 925 sterling",
+            "subtitle": "Real silver, never plated"
+          }
+        },
+        "highlight-2": {
+          "type": "product-highlight",
+          "settings": {
+            "icon": "box",
+            "tile_background": "#4F8EF7",
+            "title": "Ships in 24 hours",
+            "subtitle": "In stock & ready to go"
+          }
+        },
+        "highlight-3": {
+          "type": "product-highlight",
+          "settings": {
+            "icon": "stopwatch",
+            "tile_background": "#16C0A8",
+            "title": "Easy 30-day returns",
+            "subtitle": "Shop worry-free"
+          }
+        },
+        "highlight-4": {
+          "type": "product-highlight",
+          "settings": {
+            "icon": "lock",
+            "tile_background": "#F9A826",
+            "title": "Secure checkout",
+            "subtitle": "Every order protected"
+          }
+        }
+      },
+      "block_order": ["highlight-1", "highlight-2", "highlight-3", "highlight-4"]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,289 @@
+{%- doc -%}
+  Centred section heading with the brand's gold rule underneath.
+
+  The Figma repeats this exact lockup three times on the product page — "Pairs well
+  with", "Customer reviews" and "You may also like" — always as a centred purple
+  heading with a short gold rule below it. The stock `text` block can render the
+  heading but has nowhere to hang the rule, so the pair lives here as one block.
+{%- enddoc -%}
+
+{%- liquid
+  assign block_settings = block.settings
+
+  assign heading = block_settings.heading
+  if heading == blank
+    assign heading = 'Heading'
+  endif
+
+  assign tag = block_settings.heading_tag
+  if tag == blank
+    assign tag = 'h2'
+  endif
+-%}
+
+<div
+  class="brand-heading brand-heading--{{ block_settings.alignment }} spacing-style"
+  style="
+    {% render 'spacing-style', settings: block_settings %}
+    --brand-heading-gap: {{ block_settings.gap }}px;
+    --brand-heading-rule-width: {{ block_settings.rule_width }}px;
+    --brand-heading-rule-thickness: {{ block_settings.rule_thickness }}px;
+    {% if block_settings.rule_color != blank %}--brand-heading-rule-color: {{ block_settings.rule_color }};{% endif %}
+    {% if block_settings.text_color != blank %}--brand-heading-color: {{ block_settings.text_color }};{% endif %}
+    {% if block_settings.font_size != blank %}--brand-heading-size: {{ block_settings.font_size }};{% endif %}
+    {% if block_settings.mobile_font_size != blank %}--brand-heading-size-mobile: {{ block_settings.mobile_font_size }};{% endif %}
+    {% if block_settings.enable_custom_font_weight %}--brand-heading-weight: {{ block_settings.weight }};{% endif %}
+  "
+  {{ block.shopify_attributes }}
+>
+  <{{ tag }} class="brand-heading__text">{{ heading }}</{{ tag }}>
+  {%- if block_settings.show_rule -%}
+    <span
+      class="brand-heading__rule"
+      aria-hidden="true"
+    ></span>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  /* px, not rem: the theme scales the root font-size on mobile (CLAUDE.md gotcha #4),
+     which would push the Figma's 32/24px headings well past spec at 390. */
+  .brand-heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--brand-heading-gap, 16px);
+    width: 100%;
+  }
+
+  .brand-heading--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .brand-heading--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .brand-heading--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .brand-heading__text {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: var(--brand-heading-size, 32px);
+    font-weight: var(--brand-heading-weight, 600);
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: var(--brand-heading-color, #5a3884);
+  }
+
+  .brand-heading__rule {
+    display: block;
+    width: var(--brand-heading-rule-width, 68px);
+    height: var(--brand-heading-rule-thickness, 4px);
+    background: var(--brand-heading-rule-color, #bc9d62);
+    border-radius: calc(var(--brand-heading-rule-thickness, 4px) / 2);
+  }
+
+  @media screen and (max-width: 749px) {
+    .brand-heading__text {
+      font-size: var(--brand-heading-size-mobile, var(--brand-heading-size, 32px));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand heading",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:settings.heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "info": "Only affects the HTML tag used, not the size.",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" },
+        { "value": "p", "label": "Paragraph" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "t:settings.alignment",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "t:content.typography"
+    },
+    {
+      "type": "select",
+      "id": "font_size",
+      "label": "t:settings.size",
+      "options": [
+        { "value": "16px", "label": "16px" },
+        { "value": "18px", "label": "18px" },
+        { "value": "20px", "label": "20px" },
+        { "value": "24px", "label": "24px" },
+        { "value": "28px", "label": "28px" },
+        { "value": "32px", "label": "32px" },
+        { "value": "40px", "label": "40px" },
+        { "value": "48px", "label": "48px" }
+      ],
+      "default": "32px"
+    },
+    {
+      "type": "select",
+      "id": "mobile_font_size",
+      "label": "Mobile font size",
+      "options": [
+        { "value": "", "label": "Same as desktop" },
+        { "value": "16px", "label": "16px" },
+        { "value": "18px", "label": "18px" },
+        { "value": "20px", "label": "20px" },
+        { "value": "24px", "label": "24px" },
+        { "value": "28px", "label": "28px" },
+        { "value": "32px", "label": "32px" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_custom_font_weight",
+      "label": "t:settings.font_weight",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "weight",
+      "label": "t:settings.weight",
+      "options": [
+        { "value": "400", "label": "400" },
+        { "value": "500", "label": "500" },
+        { "value": "600", "label": "600" },
+        { "value": "700", "label": "700" }
+      ],
+      "default": "600",
+      "visible_if": "{{ block.settings.enable_custom_font_weight }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:settings.text_color",
+      "default": "#5A3884"
+    },
+    {
+      "type": "header",
+      "content": "Rule"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rule",
+      "label": "Show rule",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rule_width",
+      "label": "t:settings.width",
+      "min": 16,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 68,
+      "visible_if": "{{ block.settings.show_rule }}"
+    },
+    {
+      "type": "range",
+      "id": "rule_thickness",
+      "label": "t:settings.thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 4,
+      "visible_if": "{{ block.settings.show_rule }}"
+    },
+    {
+      "type": "color",
+      "id": "rule_color",
+      "label": "t:settings.color",
+      "default": "#BC9D62",
+      "visible_if": "{{ block.settings.show_rule }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:settings.gap",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand heading",
+      "category": "t:categories.text"
+    }
+  ]
+}
+{% endschema %}

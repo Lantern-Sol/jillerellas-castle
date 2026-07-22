@@ -28,9 +28,13 @@
 {% render 'quick-add-modal-styles' %}
 {% render 'variant-picker-styles' %}
 {% render 'product-badges-styles' %}
+{% comment %}
+  product-card-grid is the shared hook for the Figma product card (white panel,
+  bled media, "New in" pill, circular quick-add) in assets/collection-page.css.
+{% endcomment %}
 <product-recommendations
   id="product-recommendations-{{ section.id }}"
-  class="product-recommendations"
+  class="product-recommendations product-card-grid"
   data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.max_products }}"
   data-section-id="{{ section.id }}"
   data-product-id="{{ section.settings.product.id | default: product.id }}"
@@ -141,8 +145,9 @@
             {% render 'resource-list-carousel',
               ref: 'resourceListCarousel',
               slides: slides,
-              slide_count: recommendations.products.size,
-              settings: section.settings
+              slide_count: slides.size,
+              settings: section.settings,
+              show_dots: section.settings.show_dots
             %}
         {% endcase %}
       </div>
@@ -165,8 +170,9 @@
           {% render 'resource-list-carousel',
             ref: 'resourceListCarouselMobile',
             slides: slides,
-            slide_count: recommendations.products.size,
-            settings: section.settings
+            slide_count: slides.size,
+            settings: section.settings,
+            show_dots: section.settings.show_dots
           %}
         </div>
       {% endif %}
@@ -387,6 +393,14 @@
       ],
       "default": "none",
       "visible_if": "{{ section.settings.icons_style != 'none' and section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show pagination dots",
+      "info": "Adds slider dots beneath the carousel and locks slides flush to the page width (no peek of the next slide).",
+      "default": false,
+      "visible_if": "{{ section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
     },
     {
       "type": "header",

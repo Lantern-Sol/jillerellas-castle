@@ -39,6 +39,28 @@
   if arrows_in_controls
     assign show_overlay_arrows = false
   endif
+
+  # `--peek-next-slide-size` (3rem by default) is subtracted from the track before
+  # the slide width is divided out, so the next slide can peek past the last column.
+  # With dots on there is no peek — the gutters are already dropped above — and
+  # leaving the reserve in place makes every slide narrower than its column, pushing
+  # the whole row short of the content width and stranding the remainder on one side.
+  # Same handling as snippets/resource-list.liquid.
+  capture carousel_styles
+    echo gutter_style
+    echo ' --slide-width-max: '
+    echo slide_width_max | default: '300px'
+    echo ';'
+    if settings.show_dots
+      echo ' --peek-next-slide-size: 0px;'
+      # Mobile sizes from --mobile-card-size rather than the peek reserve, so it needs
+      # the same treatment: two cards flush to the content width, no peek.
+      assign mobile_gap = settings.columns_gap | default: 16
+      echo ' --mobile-card-size: calc((100% - '
+      echo mobile_gap
+      echo 'px) / 2);'
+    endif
+  endcapture
 %}
 
 {% capture slides %}
@@ -68,7 +90,7 @@
 
 <div
   class="resource-list__carousel{% if arrows_in_controls %} resource-list__carousel--arrows-outside{% endif %}"
-  style="{{ gutter_style }} --slide-width-max: {{ slide_width_max | default: '300px' }};"
+  style="{{ carousel_styles }}"
 >
   {% render 'slideshow',
     ref: slideshow_ref,

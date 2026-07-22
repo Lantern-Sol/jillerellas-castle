@@ -1,7 +1,12 @@
 /* ============================================================
- * Jillerellas Castle — collection page
+ * Jillerellas Castle — collection page + shared product card
  * Page-level styling for the Figma collection design
  * (desktop node 7251:8897, mobile 7251:9053).
+ *
+ * The card block below is shared: the product page's "Pairs well
+ * with" and "You may also like" rows draw the same card in the
+ * Figma (product page 7206:10321 / 7206:10603), so both carry the
+ * .product-card-grid scope rather than duplicating the rules.
  *
  * Filter sidebar / toolbar / drawer styling deliberately does NOT
  * live here: Shopify bundles every section and block {% stylesheet %}
@@ -49,10 +54,11 @@
  * inset holding title and price, clipped to a 16px (8px mobile) radius
  * with a two-layer shadow.
  *
- * Scope is .collection-results, added to the results list in
- * sections/main-collection.liquid. sections/search-results.liquid also carries
- * product-grid-container but configures its cards differently (adapt image
- * ratio, no title/price presets), so scoping there would half-apply the design.
+ * Scope is .product-card-grid, added to the results list in
+ * sections/main-collection.liquid and to the product-recommendations section
+ * and block. sections/search-results.liquid also carries product-grid-container
+ * but configures its cards differently (adapt image ratio, no title/price
+ * presets), so scoping there would half-apply the design.
  * Homepage carousels render through resource-list and are untouched.
  *
  * Specificity note: base.css:1149 styles the card through a doubled
@@ -60,7 +66,7 @@
  * it inside a max-width:749px query. Every rule here that competes with
  * it carries three classes so it wins at both breakpoints.
  * --------------------------------------------------------------- */
-.collection-results .product-card__content.product-grid__card {
+.product-card-grid .product-card__content.product-grid__card {
   --product-card-inset: 12px;
   --product-card-row-gap: 8px;
 
@@ -89,7 +95,7 @@
 /* The media bleeds out to the card edge; only title and price sit inside the
    inset. The column gap already spaces the media from the title, so just the
    remainder of the inset is added back to reach the Figma's 12px. */
-.collection-results .product-card__content > .card-gallery {
+.product-card-grid .product-card__content > .card-gallery {
   margin-block-start: calc(-1 * var(--product-card-inset));
   margin-block-end: calc(var(--product-card-inset) - var(--product-card-row-gap));
   margin-inline: calc(-1 * var(--product-card-inset));
@@ -97,7 +103,7 @@
 
 /* Two lines in both Figma frames. Clamping rather than wrapping freely also keeps
    every card in a row the same height. */
-.collection-results .product-card__content .text-block.rte > p {
+.product-card-grid .product-card__content .text-block.rte > p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -107,7 +113,7 @@
 
 /* Price is an h6 preset, so it is retuned through the h6 variables rather than the
    paragraph ones the title uses. */
-.collection-results .product-card__content product-price {
+.product-card-grid .product-card__content product-price {
   --font-h6--size: 14px;
   --font-h6--weight: 400;
   --font-h6--line-height: 1.2;
@@ -118,7 +124,7 @@
 }
 
 @media screen and (max-width: 749px) {
-  .collection-results .product-card__content.product-grid__card {
+  .product-card-grid .product-card__content.product-grid__card {
     --product-card-inset: 8px;
     --font-paragraph--size: 14px;
 
@@ -132,18 +138,18 @@
  * Badges — 12px uppercase pill, inset 16px (8px mobile) from the top
  * left of the media.
  * --------------------------------------------------------------- */
-.collection-results .product-badges {
+.product-card-grid .product-badges {
   --badge-inset: 16px;
 }
 
-.collection-results .product-badges__badge {
+.product-card-grid .product-badges__badge {
   --badge-font-size: 12px;
 
   padding: 4px 8px;
 }
 
 @media screen and (max-width: 749px) {
-  .collection-results .product-badges {
+  .product-card-grid .product-badges {
     --badge-inset: 8px;
   }
 }
@@ -160,18 +166,18 @@
 
 /* 32px circle inset 16px (8px mobile) from the media's right and bottom edges.
    Both are read by quick-add-styles.liquid, so setting the variables is enough. */
-.collection-results .quick-add {
+.product-card-grid .quick-add {
   --button-size-md: 32px;
   --quick-add-offset: 16px;
 }
 
 @media screen and (max-width: 749px) {
-  .collection-results .quick-add {
+  .product-card-grid .quick-add {
     --quick-add-offset: 8px;
   }
 }
 
-.collection-results .quick-add__button {
+.product-card-grid .quick-add__button {
   opacity: 1;
   background: var(--quick-add-background, #5a3884);
   color: var(--quick-add-text, #fefefe);
@@ -194,25 +200,25 @@
    circular "+", so the column stays collapsed here.
    Specificity (0,4,0) beats the theme's nested (0,3,0) rule, which matters because
    snippet stylesheets bundle into styles.css and load after this file. */
-.collection-results .quick-add__button:is(:hover, :focus-visible) .add-to-cart-text__content {
+.product-card-grid .quick-add__button:is(:hover, :focus-visible) .add-to-cart-text__content {
   grid-template-columns: 0fr;
 }
 
-.collection-results .quick-add__button .add-to-cart-text__content > span > span {
+.product-card-grid .quick-add__button .add-to-cart-text__content > span > span {
   padding-right: 0;
 }
 
 /* Swap the stock bag-with-plus glyph for a plain "+". */
-.collection-results .quick-add__button .add-to-cart-icon {
+.product-card-grid .quick-add__button .add-to-cart-icon {
   display: none;
 }
 
-.collection-results .quick-add__button .add-to-cart-text {
+.product-card-grid .quick-add__button .add-to-cart-text {
   font-size: 0;
   line-height: 0;
 }
 
-.collection-results .quick-add__button .add-to-cart-text::before {
+.product-card-grid .quick-add__button .add-to-cart-text::before {
   content: '';
   display: block;
   width: 32px;
@@ -223,10 +229,10 @@
 
 /* Multi-variant products render a "Choose options" button instead; keep the
    same circular affordance rather than a wide pill. */
-.collection-results quick-add-component[data-quick-add-button='choose'] add-to-cart-component {
+.product-card-grid quick-add-component[data-quick-add-button='choose'] add-to-cart-component {
   display: inline;
 }
 
-.collection-results .quick-add__button--choose {
+.product-card-grid .quick-add__button--choose {
   display: none;
 }

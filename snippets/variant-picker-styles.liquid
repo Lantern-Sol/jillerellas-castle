@@ -89,6 +89,25 @@
     transform: translateY(-50%);
   }
 
+  /* Option label row — the option name (plus its selected value) on one side and the
+     optional size-guide link on the other. `width: 100%` is what forces the row to
+     span the fieldset: `.variant-option--buttons` is a flex container, so without it
+     the legend would only be as wide as its text and the link would sit next to it. */
+  .variant-option--buttons legend,
+  .variant-option[data-testid='variant-option-single'] {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+  }
+
+  .variant-option__size-guide {
+    margin-inline-start: auto;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    white-space: nowrap;
+  }
+
   /* Variant picker alignment modifiers */
   .variant-picker--center,
   .variant-picker--center .variant-option {

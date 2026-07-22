@@ -13,13 +13,23 @@
   endif
 -%}
 
-{% if block_settings.text_color != blank %}
+{% if block_settings.text_color != blank or block_settings.star_color != blank %}
   {% style %}
     .rating-wrapper-{{ block.id }} {
-      --star-fill-color: {{ block_settings.text_color }};
-      --star-fill-color-rgb: {{ block_settings.text_color.rgb }};
-      --color: {{ block_settings.text_color }};
-      --color-rgb: {{ block_settings.text_color.rgb }};
+      {% if block_settings.text_color != blank %}
+        --star-fill-color: {{ block_settings.text_color }};
+        --star-fill-color-rgb: {{ block_settings.text_color.rgb }};
+        --color: {{ block_settings.text_color }};
+        --color-rgb: {{ block_settings.text_color.rgb }};
+      {% endif %}
+      {% comment %}
+        Set last so it wins over text_color: the Figma has gold stars beside grey text,
+        which the single text_color setting cannot express on its own.
+      {% endcomment %}
+      {% if block_settings.star_color != blank %}
+        --star-fill-color: {{ block_settings.star_color }};
+        --star-fill-color-rgb: {{ block_settings.star_color.rgb }};
+      {% endif %}
     }
   {% endstyle %}
 {% endif %}
@@ -96,7 +106,23 @@
       {% endif %}
     </div>
 
-    {%- if block_settings.show_number or block_settings.stars_style == 'single' -%}
+    {%- comment -%}
+      "summary" renders the Figma's single line — `5.0 (142 reviews)` — rather than the
+      theme's stars-then-count. It is a separate branch, not a tweak to the one below,
+      so every other placement of this block keeps its existing output.
+    {%- endcomment -%}
+    {%- if block_settings.count_format == 'summary' -%}
+      {%- liquid
+        assign rating_display = rating | round: 1
+        assign review_unit = 'content.reviews' | t
+        if rating_count == 1
+          assign review_unit = 'content.review_singular' | t
+        endif
+      -%}
+      <p class="rating-count {{ block_settings.type_preset }}">
+        {{- 'content.rating_summary_html' | t: rating: rating_display, count: rating_count, unit: review_unit -}}
+      </p>
+    {%- elsif block_settings.show_number or block_settings.stars_style == 'single' -%}
       <p class="rating-count {{ block_settings.type_preset }}">
         {%- if block_settings.stars_style == 'single' -%}
           <span aria-hidden="true">{{- rating | round: 1 }}</span>
@@ -137,9 +163,12 @@
     gap: var(--gap-3xs);
   }
 
+  /* Reads --color, not --star-fill-color: text_color still sets both, so this is
+     unchanged for existing placements, but star_color can now recolour the stars
+     without dragging the count along with them. */
   .rating-wrapper .rating-count,
   .rating-wrapper .rating-count-separator {
-    color: var(--star-fill-color);
+    color: var(--color);
     margin: 0;
     white-space: nowrap;
   }
@@ -197,12 +226,30 @@
       "type": "checkbox",
       "id": "show_number",
       "label": "t:settings.review_count",
-      "default": true
+      "default": true,
+      "visible_if": "{{ block.settings.count_format != 'summary' }}"
+    },
+    {
+      "type": "select",
+      "id": "count_format",
+      "label": "Count format",
+      "options": [
+        { "value": "default", "label": "Count only (12 reviews)" },
+        { "value": "summary", "label": "Rating and count (5.0 (12 reviews))" }
+      ],
+      "default": "default"
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "t:settings.text_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star colour",
+      "info": "Overrides the text colour for the stars only.",
       "placeholder": "t:settings.default"
     },
     {

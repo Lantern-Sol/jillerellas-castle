@@ -5,6 +5,7 @@
   @param {product} product_resource - The product to render
   @param {boolean} [show_unit_price] - Whether to show the unit price
   @param {boolean} [show_sale_price_first] - Whether to show the sale price first
+  @param {string} [show_savings] - 'amount' or 'percent' to append a "Save …" note next to a sale price. Omit for none.
 {%- enddoc -%}
 
 {%- liquid
@@ -17,6 +18,20 @@
   assign show_compare_price = false
   if compare_at_price > price
     assign show_compare_price = true
+  endif
+
+  # Savings is computed here, while `price` and `compare_at_price` are still integers —
+  # further down they are reassigned to their formatted `money` strings.
+  assign savings_note = ''
+  if show_compare_price and show_savings != blank and show_savings != 'none'
+    assign savings_amount = compare_at_price | minus: price
+    if show_savings == 'percent'
+      assign savings_percent = savings_amount | times: 100.0 | divided_by: compare_at_price | round
+      assign savings_value = savings_percent | append: '%'
+    else
+      assign savings_value = savings_amount | money
+    endif
+    assign savings_note = 'content.price_savings' | t: savings: savings_value
   endif
 
   if product_resource == blank
@@ -135,6 +150,9 @@
           <span class="visually-hidden">{{ 'content.price_sale' | t }}&nbsp;</span>
           <span class="price-item--sale price">{{ price | default: '&nbsp;' }}</span>
         </span>
+      {% endif %}
+      {% if savings_note != blank %}
+        <span class="price-item__savings">{{ savings_note }}</span>
       {% endif %}
     </div>
   {% endif %}

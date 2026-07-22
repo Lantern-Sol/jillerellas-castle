@@ -1,0 +1,612 @@
+/* ============================================================
+ * Jillerellas Castle — product page
+ * Page-level styling for the Figma product design
+ * (desktop node 7206:10321, mobile node 7206:10603).
+ *
+ * The product card itself is NOT styled here — "Pairs well with"
+ * and "You may also like" draw the same card as the collection
+ * grid, so both carry .product-card-grid and share the rules in
+ * assets/collection-page.css.
+ *
+ * Brand: purple #5A3884 · gold #BC9D62 · text #2B2B2B ·
+ * subtle text #676767 · hairline #F8F5EF · sale #F4623A
+ *
+ * px, not rem: the theme scales the root font-size on mobile
+ * (CLAUDE.md gotcha #4), which inflates rem past the Figma spec.
+ *
+ * Specificity: Shopify bundles every section/block/snippet
+ * {% stylesheet %} into styles.css, which loads AFTER asset
+ * stylesheets. Rules here that compete with a bundled rule
+ * therefore carry one extra class so they win on specificity
+ * rather than on source order.
+ * ============================================================ */
+
+/* ---------------------------------------------------------------
+ * 1. Column split
+ *
+ * Figma puts 668px of media beside 572px of details with a 40px
+ * gutter. The theme ships 1.557fr 1fr at >=1200px (and
+ * `1fr min(50vw, sidebar)` below that), both of which give the
+ * media noticeably more room than the design.
+ *
+ * The leading `.product-information` is what beats the theme's own
+ * (0,3,0) rule in snippets/product-information-content.liquid.
+ * --------------------------------------------------------------- */
+@media screen and (min-width: 750px) {
+  .product-information
+    .product-information__grid:not(.product-information__grid--half, .product-information--media-none).product-information--media-left {
+    grid-template-columns: 1.163fr 1fr;
+  }
+
+  .product-information
+    .product-information__grid:not(.product-information__grid--half, .product-information--media-none).product-information--media-right {
+    grid-template-columns: 1fr 1.163fr;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * 1b. Media gallery — mobile pagination dots
+ *
+ * On mobile the one-column grid falls back to the gallery's slideshow.
+ * The theme only styles `.slideshow-controls__dots` under
+ * `slideshow-auto-component` and `.resource-list__carousel`, so the
+ * gallery's own dots render as a numbered <ol>. Same treatment as the
+ * resource-list carousel, scoped to the product gallery.
+ * --------------------------------------------------------------- */
+.product-information__media .media-gallery__mobile-controls .slideshow-controls__dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding-block-start: 16px;
+  padding-inline: 0;
+}
+
+.product-information__media .media-gallery__mobile-controls .slideshow-controls__dots > li {
+  display: block;
+  list-style: none;
+}
+
+.product-information__media .media-gallery__mobile-controls .slideshow-controls__dots .slideshow-control {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.25;
+  font-size: 0;
+  line-height: 0;
+  color: #5a3884;
+  cursor: pointer;
+  transition: opacity var(--animation-speed, 0.2s) ease;
+}
+
+.product-information__media
+  .media-gallery__mobile-controls
+  .slideshow-controls__dots
+  .slideshow-control[aria-selected='true'] {
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------
+ * 2. Details column — shared type tokens
+ *
+ * Everything below is scoped to .product-details so the featured-
+ * product section and quick-add modals keep the stock treatment.
+ * --------------------------------------------------------------- */
+.product-details {
+  /* The Figma buy row is 48px tall; the theme default is shorter. */
+  --height-buy-buttons: 48px;
+}
+
+/* Title — 24px SemiBold. `custom_class` on the text block is the hook
+   (see blocks/text.liquid); the preset alone cannot pin a px size that
+   survives the theme's fluid rem scaling on mobile. */
+.product-details .product-page__title,
+.product-details .product-page__title > * {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #2b2b2b;
+}
+
+/* Short description — 14px, subtle. Line-height stays at the theme's
+   documented 1.4 for body copy rather than the Figma's 1.2
+   (DESIGN_CONTEXT.md §6.3).
+ *
+ * The Figma shows a three-line summary here and the full copy further down in the
+ * Product details tab. Both are bound to product.description — a dynamic source in a
+ * JSON template accepts no filters at all, so it cannot be truncated there — and the
+ * summary is clamped to three lines here instead. A merchant who wants a bespoke
+ * teaser can simply type over the block's text in the editor. */
+.product-details .product-page__description,
+.product-details .product-page__description :is(p, h1, h2, h3, h4, h5, h6, li) {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: normal;
+  color: #676767;
+}
+
+/* Doubled class so the clamp's `display` beats `.text-block { display: flex }`.
+   Applied to the block, not its children, so three lines is the total across the
+   whole summary rather than three lines per paragraph. */
+.product-details .product-page__description.product-page__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.product-details .product-page__description :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 400;
+}
+
+.product-details .product-page__description :is(ul, ol) {
+  margin: 0;
+  padding-inline-start: 18px;
+}
+
+/* ---------------------------------------------------------------
+ * 3. Star rating
+ *
+ * The block sizes its stars from the type preset
+ * (`--star-size: calc(<preset size> * 1.1)`, written inline on
+ * .rating), so the height is pinned on .stars instead — an inline
+ * custom property cannot be outranked, but the declaration that
+ * consumes it can.
+ * --------------------------------------------------------------- */
+.product-details .rating-wrapper {
+  gap: 8px;
+}
+
+.product-details .rating-wrapper .rating {
+  gap: 8px;
+}
+
+.product-details .rating-wrapper .stars {
+  height: 13px;
+  width: 13px;
+}
+
+.product-details .rating-wrapper .rating-count {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #676767;
+}
+
+/* ---------------------------------------------------------------
+ * 4. Price row — compare-at, price, savings on one baseline
+ * --------------------------------------------------------------- */
+/* `:not(.price__hidden)` matters: the snippet always renders both the regular and
+   the sale row and hides the irrelevant one with `.price__hidden` (0,1,0), which a
+   plain `display: flex` here would outrank — showing the price twice. */
+.product-details product-price .price__regular:not(.price__hidden),
+.product-details product-price .price__sale:not(.price__hidden) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.product-details product-price .price,
+.product-details product-price .compare-at-price {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+.product-details product-price .price {
+  color: #2b2b2b;
+}
+
+/* The theme tints the compare-at from the foreground colour at reduced
+   opacity; the Figma uses a flat grey with a solid strike. */
+.product-details product-price .compare-at-price {
+  color: #9d9d9d;
+  text-decoration-color: #9d9d9d;
+  text-decoration-thickness: 1px;
+}
+
+.product-details product-price .price-item__savings {
+  font-size: 14px;
+}
+
+/* ---------------------------------------------------------------
+ * 5. Variant pickers
+ *
+ * Label row: "Colors: Golden" on the left, "Size guide" on the right.
+ * The colon is drawn rather than typed so the option name stays the
+ * merchant's own string.
+ * --------------------------------------------------------------- */
+.product-details .variant-option + .variant-option {
+  margin-top: 24px;
+}
+
+/* The theme's "equal width" variant setting lays the fieldset out as a grid of
+   1fr tracks, which stretches the pills across the column and drops the legend
+   into a cell of its own. The Figma sizes each pill to its label, so the fieldset
+   is returned to a wrapping flex row here rather than changing the store-wide
+   `variant_button_width` setting (dropdowns and quick-add still want the grid). */
+.product-details .variant-option--equal-width-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-details .variant-option--equal-width-buttons .variant-option__button-label {
+  min-width: 0;
+}
+
+.product-details .variant-option--buttons legend {
+  flex-basis: 100%;
+}
+
+.product-details .variant-option--buttons legend,
+.product-details .variant-option[data-testid='variant-option-single'] {
+  margin-block-end: 12px;
+  font-family: var(--font-body--family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #2b2b2b;
+}
+
+.product-details .variant-option__label-name::after {
+  content: ':';
+}
+
+.product-details .variant-option__swatch-value {
+  padding-inline-start: 4px;
+  font-weight: 400;
+  color: #2b2b2b;
+}
+
+.product-details .variant-option__size-guide {
+  font-size: 14px;
+  font-weight: 500;
+  color: #676767;
+}
+
+.product-details .variant-option__size-guide:hover,
+.product-details .variant-option__size-guide:focus-visible {
+  color: #2b2b2b;
+}
+
+/* Swatches — 28px circles, 8px apart. */
+.product-details .variant-option--swatches {
+  --variant-picker-swatch-width: 28px;
+  --variant-picker-swatch-height: 28px;
+  --variant-picker-swatch-radius: 50%;
+
+  gap: 8px;
+}
+
+/* Size buttons — pills. Unselected: white with a light grey hairline.
+   Selected: a 2px purple ring with purple text on white, which is the
+   inverse of the theme-wide selected-variant fill set in
+   config/settings_data.json (see DESIGN_CONTEXT.md §5b), so it is
+   overridden here rather than changed globally. */
+.product-details .variant-option--buttons .variant-option__button-label:not(.variant-option__button-label--has-swatch) {
+  --options-border-radius: 50px;
+  --options-border-width: 1px;
+
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding-block: 9px;
+  padding-inline: 17px;
+  background-color: #fefefe;
+  border-color: #eaeaea;
+  color: #2b2b2b;
+  font-family: var(--font-body--family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: normal;
+}
+
+/* base.css draws the selected state as a ::before overlay border rather than
+   on the label itself, so the ring colour and width are set there too. */
+.product-details
+  .variant-option--buttons
+  .variant-option__button-label:not(.variant-option__button-label--has-swatch):has(:checked) {
+  color: #5a3884;
+  font-weight: 500;
+  box-shadow:
+    0 1px 2px -1px rgb(0 0 0 / 0.1),
+    0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+.product-details
+  .variant-option--buttons
+  .variant-option__button-label:not(.variant-option__button-label--has-swatch):has(:checked)::before {
+  border-width: 2px;
+  border-color: #5a3884;
+}
+
+/* ---------------------------------------------------------------
+ * 6. Quantity + Add to cart
+ *
+ * One row: a fixed 130px quantity pill and an Add to cart button
+ * taking the rest. Both 48px tall with a 50px radius.
+ * --------------------------------------------------------------- */
+.product-details .product-form-buttons {
+  align-items: center;
+  gap: 8px;
+}
+
+.product-details .product-form-buttons .quantity-selector {
+  width: 130px;
+  height: 48px;
+  border-radius: 50px;
+}
+
+/* The ± caps are sized to `--minimum-touch-target` (44px), 4px short of this
+   48px pill, so a filled hover state left a white sliver above and below and
+   its corner curve (capped at half of 44) didn't seat into the pill's inner
+   curve. Stretching the caps to the pill fixes both: 46.4px tall, which caps
+   the 50px radius at 23.2px — exactly the pill's inner radius (24px outer
+   − 0.8px border). `height` must return to `auto` for `stretch` to apply.
+   Scoped to this 48px pill: a global stretch would shrink the cart's caps
+   (36px pill) below the 44px tap target and top-align their glyphs. */
+.product-details .product-form-buttons .quantity-selector :is(.quantity-minus, .quantity-plus) {
+  height: auto;
+  align-self: stretch;
+}
+
+/* Gold end-cap on hover, matching the primary-button hover swap. Declared here
+   rather than inherited from `.button:hover`, which brand-components.css
+   excludes `.button-unstyled` from. */
+.product-details
+  .product-form-buttons
+  .quantity-selector
+  :is(.quantity-minus, .quantity-plus):not(:disabled):hover {
+  background-color: var(--color-secondary-500, #bc9d62);
+  color: #fefefe;
+}
+
+/* The Figma's buy row is quantity + Add to cart only. Shop Pay / dynamic checkout
+   is still a real storefront feature, so rather than dropping the block it is
+   pushed onto its own full-width row underneath. */
+.product-details .product-form-buttons .accelerated-checkout-block {
+  flex: 1 0 100%;
+}
+
+.product-details .product-form-buttons .add-to-cart-button {
+  height: 48px;
+  padding-block: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: normal;
+}
+
+/* brand-components.css appends a chevron to every text-only .button.
+   The Figma's Add to cart is label-only, so it is opted out here. */
+.product-details .product-form-buttons .add-to-cart-button::after {
+  content: none;
+}
+
+/* ---------------------------------------------------------------
+ * 7. Product details / Shipping & Returns tabs
+ *
+ * Equal-width tabs sharing a hairline, the active one underlined in
+ * purple. The block's own rule fades inactive tabs to 55% opacity;
+ * the Figma keeps them at full strength in the body colour.
+ * --------------------------------------------------------------- */
+.product-details .product-tabs .product-tabs__nav {
+  gap: 0;
+  border-block-end-color: #f8f5ef;
+}
+
+.product-details .product-tabs .product-tabs__tab {
+  flex: 1 1 0;
+  padding: 12px 24px 14px;
+  font-family: var(--font-body--family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #2b2b2b;
+  opacity: 1;
+  white-space: normal;
+}
+
+.product-details .product-tabs .product-tabs__tab[aria-selected='true'] {
+  font-weight: 500;
+  color: #5a3884;
+  border-block-end-color: #5a3884;
+}
+
+.product-details .product-tabs .product-tabs__panels {
+  padding-block-start: 16px;
+}
+
+/* Tab body — a 16px heading over a bulleted 14px list. */
+.product-details .product-page__tab-content > * {
+  margin-block: 0;
+}
+
+.product-details .product-page__tab-content :is(h1, h2, h3, h4, h5, h6) {
+  margin-block: 16px 4px;
+  font-family: var(--font-body--family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #2b2b2b;
+}
+
+.product-details .product-page__tab-content > :is(h1, h2, h3, h4, h5, h6):first-child {
+  margin-block-start: 0;
+}
+
+.product-details .product-page__tab-content :is(ul, ol) {
+  margin: 0;
+  padding-inline-start: 21px;
+}
+
+.product-details .product-page__tab-content li,
+.product-details .product-page__tab-content p {
+  padding-block: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: normal;
+  color: #676767;
+}
+
+/* ---------------------------------------------------------------
+ * 7b. Recommendation containers
+ *
+ * base.css:5209 draws `border: 1px solid var(--color-border)` on every
+ * direct child of `.product-recommendations`. That paints a dark
+ * rectangle around the section wrapper, its background layer and the
+ * card row — visible in both "Pairs well with" and "You may also like",
+ * and more so once a section background sets --color-border. The Figma
+ * has no such frame anywhere.
+ *
+ * Two classes so it also outranks the base rule if the load order of
+ * base.css and this file ever changes.
+ * --------------------------------------------------------------- */
+.product-recommendations.product-recommendations > * {
+  border: 0;
+}
+
+/* Card shadows in a carousel.
+ *
+ * Every `slideshow-slide` clips its content (`overflow: hidden`), which shears the
+ * card's drop shadow off on all four sides — the card reads as a flat rectangle
+ * instead of the Figma's raised panel. Slides here hold cards, not bled media, so
+ * they have nothing to clip.
+ *
+ * The track then has to stop clipping too: it is the scroll container, so its own
+ * edges cut the first and last card's shadow. The inline padding gives that room and
+ * the negative margin hands it back.
+ *
+ * `width` has to grow by the same amount: the track is `box-sizing: border-box` with
+ * a resolved width, so padding alone eats into the content box — and slide widths are
+ * a share of that box, so every card would come out 3px narrow and the row would end
+ * short of the content column. */
+.product-card-grid .resource-list__slide {
+  overflow: visible;
+}
+
+.product-card-grid .resource-list__carousel slideshow-slides {
+  width: calc(100% + 12px);
+  padding-inline: 6px;
+  margin-inline: -6px;
+
+  /* Scroll snapping aligns a slide's start to the *padding box*, so without this the
+     track rests 6px scrolled and the whole row sits left of its column on mobile. */
+  scroll-padding-inline: 6px;
+}
+
+/* ---------------------------------------------------------------
+ * 8. "Pairs well with" upsell panel
+ *
+ * A cream card inside the details column on desktop. The panel is a
+ * stock group block, so the only thing needed here is to stop the
+ * recommendation grid inheriting the section-level page margins it
+ * would normally sit in.
+ * --------------------------------------------------------------- */
+.product-details .product-recommendations .block-resource-list {
+  padding-inline: 0;
+}
+
+/* Complementary products are curated per product in Search & Discovery, so most
+   products start with none. Without this the panel still paints its cream card and
+   heading around an empty grid; hiding the whole group makes it opt-in.
+ *
+ * The child combinators are load-bearing: `_product-details` wraps every block in
+ * an outer `.group-block`, so a descendant-only `:has()` here would also match that
+ * wrapper and blank the entire details column. */
+.product-details
+  .group-block:has(
+    > .group-block-content
+      > .product-recommendations-wrapper
+      .resource-list[data-has-recommendations='false']
+  ) {
+  display: none;
+}
+
+.product-details .product-recommendations .resource-list--grid {
+  --resource-list-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media screen and (max-width: 749px) {
+  .product-details .product-recommendations .resource-list--grid {
+    --resource-list-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------------------------------------------------------------
+ * 9. "You may also like"
+ *
+ * A carousel `.resource-list` gets `force-full-width` so slides can
+ * peek past the page margin. With pagination dots on, the snippet
+ * already drops the peek gutters, and the Figma keeps the row inside
+ * the content column — so the full-bleed grid span is undone here.
+ * --------------------------------------------------------------- */
+.section-resource-list > .resource-list.force-full-width:has(.slideshow-controls__dots) {
+  grid-column: 2;
+}
+
+/* ---------------------------------------------------------------
+ * 10. Reviews section
+ *
+ * The Judge.me widget is an app block, so its internals are not ours
+ * to style — but it needs the full content column to lay itself out.
+ * The `_blocks` section renders a flex column, and an app block brings
+ * no width setting of its own, so it would shrink to its content.
+ *
+ * Keyed on the section id because a `_blocks` section takes its class
+ * from the section file (`section-wrapper`) and cannot be given a
+ * per-instance one; the suffix is the section's key in
+ * templates/product.json.
+ * --------------------------------------------------------------- */
+[id$='__reviews'] .shopify-app-block {
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------
+ * 11. Breadcrumbs
+ *
+ * The Figma truncates the product crumb rather than wrapping the row
+ * onto a second line on mobile.
+ * --------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .breadcrumbs .breadcrumbs__list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .breadcrumbs .breadcrumbs__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .breadcrumbs .breadcrumbs__item {
+    flex: 0 0 auto;
+  }
+
+  .breadcrumbs .breadcrumbs__item:last-child {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .breadcrumbs .breadcrumbs__current {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -1,4 +1,11 @@
-{% render 'text', block: block %}
+{%- comment -%}
+  `custom_class` is the escape hatch for page-level styling: settings alone cannot
+  express every Figma spec (px type that must not scale with the theme's fluid rem,
+  for instance), and a stock text block otherwise offers nothing to select on.
+  Escaped because the value lands inside a class="" attribute.
+{%- endcomment -%}
+{%- assign custom_class = block.settings.custom_class | escape -%}
+{% render 'text', block: block, class: custom_class %}
 
 {% schema %}
 {
@@ -15,6 +22,12 @@
       "id": "mobile_text",
       "label": "Mobile text (Optional)",
       "info": "Replaces the text content for mobile devices"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "CSS class (Optional)",
+      "info": "Adds a class to this block so theme CSS can target it. Leave empty unless a stylesheet asks for one."
     },
     {
       "type": "header",

@@ -477,6 +477,133 @@ the policy list and social links — recover it from git history if it is ever w
 
 Also added locale key `content.all_rights_reserved` ("All rights reserved.") in `locales/en.default.json`.
 
+## 5g. Product page — Figma pass (`templates/product.json`)
+
+Desktop node `7206:10321`, mobile node `7206:10603`. Verified live in Chrome DevTools MCP
+against `http://127.0.0.1:9292` at 1440 and 390 with computed styles, not just screenshots.
+
+Built by composing the theme's own `product-information` section — no replacement section.
+Four new theme blocks cover what stock blocks could not reach; everything else is settings
+plus one page stylesheet.
+
+**New blocks**
+- **`blocks/brand-heading.liquid`** — the centred purple heading over a 68×4 gold rule that
+  the Figma repeats three times (Pairs well with / Customer reviews / You may also like). A
+  stock `text` block can render the heading but has nowhere to hang the rule.
+- **`blocks/product-badge.liquid`** — the SALE / NEW IN / SOLD OUT pill above the title. Same
+  look as the card badge in `_product-card-gallery`, but in normal flow instead of absolutely
+  positioned over media, and driven by the same `new-in` product tag. Renders nothing when no
+  state applies, so it never contributes a stray gap.
+- **`blocks/product-highlights.liquid`** + **`blocks/product-highlight.liquid`** — the 2×2
+  reassurance grid (coloured icon tile + 14px headline + 12px sub-line). The tracks are
+  `minmax(0, max-content)`, not `1fr`: the Figma's second column starts at a fixed offset
+  rather than drifting with the container. Column gap 80 desktop / 16 mobile.
+
+**Extensions to existing blocks** (all opt-in; every other placement is unchanged)
+- `blocks/price.liquid` + `snippets/price.liquid`: `show_savings` (none / amount / percent)
+  renders "Save $19" beside a sale price, plus a `savings_color`. Computed before the money
+  formatting, since `price`/`compare_at_price` are reassigned to strings further down.
+- `blocks/review.liquid`: `count_format: summary` renders the Figma's `5.0 (142 reviews)` on
+  one line, and a `star_color` that recolours the stars without dragging the count with them
+  (`.rating-count` now reads `--color` instead of `--star-fill-color`; identical output when
+  only `text_color` is set).
+- `blocks/variant-picker.liquid` + `snippets/variant-main-picker.liquid`: `show_selected_value`
+  puts the chosen value after the option name for button options (swatches always did), and a
+  size-guide link (`size_guide_option` / `_label` / `_link`) that renders on the right of the
+  matching option's legend. The option name is wrapped in `.variant-option__label-name` so the
+  colon can be drawn in CSS rather than typed into the merchant's option name.
+- `blocks/text.liquid`: a `custom_class` setting, passed to the `class` param
+  `snippets/text.liquid` already accepted. This is the hook page CSS needs for px type that
+  must not scale with the theme's fluid rem (gotcha #4) — a stock text block otherwise offers
+  nothing to select on.
+- `sections/` + `blocks/product-recommendations.liquid`: a `show_dots` setting. **Two bugs
+  fixed while wiring it up:** `slide_count` was `recommendations.products.size`, which is 0 on
+  the first render (recommendations are fetched client-side) so the dots never met the
+  `slide_count > 1` gate — now `slides.size`, matching the fix already made in
+  `product-list.liquid`. And `resource-list-carousel` reads the *render param* `show_dots`, not
+  `settings.show_dots`, so it has to be passed explicitly (see `snippets/resource-list.liquid`).
+
+**Shared product card.** "Pairs well with" and "You may also like" draw the same card as the
+collection grid, so `assets/collection-page.css`'s card rules were rescoped from
+`.collection-results` to **`.product-card-grid`**, and that class was added to
+`sections/main-collection.liquid`, `sections/product-recommendations.liquid` and
+`blocks/product-recommendations.liquid`. One source of truth, no duplication.
+
+**`assets/product-page.css`** (loaded from `snippets/stylesheets.liquid`) carries the rest:
+column split, gallery mobile dots, details typography, price row, variant pills, buy row, tabs,
+upsell panel, reviews and breadcrumbs. px, not rem, throughout — same reasoning as the footer
+and collection page.
+
+**Gotchas that cost time here (don't undo these):**
+1. `.price__hidden` is (0,1,0). The price snippet always renders both the regular and the sale
+   row and hides the irrelevant one, so the flex rule for the price row is written
+   `:not(.price__hidden)` — otherwise the price shows twice.
+2. `_product-details` wraps every block in an outer `.group-block`. The rule that hides the
+   upsell panel when it has no recommendations uses child combinators
+   (`:has(> .group-block-content > .product-recommendations-wrapper …)`); a descendant-only
+   `:has()` also matches that wrapper and blanks the **entire details column**.
+3. The theme's `variant_button_width` setting lays the fieldset out as a grid of `1fr` tracks,
+   which stretches the size pills full width and drops the legend into a cell. The product page
+   returns it to a wrapping flex row rather than changing the store-wide setting (dropdowns and
+   quick-add still want the grid).
+4. Below 990px the document scrolls; **at ≥990px `.page-wrapper` is the scroller**
+   (`base.css:36`). `window.scrollTo` does nothing on desktop — scroll `.page-wrapper`, or
+   recommendations never enter the viewport and never fetch.
+5. The Judge.me widget is an app block with no width setting inside a flex column, so it
+   collapsed to zero width. `[id$='__reviews'] .shopify-app-block { width: 100% }` — keyed on
+   the section id because a `_blocks` section takes its class from the section file and cannot
+   be given a per-instance one.
+6. **`base.css:5209` draws `border: 1px solid var(--color-border)` on every direct child of
+   `.product-recommendations`** — a dark rectangle around the section wrapper, its background
+   layer and the card row, in both recommendation areas. Reset in `product-page.css`; the Figma
+   has no such frame. (It gets more obvious once a section background sets `--color-border`.)
+7. **`slideshow-slide` clips its content**, which shears the card drop shadow off on all four
+   sides inside a carousel — the cards read flat. Slides that hold cards are set to
+   `overflow: visible`, and the scroll track gets `padding-inline: 6px` so the first and last
+   card's shadow is not cut by the track edge. Three companions are required, or the fix
+   creates worse problems: `margin-inline: -6px` to put the row back where it was,
+   `width: calc(100% + 12px)` because the track is `box-sizing: border-box` with a resolved
+   width (padding alone shrinks the content box, and slide widths are a share of it, so every
+   card comes out narrow), and `scroll-padding-inline: 6px` because snapping aligns a slide's
+   start to the *padding box* — without it the track rests 6px scrolled and the row sits left
+   of its column on mobile.
+7b. **`--peek-next-slide-size` (3rem) is subtracted from the track before the slide width is
+   divided out**, so the next slide can peek past the last column. With pagination dots on
+   there is no peek, and leaving the reserve in place makes every slide ~12px narrower than its
+   column — the row ends short and the remainder is stranded on one side (which reads as "the
+   cards aren't centred"). `snippets/resource-list.liquid` already zeroed it plus
+   `--mobile-card-size`; `snippets/resource-list-carousel.liquid` did not, and it is the
+   snippet the recommendation section and block render directly. Now handled in both.
+8. **Icons in custom blocks need `fill: currentColor`.** Most paths in `snippets/icon.liquid`
+   carry no `fill` of their own and render black; the stock icon block gets it from
+   `.icon-default` in `base.css`. `blocks/product-highlight.liquid` sets it on
+   `.product-highlight__icon`.
+
+**Deliberate deviations:**
+- Page margins stay the theme's 50px rather than the Figma's 80px, so the product page lines up
+  with the header, collection page and footer. The column split is tuned to `1.163fr 1fr` so
+  the *content* widths still land on the Figma's 668:572 ratio inside a 40px gutter.
+- **Sticky details column is off.** The Figma annotates the column as sticky, but with the
+  highlights, tabs and upsell panel added it is ~1500px tall — `position: sticky` would pin it
+  and make its bottom unreachable. The floating sticky add-to-cart bar covers the same need.
+- **"Buy it now"** (dynamic checkout) is not in the Figma. Rather than dropping a real
+  storefront feature it is pushed onto its own full-width row under the quantity + Add to cart
+  row (`flex: 1 0 100%`).
+- The short summary above the divider and the Product details tab are **both** bound to
+  `product.description`; a dynamic source in a JSON template accepts **no filters at all**
+  (`| strip_html` is rejected as an unsupported filter, and two filters are rejected outright),
+  so the summary is clamped to three lines in CSS instead of truncated in Liquid. A merchant
+  who wants a bespoke teaser types over the block's text in the editor.
+- **"Pairs well with" uses `complementary` recommendations**, which are curated per product in
+  Shopify's Search & Discovery app. Until a product has them the panel hides itself entirely
+  (see gotcha 2) rather than painting an empty cream card. Switch the block to `related` if a
+  populated panel matters more than the curation.
+- Product option order (Size before Colour on the sample product) comes from the product admin,
+  not the theme; the Figma shows Colour first.
+
+Also added locale keys `content.price_savings`, `content.rating_summary_html`,
+`content.review_singular` and `content.size_guide` to `locales/en.default.json`.
+
 ## 6. Key decisions & deviations (read before changing)
 
 1. **Jost is native (Shopify library), not self-hosted.** Confirmed present in the theme editor font picker.
@@ -512,6 +639,9 @@ Also added locale key `content.all_rights_reserved` ("All rights reserved.") in 
   `feature/new-navigation-bar`. See **§5c**. Localization is hidden to match the design (reversible).
 - [x] **Footer section** — matched to Figma (`7134:17312` desktop, `7134:17433` mobile). See **§5f**.
   Payment icons stay hidden until a payment provider is enabled on the store.
+- [x] **Product page** — matched to Figma (`7206:10321` desktop, `7206:10603` mobile). See **§5g**.
+- [ ] Product page follow-ups: set the **Size guide** link on the variant-picker block, and add
+  **complementary products** in Search & Discovery so the "Pairs well with" panel appears.
 - [ ] Optional: decide whether body line-height should be the exact Figma 1.2 (`body-tight`) vs current 1.4.
 
 ---

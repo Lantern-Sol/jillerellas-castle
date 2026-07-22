@@ -22,6 +22,19 @@
     assign has_custom_variant_buttons = true
   endif
   assign fieldset_index = 0
+
+  # Size guide: an optional link rendered on the right of one option's legend row.
+  # Matched on the option name so the merchant does not have to know the option's
+  # position, and handleized so "Size", "size" and "Sizes" all resolve the same way.
+  assign size_guide_option_handle = ''
+  if block_settings.size_guide_link != blank and block_settings.size_guide_option != blank
+    assign size_guide_option_handle = block_settings.size_guide_option | handleize
+  endif
+
+  assign size_guide_label = block_settings.size_guide_label
+  if size_guide_label == blank
+    assign size_guide_label = 'content.size_guide' | t
+  endif
 %}
 
 {% unless product_resource.has_only_default_variant %}
@@ -76,23 +89,49 @@
           endif
         -%}
 
+        {%- liquid
+          assign show_size_guide = false
+          if size_guide_option_handle != blank
+            assign this_option_handle = product_option.name | handleize
+            if this_option_handle == size_guide_option_handle
+              assign show_size_guide = true
+            endif
+          endif
+        -%}
         {%- if product_option.values.size == 1 and variant_style != 'swatch' -%}
           <div
             class="variant-option"
             data-testid="variant-option-single"
           >
-            {{- product_option.name | escape -}}
+            <span class="variant-option__label-name">{{ product_option.name | escape }}</span>
             <span
               class="variant-option__swatch-value"
               data-testid="variant-option-single-value"
             >
               {{- product_option.selected_value -}}
             </span>
+            {%- if show_size_guide -%}
+              <a
+                class="variant-option__size-guide"
+                href="{{ block_settings.size_guide_link }}"
+              >
+                {{- size_guide_label -}}
+              </a>
+            {%- endif -%}
           </div>
         {%- elsif variant_style == 'swatch' or block_settings.variant_style == 'buttons' -%}
           {%- liquid
             assign default_option_index = product_option.position | minus: 1
             assign default_value_at_position = default_variant.options[default_option_index]
+
+            # Swatches always name the chosen colour. Button options only do so when the
+            # merchant opts in, so every other placement of this picker is unchanged.
+            assign show_selected_value = false
+            if variant_style == 'swatch'
+              assign show_selected_value = true
+            elsif block_settings.show_selected_value
+              assign show_selected_value = true
+            endif
           -%}
           <fieldset
             class="variant-option variant-option--buttons{% if variant_style == 'swatch' %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}"
@@ -101,10 +140,18 @@
             {{ option_id_attribute }}
           >
             <legend>
-              {{ product_option.name | escape -}}
-              {%- if variant_style == 'swatch' -%}
+              <span class="variant-option__label-name">{{ product_option.name | escape }}</span>
+              {%- if show_selected_value -%}
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-              {%- endif %}
+              {%- endif -%}
+              {%- if show_size_guide -%}
+                <a
+                  class="variant-option__size-guide"
+                  href="{{ block_settings.size_guide_link }}"
+                >
+                  {{- size_guide_label -}}
+                </a>
+              {%- endif -%}
             </legend>
             {%- for product_option_value in product_option.values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}

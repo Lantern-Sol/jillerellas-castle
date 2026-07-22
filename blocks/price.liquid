@@ -45,6 +45,7 @@
       --color: {{ block_settings.text_color }};
       --color-rgb: {{ block_settings.text_color.rgb }};
     {% endif %}
+    {% if block_settings.savings_color != blank %}--price-savings-color: {{ block_settings.savings_color }};{% endif %}
     --width: {{ block_settings.width }};
   "
   {{ block.shopify_attributes }}
@@ -52,7 +53,8 @@
   {% render 'price',
     show_unit_price: true,
     product_resource: product_resource,
-    show_sale_price_first: block_settings.show_sale_price_first
+    show_sale_price_first: block_settings.show_sale_price_first,
+    show_savings: block_settings.show_savings
   %}
 
   {% if block_settings.show_tax_info %}
@@ -86,6 +88,22 @@
   {%- endif -%}
 </product-price>
 
+{% stylesheet %}
+  /* Sits beside the sale price rather than inheriting its size, so a large price
+     preset does not blow the note up with it. */
+  .price-item__savings {
+    display: inline-block;
+    color: var(--price-savings-color, #f4623a);
+    font-family: var(--font-body--family);
+    font-size: var(--price-savings-size, 0.8em);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.product_price",
@@ -104,6 +122,25 @@
       "id": "show_sale_price_first",
       "label": "t:settings.show_sale_price_first",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "show_savings",
+      "label": "Savings note",
+      "info": "Shown beside a sale price, e.g. \"Save $19\".",
+      "options": [
+        { "value": "none", "label": "t:options.none" },
+        { "value": "amount", "label": "Amount saved" },
+        { "value": "percent", "label": "Percent saved" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "savings_color",
+      "label": "Savings note colour",
+      "default": "#F4623A",
+      "visible_if": "{{ block.settings.show_savings != 'none' }}"
     },
     {
       "type": "checkbox",
