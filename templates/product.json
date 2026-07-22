@@ -1262,7 +1262,7 @@
         "rows_gap": 24,
         "icons_style": "none",
         "icons_shape": "none",
-        "show_dots": true,
+        "show_dots": false,
         "section_width": "page-width",
         "gap": 24,
         "background_color": "#fcfaf9",
