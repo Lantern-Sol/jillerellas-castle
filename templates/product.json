@@ -574,7 +574,7 @@
           "settings": {
             "review_data": "sample_data",
             "max_width": 1200,
-            "show_shop_reviews": false,
+            "show_shop_reviews": true,
             "empty_state": "empty_widget"
           }
         }
@@ -588,7 +588,7 @@
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
+        "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 12,
         "section_width": "page-width",
