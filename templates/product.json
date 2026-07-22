@@ -857,7 +857,7 @@
                   "type": "product-recommendations",
                   "name": "Recommended products",
                   "settings": {
-                    "recommendation_type": "complementary",
+                    "recommendation_type": "related",
                     "layout_type": "grid",
                     "carousel_on_mobile": true,
                     "max_products": 3,
