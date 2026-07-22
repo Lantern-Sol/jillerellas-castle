@@ -26,7 +26,7 @@
             "accordion_dividers": false,
             "background_color": "",
             "text_color": "",
-            "heading_preset": "h3",
+            "heading_preset": "",
             "heading_font": "var(--font-heading--family)",
             "heading_enable_custom_font_weight": false,
             "heading_weight": "600",
