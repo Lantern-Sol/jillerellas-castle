@@ -1,3 +1,9 @@
 header-component#header-component li.menu-list__list-item svg.icon-chevron-down {
     width: 9px;
 }
+li.mega-menu__text-links-view-all .mega-menu__view-all-icon {
+    transition: ease 0.2s;
+}
+li.mega-menu__text-links-view-all:hover .mega-menu__view-all-icon {
+    transition: ease 0.2s;
+}
