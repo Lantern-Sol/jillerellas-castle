@@ -5456,5 +5456,5 @@ body .newsletter-sec a.button-secondary:after {
 body .section-wrapper .newsletter-sec a.button-secondary:hover{
     background: transparent !important;
     color: #FEFEFE  !important;
-    border: none  !important;
+    border-color: transparent  !important;
 }
