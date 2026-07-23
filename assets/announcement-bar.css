@@ -1,0 +1,7 @@
+
+p.announcement-bar__text strong {
+    font-weight: 500;
+}
+p.announcement-bar__text  {
+    font-weight: normal;
+}
