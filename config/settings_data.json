@@ -11,7 +11,7 @@
   "current": {
     "logo": "shopify://shop_images/header-logo.svg",
     "logo_inverse": "shopify://shop_images/logo-jillerellas-castle-inverse.svg",
-    "logo_height": 48,
+    "logo_height": 40,
     "logo_height_mobile": 32,
     "favicon": "shopify://shop_images/logo-jillerellas-castle-color.svg",
     "type_body_font": "jost_n4",
