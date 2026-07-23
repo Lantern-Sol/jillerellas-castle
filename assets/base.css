@@ -5440,10 +5440,10 @@ body .banner-sec a.button:after {
     background-repeat: no-repeat;
 }
 
-body .newsletter-sec a.button {
+body .newsletter-sec a.button-secondary {
     font-weight: normal;
 }
-body .newsletter-sec a.button:after {
+body .newsletter-sec a.button-secondary:after {
     width: 15px;
     height: 15px;
     content: "";
