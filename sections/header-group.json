@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "<strong>Free shipping over $77</strong> | A little something for everyone",
+            "text": "Free shipping over $77 | A little something for everyone",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
@@ -68,63 +68,11 @@
         "header-menu": {
           "type": "_header-menu",
           "static": true,
-          "blocks": {
-            "collection_card_women": {
-              "type": "_menu-collection-card",
-              "settings": {
-                "title": "Women",
-                "subtitle": "Sterling, sparkle & everyday comfort.",
-                "button_label": "Shop woman",
-                "link": "shopify://collections/all",
-                "card_background": "linear-gradient(117deg, #EC4B9B 0%, #A90255 100%)",
-                "text_color": "#FEFEFE"
-              }
-            },
-            "collection_card_men": {
-              "type": "_menu-collection-card",
-              "settings": {
-                "title": "Men",
-                "subtitle": "Wooden bow ties, golf accessories & more.",
-                "button_label": "Shop men",
-                "link": "shopify://collections/all",
-                "card_background": "linear-gradient(117deg, #297EC6 0%, #005094 100%)",
-                "text_color": "#FEFEFE"
-              }
-            },
-            "collection_card_kids": {
-              "type": "_menu-collection-card",
-              "settings": {
-                "title": "Kids",
-                "subtitle": "Gifts for every birthday & big moments.",
-                "button_label": "Shop kids",
-                "link": "shopify://collections/all",
-                "card_background": "linear-gradient(117deg, #F9A826 0%, #BE7500 100%)",
-                "text_color": "#FEFEFE"
-              }
-            },
-            "collection_card_gifts": {
-              "type": "_menu-collection-card",
-              "settings": {
-                "title": "Gifts",
-                "subtitle": "Gifts for every birthday & big moments.",
-                "button_label": "Shop gifts",
-                "link": "shopify://collections/all",
-                "card_background": "linear-gradient(117deg, #16C0A8 0%, #0D7365 100%)",
-                "text_color": "#FEFEFE"
-              }
-            }
-          },
-          "block_order": [
-            "collection_card_women",
-            "collection_card_men",
-            "collection_card_kids",
-            "collection_card_gifts"
-          ],
           "settings": {
             "menu": "horizon-menu",
             "cards_menu_item": "Collections",
             "inherit_header_color_scheme": false,
-            "background_color": "#FCFAF9",
+            "background_color": "#fcfaf9",
             "text_color": "",
             "type_font_primary_size": "1rem",
             "menu_font_style": "inverse",
@@ -140,7 +88,63 @@
             "background_color_navigation_bar": "{{ settings.color_palette.background }}",
             "text_color_navigation_bar": "",
             "drawer_dividers": false
-          }
+          },
+          "blocks": {
+            "collection_card_women": {
+              "type": "_menu-collection-card",
+              "settings": {
+                "title": "Women",
+                "subtitle": "Sterling, sparkle & everyday comfort.",
+                "button_label": "Shop woman",
+                "link": "shopify://collections/all",
+                "card_background": "linear-gradient(117deg, #EC4B9B 0%, #A90255 100%)",
+                "text_color": "#fefefe"
+              },
+              "blocks": {}
+            },
+            "collection_card_men": {
+              "type": "_menu-collection-card",
+              "settings": {
+                "title": "Men",
+                "subtitle": "Wooden bow ties, golf accessories & more.",
+                "button_label": "Shop men",
+                "link": "shopify://collections/all",
+                "card_background": "linear-gradient(117deg, #297EC6 0%, #005094 100%)",
+                "text_color": "#fefefe"
+              },
+              "blocks": {}
+            },
+            "collection_card_kids": {
+              "type": "_menu-collection-card",
+              "settings": {
+                "title": "Kids",
+                "subtitle": "Gifts for every birthday & big moments.",
+                "button_label": "Shop kids",
+                "link": "shopify://collections/all",
+                "card_background": "linear-gradient(117deg, #F9A826 0%, #BE7500 100%)",
+                "text_color": "#fefefe"
+              },
+              "blocks": {}
+            },
+            "collection_card_gifts": {
+              "type": "_menu-collection-card",
+              "settings": {
+                "title": "Gifts",
+                "subtitle": "Gifts for every birthday & big moments.",
+                "button_label": "Shop gifts",
+                "link": "shopify://collections/all",
+                "card_background": "linear-gradient(117deg, #16C0A8 0%, #0D7365 100%)",
+                "text_color": "#fefefe"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "collection_card_women",
+            "collection_card_men",
+            "collection_card_kids",
+            "collection_card_gifts"
+          ]
         }
       },
       "settings": {
@@ -165,13 +169,13 @@
         "divider_size": "page-width",
         "divider_color": "",
         "border_width": 1,
-        "bottom_border_color": "#F8F5EF",
+        "bottom_border_color": "#f8f5ef",
         "actions_display_style": "icon",
         "actions_font_size": "0.875rem",
         "actions_font": "body",
         "actions_text_case": "none",
-        "background_color_top": "#FCFAF9",
-        "text_color_top": "#2B2B2B",
+        "background_color_top": "#fcfaf9",
+        "text_color_top": "#2b2b2b",
         "background_color_bottom": "",
         "text_color_bottom": "",
         "bubble_style": "default",
