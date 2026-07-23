@@ -21,7 +21,7 @@
             "text": "Free shipping over $77 | A little something for everyone",
             "link": "",
             "font": "var(--font-subheading--family)",
-            "font_size": "0.75rem",
+            "font_size": "1rem",
             "line_height": "normal",
             "custom_line_height": 1.5,
             "weight": "",
