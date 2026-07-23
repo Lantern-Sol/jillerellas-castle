@@ -188,6 +188,7 @@
                       "settings": {
                         "text": "<h1>Everything you love,</h1>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -229,6 +230,7 @@
                       "settings": {
                         "text": "<p>under one roof.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -276,6 +278,7 @@
                   "settings": {
                     "text": "<p>Charms, jewelry, hand-finished wooden bow ties, comfy clothes, gifts &amp; more. All kept in stock and ready to ship!</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -451,7 +454,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "banner-sec"
       }
     },
     "custom_trust_badges": {
@@ -689,6 +693,7 @@
                       "settings": {
                         "text": "<p>Solid 925 sterling</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -730,6 +735,7 @@
                       "settings": {
                         "text": "<p>Real silver, never plated</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -957,6 +963,7 @@
                       "settings": {
                         "text": "<p>Free Shipping</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -998,6 +1005,7 @@
                       "settings": {
                         "text": "<p>On purchases over $150</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -1283,6 +1291,7 @@
                       "settings": {
                         "text": "<p>Easy 30-day returns</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -1324,6 +1333,7 @@
                       "settings": {
                         "text": "<p>Shop worry-free</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -1551,6 +1561,7 @@
                       "settings": {
                         "text": "<p>Secure checkout</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -1592,6 +1603,7 @@
                       "settings": {
                         "text": "<p>Every order protected</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -1704,7 +1716,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": ""
       }
     },
     "custom_categories_main": {
@@ -1821,6 +1834,7 @@
               "settings": {
                 "text": "<h2>Best sellers</h2>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "none",
                 "alignment": "center",
@@ -1904,6 +1918,10 @@
                 "image_ratio": "square",
                 "show_hover_label": false,
                 "show_overlay_quick_add": true,
+                "show_new_badge": true,
+                "new_badge_tag": "new-in",
+                "new_badge_background": "#9b5de5",
+                "new_badge_text_color": "#fefefe",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -1949,6 +1967,8 @@
               "name": "t:names.product_price",
               "settings": {
                 "show_sale_price_first": false,
+                "show_savings": "none",
+                "savings_color": "#f4623a",
                 "show_installments": false,
                 "show_tax_info": false,
                 "type_preset": "custom",
@@ -2067,6 +2087,7 @@
               "settings": {
                 "text": "<p>A LITTLE SOMETHING FOR EVERYONE</p>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -2108,6 +2129,7 @@
               "settings": {
                 "text": "<p>For her · For him · For every moment</p>",
                 "mobile_text": "<p>For her · For him · For every moment</p>",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -2207,7 +2229,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": ""
       }
     },
     "custom_testimonials": {
@@ -2271,6 +2294,7 @@
               "settings": {
                 "text": "<h2>What our customers are saying</h2>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "none",
                 "alignment": "center",
@@ -2423,6 +2447,7 @@
                   "settings": {
                     "text": "<p>It's easy... your Closet is a pleasant experience. PLUS the name is enchanting. I LOVE it!</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -2464,6 +2489,7 @@
                   "settings": {
                     "text": "<p>- Sigi B.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -2572,6 +2598,7 @@
                   "settings": {
                     "text": "<p>I want you to know that your closet is awesome!<br/>I always find something I didn't know I needed!</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -2613,6 +2640,7 @@
                   "settings": {
                     "text": "<p>- Kay G.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -2721,6 +2749,7 @@
                   "settings": {
                     "text": "<p>Shipping was so fast and everything arrived wrapped like a little gift. My granddaughter adored the unicorn charm.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -2762,6 +2791,7 @@
                   "settings": {
                     "text": "<p>- Dana M.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "center",
@@ -2870,7 +2900,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": ""
       }
     },
     "product_list_knTpTh": {
@@ -2916,6 +2947,7 @@
               "settings": {
                 "text": "<h2>New Arrivals</h2>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "none",
                 "alignment": "center",
@@ -2999,6 +3031,10 @@
                 "image_ratio": "square",
                 "show_hover_label": false,
                 "show_overlay_quick_add": true,
+                "show_new_badge": true,
+                "new_badge_tag": "new-in",
+                "new_badge_background": "#9b5de5",
+                "new_badge_text_color": "#fefefe",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -3044,6 +3080,8 @@
               "name": "t:names.product_price",
               "settings": {
                 "show_sale_price_first": false,
+                "show_savings": "none",
+                "savings_color": "#f4623a",
                 "show_installments": false,
                 "show_tax_info": false,
                 "type_preset": "custom",
@@ -3161,6 +3199,7 @@
               "settings": {
                 "text": "<h2>What is Jillerellas?</h2>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "none",
                 "alignment": "center",
@@ -3442,6 +3481,7 @@
                       "settings": {
                         "text": "<p>A curated little kingdom</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "center",
@@ -3483,6 +3523,7 @@
                       "settings": {
                         "text": "<p>Jillerellas Castle began with one woman's love of cute, magical things — a hand-picked treasure trove of jewelry, charms, clothing and gifts, all in one friendly place.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "center",
@@ -3710,6 +3751,7 @@
                       "settings": {
                         "text": "<p>Real sterling, real quality</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "center",
@@ -3751,6 +3793,7 @@
                       "settings": {
                         "text": "<p>Our silver is solid 925 sterling — never plated — alongside playful charms and buttery-soft leggings made to be loved and worn every single day.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "center",
@@ -3978,6 +4021,7 @@
                       "settings": {
                         "text": "<p>A little something for everyone</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "center",
@@ -4019,6 +4063,7 @@
                       "settings": {
                         "text": "<p>For her, for him, for every birthday, holiday and just-because. Kept in stock and ready to ship — with a little treat tucked in now and then.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "center",
@@ -4132,7 +4177,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": ""
       }
     },
     "section_paMEfW": {
@@ -4196,6 +4242,7 @@
               "settings": {
                 "text": "<h2>Have questions? Well, we've got answers.</h2>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "none",
                 "alignment": "center",
@@ -4324,7 +4371,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": ""
       }
     }
   },
