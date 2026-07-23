@@ -5458,3 +5458,6 @@ body .section-wrapper .newsletter-sec a.button-secondary:hover{
     color: red  !important;
     border: none  !important;
 }
+.middle-banner .text-block p {
+    margin: 0;
+}
