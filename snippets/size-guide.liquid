@@ -1,0 +1,78 @@
+{%- doc -%}
+  Renders the "Size guide" affordance shown on the right of an option's label row.
+
+  Three states, in priority order:
+    1. An image is set  → the label is a button that opens the image in a modal
+       (the theme's own `dialog-component`, same mechanism as `blocks/popup-link`).
+    2. Only a URL is set → falls back to a plain link to that URL.
+    3. Neither           → renders nothing; the caller decides when to include it.
+
+  @param {object} block_settings - the variant-picker block settings
+  @param {string} label - the visible link text (already resolved by the caller)
+  @param {string} [block_id] - the block id, used to scope the dialog's heading id
+{%- enddoc -%}
+
+{%- liquid
+  assign sg_image = block_settings.size_guide_image
+  assign sg_link = block_settings.size_guide_link
+-%}
+
+{%- if sg_image != blank -%}
+  <script
+    src="{{ 'dialog.js' | asset_url }}"
+    type="module"
+  ></script>
+  <dialog-component class="size-guide">
+    <button
+      type="button"
+      class="button button-unstyled variant-option__size-guide size-guide__trigger"
+      on:click="/showDialog"
+    >
+      {{- label -}}
+    </button>
+
+    <dialog
+      ref="dialog"
+      class="size-guide__dialog dialog-modal"
+      scroll-lock
+      aria-labelledby="SizeGuideHeading-{{ block_id }}"
+    >
+      <h2
+        id="SizeGuideHeading-{{ block_id }}"
+        class="size-guide__heading"
+      >
+        {{- label -}}
+      </h2>
+
+      <div class="size-guide__media">
+        {{
+          sg_image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'lazy',
+            class: 'size-guide__image',
+            sizes: '(min-width: 750px) 700px, 100vw',
+            widths: '400, 600, 800, 1000, 1200, 1400',
+            alt: label
+        }}
+      </div>
+
+      <button
+        type="button"
+        ref="closeButton"
+        on:click="/closeDialog"
+        class="button button-unstyled close-button size-guide__close"
+        aria-label="{{ 'accessibility.close_dialog' | t }}"
+      >
+        {{- 'icon-close.svg' | inline_asset_content -}}
+      </button>
+    </dialog>
+  </dialog-component>
+{%- elsif sg_link != blank -%}
+  <a
+    class="variant-option__size-guide"
+    href="{{ sg_link }}"
+  >
+    {{- label -}}
+  </a>
+{%- endif -%}

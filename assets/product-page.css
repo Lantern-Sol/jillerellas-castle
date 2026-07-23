@@ -282,6 +282,95 @@
   color: #2b2b2b;
 }
 
+/* On-row (product has variants): the size guide sits on the first option's label
+   row, pushed right per the Figma. The flex child is the <dialog-component> wrapper
+   (pop-up) or the <a> (link, via variant-picker-styles' own auto-margin) — this
+   handles the wrapper case; the closed <dialog> inside is display:none, so the
+   wrapper is effectively just the trigger button. */
+.product-details .variant-option .size-guide {
+  margin-inline-start: auto;
+  display: inline-flex;
+}
+
+/* Standalone fallback row (single-variant / dropdown products with no label row):
+   its own line below the picker, left-aligned. */
+.product-details .size-guide-row {
+  display: flex;
+  margin-block-start: 12px;
+}
+
+.product-details .size-guide-row .size-guide {
+  display: inline-flex;
+}
+
+/* Reset the on-row auto-margin so the standalone link sits at the start of its line
+   (covers both the <a> and the wrapped button). */
+.product-details .size-guide-row .variant-option__size-guide {
+  margin-inline-start: 0;
+}
+
+/* The trigger is a <button>; `.button-unstyled` resets it to `display: block` with
+   the paragraph line-height. Pin it back to the 14px size so it matches the link,
+   and zero its own inline-start margin — in the on-row case the auto-margin lives on
+   the wrapper, not the button. */
+.product-details .variant-option__size-guide.size-guide__trigger {
+  width: auto;
+  margin-inline-start: 0;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+/* Size guide pop-up. Built on the theme's .dialog-modal (border, shadow, radius,
+   backdrop and open/close animation all come from base.css); this only sizes the
+   panel to the chart and positions the close button. On mobile base.css already
+   makes .dialog-modal full-screen — the right pattern for a scrollable chart — so
+   the width cap is desktop-only; overriding it on mobile just strands side margins.
+   The 40px top padding (vs base's smaller mobile padding) clears the close button. */
+.size-guide__dialog {
+  position: relative;
+  padding: 40px 20px 20px;
+}
+
+@media screen and (min-width: 750px) {
+  .size-guide__dialog {
+    width: min(700px, 92vw);
+    padding: 48px;
+  }
+}
+
+.size-guide__heading {
+  margin: 0 0 16px;
+  font-family: var(--font-heading--family);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #2b2b2b;
+}
+
+.size-guide__media {
+  display: flex;
+  justify-content: center;
+}
+
+.size-guide__image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.size-guide__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.size-guide__close:hover,
+.size-guide__close:focus-visible {
+  opacity: 1;
+}
+
 /* Swatches — 28px circles, 8px apart. */
 .product-details .variant-option--swatches {
   --variant-picker-swatch-width: 28px;
@@ -551,12 +640,19 @@
 /* ---------------------------------------------------------------
  * 9. "You may also like"
  *
- * A carousel `.resource-list` gets `force-full-width` so slides can
- * peek past the page margin. With pagination dots on, the snippet
- * already drops the peek gutters, and the Figma keeps the row inside
- * the content column — so the full-bleed grid span is undone here.
+ * A carousel `.resource-list` gets `force-full-width`, which spans the
+ * section grid `1 / -1` (edge to edge). The Figma keeps this row inside
+ * the content column, so pull it back into the middle grid column.
+ *
+ * This MUST NOT be gated on `:has(.slideshow-controls__dots)`: dots only
+ * render when there are enough products to paginate, so a product with
+ * few recommendations would fall through to full-bleed — and the card
+ * row's 6px shadow overhang (see the slideshow-slides rule above) then
+ * spills past the page edge and the .page-wrapper scroller shows a
+ * horizontal scrollbar. Scoped to `.product-recommendations` so homepage
+ * peek carousels (not recommendation blocks) keep their full-bleed span.
  * --------------------------------------------------------------- */
-.section-resource-list > .resource-list.force-full-width:has(.slideshow-controls__dots) {
+.product-recommendations .section-resource-list > .resource-list.force-full-width {
   grid-column: 2;
 }
 

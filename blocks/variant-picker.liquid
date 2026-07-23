@@ -52,11 +52,8 @@
       "content": "Size guide"
     },
     {
-      "type": "text",
-      "id": "size_guide_option",
-      "label": "Option name",
-      "info": "The option the link sits beside, e.g. Size. Leave the link empty to hide it.",
-      "default": "Size"
+      "type": "paragraph",
+      "content": "Shows a standalone \"Size guide\" link below the variant options (it appears even on products with no variants). Set an image to open it in a pop-up; if only a link is set, it opens that URL instead. Leave both empty to hide it."
     },
     {
       "type": "text",
@@ -65,9 +62,16 @@
       "default": "Size guide"
     },
     {
+      "type": "image_picker",
+      "id": "size_guide_image",
+      "label": "Pop-up image",
+      "info": "The size chart shown in the pop-up. Takes priority over the link below."
+    },
+    {
       "type": "url",
       "id": "size_guide_link",
-      "label": "t:settings.link"
+      "label": "t:settings.link",
+      "info": "Used only when no pop-up image is set."
     },
     {
       "type": "header",
