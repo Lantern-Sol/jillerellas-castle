@@ -24,7 +24,7 @@
             "font_size": "1rem",
             "line_height": "normal",
             "custom_line_height": 1.5,
-            "weight": "",
+            "weight": "400",
             "letter_spacing": "normal",
             "case": "none",
             "type_preset_mobile": "rte",
