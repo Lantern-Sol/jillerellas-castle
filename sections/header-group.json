@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "Free shipping over $77 | A little something for everyone",
+            "text": "<strong>Free shipping over $77</strong> | A little something for everyone",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "1rem",
