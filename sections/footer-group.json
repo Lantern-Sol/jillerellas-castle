@@ -21,35 +21,40 @@
             "text": "First looks, little restocks, and a treat now and then.",
             "placeholder": "Your email address",
             "button_label": "Subscribe"
-          }
+          },
+          "blocks": {}
         },
         "menu_shop": {
           "type": "footer-menu",
           "settings": {
             "menu": "shop",
             "heading": ""
-          }
+          },
+          "blocks": {}
         },
         "menu_collections": {
           "type": "footer-menu",
           "settings": {
             "menu": "collections",
             "heading": ""
-          }
+          },
+          "blocks": {}
         },
         "menu_company": {
           "type": "footer-menu",
           "settings": {
             "menu": "company",
             "heading": ""
-          }
+          },
+          "blocks": {}
         },
         "logo": {
           "type": "footer-logo",
           "settings": {
             "logo_width": 188,
             "link": ""
-          }
+          },
+          "blocks": {}
         }
       },
       "block_order": [
@@ -102,7 +107,7 @@
         "background_color": "{{ settings.color_palette.color1 }}",
         "text_color": "#fefefe",
         "show_divider": true,
-        "divider_color": "",
+        "divider_color": "#E0D2B7",
         "padding-block-start": 0,
         "padding-block-end": 40
       }
