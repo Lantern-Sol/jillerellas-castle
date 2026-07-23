@@ -5426,10 +5426,10 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
   }
 }
 
-.banner-sec a.button {
+body .banner-sec a.button {
     font-weight: normal;
 }
-.banner-sec a.button:after {
+body .banner-sec a.button:after {
     width: 15px;
     height: 15px;
     content: "";
@@ -5440,11 +5440,10 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     background-repeat: no-repeat;
 }
 
-
-.newsletter-sec a.button {
+body .newsletter-sec a.button {
     font-weight: normal;
 }
-.newsletter-sec a.button:after {
+body .newsletter-sec a.button:after {
     width: 15px;
     height: 15px;
     content: "";
