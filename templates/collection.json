@@ -91,6 +91,7 @@
               "settings": {
                 "text": "<h1>{{ closest.collection.title }}</h1>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "100%",
                 "max_width": "none",
                 "alignment": "center",
@@ -140,6 +141,7 @@
               "settings": {
                 "text": "{{ closest.collection.description }}",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
@@ -240,7 +242,8 @@
         "padding-block-start-mobile": 16,
         "padding-block-end-mobile": 16,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
       }
     },
     "main": {
@@ -352,6 +355,8 @@
               "type": "price",
               "settings": {
                 "show_sale_price_first": true,
+                "show_savings": "none",
+                "savings_color": "#f4623a",
                 "show_installments": false,
                 "show_tax_info": false,
                 "type_preset": "h6",
@@ -406,8 +411,8 @@
     "learn_more": {
       "type": "collection-learn-more",
       "settings": {
-        "heading": "Learn more about our collection",
-        "content": "",
+        "heading": "{{ collection.metafields.custom.learn_more_heading.value }}",
+        "content": "{{ collection.metafields.custom.learn_more_description | metafield_tag }}",
         "collapsed_lines": 4,
         "more_label": "View more",
         "less_label": "View less",
