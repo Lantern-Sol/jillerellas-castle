@@ -5,5 +5,5 @@ li.mega-menu__text-links-view-all .mega-menu__view-all-icon {
     transition: ease 0.2s; position:relative;
 }
 li.mega-menu__text-links-view-all:hover .mega-menu__view-all-icon {
-  left:10px;
+  margin-left:10px;
 }
