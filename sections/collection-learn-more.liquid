@@ -150,6 +150,16 @@
     margin-block-end: 0;
   }
 
+  /* The copy is centred, so a list's default outside markers strand the bullets
+     at the far left while each line of text centres away from them. `inside`
+     tucks the marker against its own text so it centres together with the line;
+     the default 40px list padding is then dead space, so drop it. */
+  .collection-learn-more__text :is(ul, ol) {
+    list-style-position: inside;
+    padding-inline-start: 0;
+    margin-inline: 0;
+  }
+
   /* Only applied once the script has measured a genuine overflow. */
   .collection-learn-more__text--clamped {
     display: -webkit-box;
