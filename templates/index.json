@@ -1671,7 +1671,7 @@
         "align_baseline": false,
         "horizontal_alignment_flex_direction_column": "flex-start",
         "vertical_alignment_flex_direction_column": "center",
-        "gap": 72,
+        "gap": 100,
         "use_mobile_gap": true,
         "mobile_gap": 16,
         "section_width": "page-width",
