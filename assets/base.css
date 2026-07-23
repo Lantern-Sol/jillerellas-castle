@@ -5425,3 +5425,32 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
     margin-top: calc(var(--header-height) * var(--transparent-header-offset-boolean) * -1);
   }
 }
+
+.banner-sec a.button {
+    font-weight: normal;
+}
+.banner-sec a.button:after {
+    width: 15px;
+    height: 15px;
+    content: "";
+    display: inline-block;
+    background: url('https://cdn.shopify.com/s/files/1/0779/0303/6594/files/button-arrow.svg?v=1784807523');
+    background-size: 9px;
+    mask: unset;
+    background-repeat: no-repeat;
+}
+
+
+.newsletter-sec a.button {
+    font-weight: normal;
+}
+.newsletter-sec a.button:after {
+    width: 15px;
+    height: 15px;
+    content: "";
+    display: inline-block;
+    background: url('https://cdn.shopify.com/s/files/1/0779/0303/6594/files/button-arrow.svg?v=1784807523');
+    background-size: 9px;
+    mask: unset;
+    background-repeat: no-repeat;
+}
