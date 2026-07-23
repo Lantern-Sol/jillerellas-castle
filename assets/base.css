@@ -5453,3 +5453,8 @@ body .newsletter-sec a.button-secondary:after {
     mask: unset;
     background-repeat: no-repeat;
 }
+body .newsletter-sec a.button-secondary {
+    background: transparent;
+    color: red ;
+    border: none ;
+}
