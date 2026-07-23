@@ -8,7 +8,7 @@
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 <div class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"></div>
 <div
-  class="section section--page-width spacing-style simple-cta{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
+  class="{{ section.settings.custom_class }} section section--page-width spacing-style simple-cta{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}"
   style="{% render 'spacing-style', settings: section.settings %}"
 >
   <div class="simple-cta__inner">
