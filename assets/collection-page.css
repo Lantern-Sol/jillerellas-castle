@@ -240,6 +240,8 @@
     border-bottom: 1px solid #D7D9DA;
     margin-bottom: 10px;
 }
+@media only screen and (max-width:767px){
 .facets__filters-wrapper {
     padding: 0 15px;
+}
 }
