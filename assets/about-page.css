@@ -1,3 +1,16 @@
 .curation-sec .group-block-content a {
     font-weight: 500;
 } 
+.curation-sec .group-block-content a:after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    background: url('https://cdn.shopify.com/s/files/1/0779/0303/6594/files/blue-arrow.png?v=1784878735');
+    background-size: 9px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: -4px;
+    transition: ease 0.2s;
+}
+.curation-sec .group-block-content a:after {
