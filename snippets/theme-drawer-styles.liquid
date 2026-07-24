@@ -40,6 +40,13 @@
     right: 0;
   }
 
+  /* No-squeeze drawers (e.g. cart) overlay the page instead of pushing it aside,
+     so they must stack above the sticky header (--layer-menu-drawer). Otherwise
+     the full-width header's right column paints over the open panel. */
+  theme-drawer[no-squeeze] .theme-drawer__dialog {
+    z-index: calc(var(--layer-temporary) + var(--drawer-stack-order, 0));
+  }
+
   .theme-drawer__dialog--opening {
     animation: drawer-slide-in var(--animation-speed) var(--animation-timing-fade-in);
   }
