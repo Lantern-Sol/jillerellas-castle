@@ -371,6 +371,27 @@
                   },
                   "blocks": {}
                 },
+                "custom_liquid_87cpyT": {
+                  "type": "custom-liquid",
+                  "name": "t:names.custom_liquid",
+                  "settings": {
+                    "custom_liquid": ""
+                  },
+                  "blocks": {}
+                },
+                "divider_HDNEBB": {
+                  "type": "_divider",
+                  "name": "t:names.divider",
+                  "settings": {
+                    "thickness": 1,
+                    "corner_radius": "square",
+                    "divider_color": "",
+                    "width_percent": 100,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0
+                  },
+                  "blocks": {}
+                },
                 "text_YJxdpV": {
                   "type": "text",
                   "name": "t:names.text",
@@ -644,6 +665,8 @@
               },
               "block_order": [
                 "text_Nnn4Up",
+                "custom_liquid_87cpyT",
+                "divider_HDNEBB",
                 "text_YJxdpV",
                 "group_YmzfaU",
                 "group_ENtEnE"
