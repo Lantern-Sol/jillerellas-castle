@@ -20,3 +20,8 @@
 .curation-head-text {
     max-width: 600px;
 }
+
+
+.curation-sec .group-block:nth-child(2) .group-block-content .group-block:nth-child(2) {
+    order: -1;
+}
