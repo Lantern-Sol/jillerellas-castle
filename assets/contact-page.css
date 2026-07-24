@@ -20,4 +20,8 @@
 .contact-form__form-row {
     flex-direction: row;
 }
+.contact-sec .image-block img {
+    max-height: 200px;
+    border-radius: 24px;
+}
 }
