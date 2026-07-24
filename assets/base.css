@@ -5462,7 +5462,7 @@ body .section-wrapper .newsletter-sec a.button-secondary:hover {
     background: linear-gradient(170deg, #D2B989 0%, #BC9D62 63%);
 }
 .newsletter-sec .layout-panel-flex > .group-block .group-block {
-    background: none;
+    background: none !important;
 }
 .middle-banner .text-block p {
     margin: 0;
