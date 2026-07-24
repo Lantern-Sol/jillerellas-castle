@@ -7,13 +7,21 @@
     2. Only a URL is set → falls back to a plain link to that URL.
     3. Neither           → renders nothing; the caller decides when to include it.
 
+  The image is resolved by the caller (product metafield first, block setting as the
+  default fallback) and passed in via `image`. If the caller doesn't pass one, we fall
+  back to the block's `size_guide_image` setting so the snippet still works standalone.
+
   @param {object} block_settings - the variant-picker block settings
   @param {string} label - the visible link text (already resolved by the caller)
+  @param {object} [image] - the resolved size-guide image (metafield or fallback setting)
   @param {string} [block_id] - the block id, used to scope the dialog's heading id
 {%- enddoc -%}
 
 {%- liquid
-  assign sg_image = block_settings.size_guide_image
+  assign sg_image = image
+  if sg_image == blank
+    assign sg_image = block_settings.size_guide_image
+  endif
   assign sg_link = block_settings.size_guide_link
 -%}
 

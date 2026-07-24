@@ -31,8 +31,28 @@
   #     row below the picker, so single-variant products still show it.
   # `size_guide_rendered` tracks the on-row case so the standalone fallback fires only
   # when the loop didn't already place it (never both, never neither).
+  #
+  # Image source, in priority order (mirrors blocks/product-weight-dimensions.liquid):
+  #   1. The product metafield named by `size_guide_metafield` ("namespace.key") — the
+  #      per-product size chart the merchant sets on each product.
+  #   2. The block's `size_guide_image` setting — the default/fallback shown when the
+  #      product has no metafield image, so every product still gets a size guide.
+  assign size_guide_image = blank
+  assign sg_metafield_path = block_settings.size_guide_metafield | strip
+  if sg_metafield_path != blank
+    assign sg_metafield_parts = sg_metafield_path | split: '.'
+    assign sg_metafield_namespace = sg_metafield_parts[0]
+    assign sg_metafield_key = sg_metafield_parts[1]
+    if sg_metafield_namespace != blank and sg_metafield_key != blank
+      assign size_guide_image = product_resource.metafields[sg_metafield_namespace][sg_metafield_key].value
+    endif
+  endif
+  if size_guide_image == blank
+    assign size_guide_image = block_settings.size_guide_image
+  endif
+
   assign has_size_guide_content = false
-  if block_settings.size_guide_image != blank or block_settings.size_guide_link != blank
+  if size_guide_image != blank or block_settings.size_guide_link != blank
     assign has_size_guide_content = true
   endif
   assign size_guide_rendered = false
@@ -111,6 +131,7 @@
               {% render 'size-guide',
                 block_settings: block_settings,
                 label: size_guide_label,
+                image: size_guide_image,
                 block_id: block.id
               %}
               {%- assign size_guide_rendered = true -%}
@@ -145,6 +166,7 @@
                 {% render 'size-guide',
                   block_settings: block_settings,
                   label: size_guide_label,
+                  image: size_guide_image,
                   block_id: block.id
                 %}
                 {%- assign size_guide_rendered = true -%}
@@ -339,6 +361,7 @@
     {% render 'size-guide',
       block_settings: block_settings,
       label: size_guide_label,
+      image: size_guide_image,
       block_id: block.id
     %}
   </div>
