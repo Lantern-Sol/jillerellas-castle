@@ -7,8 +7,7 @@
     display: inline-block;
     background-repeat: no-repeat;
     background-position: center;
-    position: absolute;
-    right: 0;
+    order: 1;
 }
 .contact-form__submit-wrapper .button {
     position: relative;
