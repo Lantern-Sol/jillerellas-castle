@@ -208,20 +208,21 @@
     color: var(--color-input-text, #333);
   }
 
-  body .contact-form__input {
+ body .contact-form__input {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     color: var(--color-input-text);
-    background-color: #FCFAF9;
+    background-color: #fcfaf9;
     padding: var(--padding-lg, 12px) var(--padding-xl, 16px);
     border-radius: var(--style-border-radius-inputs, 20px);
     border: var(--style-border-width-inputs, 1px) solid var(--color-input-border, #ccc);
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
-    border-radius:32px;
-    outline:unset;
-  }
+    border-radius: 32px;
+    outline: unset;
+    max-height: 48px;
+}
 
   .contact-form__input--textarea {
     resize: vertical;
