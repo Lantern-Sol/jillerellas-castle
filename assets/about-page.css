@@ -11,9 +11,9 @@
     background-repeat: no-repeat;
     background-position: center;
     vertical-align: -4px;
-    transition: ease 0.2s;
-    position:relative
+ transform: translateX(0);
+  transition: transform 0.2s ease;
 }
 .curation-sec .group-block-content a:hover:after {
-    right:-5px;
+    transform: translateX(5px);
 }
