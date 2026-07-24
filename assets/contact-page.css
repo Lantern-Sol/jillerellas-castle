@@ -10,3 +10,7 @@
     position: absolute;
     right: 0;
 }
+.contact-form__submit-wrapper .button {
+    position: relative;
+    min-width: 210px;
+}
