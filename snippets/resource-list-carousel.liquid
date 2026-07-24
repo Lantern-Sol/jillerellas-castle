@@ -15,6 +15,15 @@
 {% liquid
   assign slideshow_ref = ref | default: 'resourceListCarousel'
 
+  # One dot is rendered per slide, but with multiple columns visible only the
+  # first `count - columns + 1` slides can ever become the leftmost (start-snapped)
+  # slide — the last `columns - 1` dots are dead (unreachable, never highlighted).
+  # Hide those trailing dots per breakpoint. Desktop shows `columns` cards; mobile
+  # shows 2 cards when dots are on (see --mobile-card-size below).
+  assign dots_scope = 'rlc-dots-' | append: slideshow_ref
+  assign desktop_dots_hidden = settings.columns | default: 4 | minus: 1
+  assign mobile_dots_hidden = 1
+
   if settings.section_width == 'page-width' and settings.show_dots != true
     assign slideshow_gutters = 'start end'
     assign gutter_style = '--gutter-slide-width: var(--util-page-margin-offset);'
@@ -88,8 +97,27 @@
   {%- endif -%}
 {%- endcapture -%}
 
+{%- if show_dots -%}
+  <style>
+    {%- if desktop_dots_hidden > 0 -%}
+      @container resource-list-carousel (min-width: 750px) {
+        .{{ dots_scope }} .slideshow-controls__dots > li:nth-last-child(-n + {{ desktop_dots_hidden }}) {
+          display: none;
+        }
+      }
+    {%- endif -%}
+    {%- if mobile_dots_hidden > 0 -%}
+      @container resource-list-carousel (max-width: 749px) {
+        .{{ dots_scope }} .slideshow-controls__dots > li:nth-last-child(-n + {{ mobile_dots_hidden }}) {
+          display: none;
+        }
+      }
+    {%- endif -%}
+  </style>
+{%- endif -%}
+
 <div
-  class="resource-list__carousel{% if arrows_in_controls %} resource-list__carousel--arrows-outside{% endif %}"
+  class="resource-list__carousel {{ dots_scope }}{% if arrows_in_controls %} resource-list__carousel--arrows-outside{% endif %}"
   style="{{ carousel_styles }}"
 >
   {% render 'slideshow',
