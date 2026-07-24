@@ -2057,6 +2057,7 @@
             "background_color": "",
             "video_position": "cover",
             "background_image": "shopify://shop_images/Hero.png",
+            "background_image_mobile": "shopify://shop_images/Hero_2.png",
             "background_image_position": "cover",
             "toggle_overlay": false,
             "overlay_color": "#00000080",
@@ -2128,7 +2129,7 @@
               "name": "t:names.heading",
               "settings": {
                 "text": "<p>For her · For him · For every moment</p>",
-                "mobile_text": "<p>For her<br> · <br>For him<br> · <br>For every moment</p>",
+                "mobile_text": "<p>For her<br/> · <br/>For him<br/> · <br/>For every moment</p>",
                 "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
