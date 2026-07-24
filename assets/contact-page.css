@@ -16,3 +16,7 @@
 .contact-form__submit-wrapper .button:hover {
    background:#2b2b2b;
 }
+
+.contact-form__form-row {
+    flex-direction: row;
+}
