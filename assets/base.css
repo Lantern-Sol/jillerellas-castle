@@ -5453,10 +5453,10 @@ body .newsletter-sec a.button-secondary:after {
     mask: unset;
     background-repeat: no-repeat;
 }
-body .section-wrapper .newsletter-sec a.button-secondary:hover{
-    background: #bc9d62!important;
-    color: #FEFEFE  !important;
-    border-color: transparent  !important;
+body .section-wrapper .newsletter-sec a.button-secondary:hover {
+    background: #c3a66f !important;
+    color: #fefefe!important;
+    border-color: transparent!important;
 }
 .newsletter-sec .layout-panel-flex > .group-block {
     background: linear-gradient(170deg, #D2B989 0%, #BC9D62 63%);
