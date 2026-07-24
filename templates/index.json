@@ -4183,7 +4183,7 @@
       }
     },
     "section_paMEfW": {
-      "type": "section",
+      "type": "cta-banner",
       "blocks": {
         "group_4gXrjb": {
           "type": "group",
@@ -4304,19 +4304,10 @@
             "text_h6PUWN",
             "button_TY863t"
           ]
-        },
-        "custom_liquid_pqBpCf": {
-          "type": "custom-liquid",
-          "name": "Banner styles",
-          "settings": {
-            "custom_liquid": "<style>#shopify-section-{{ section.id }} .group-block{background:linear-gradient(167.78deg,#d2b989 0%,#bc9d62 63.19%)}#shopify-section-{{ section.id }} .button-secondary{background:transparent;border:1px solid #fefefe;color:#fefefe}#shopify-section-{{ section.id }} .button-secondary:hover,#shopify-section-{{ section.id }} .button-secondary:focus-visible{background:#fefefe;border-color:#fefefe;color:#bc9d62}@media (max-width:749px){#shopify-section-{{ section.id }} .group-block{background:linear-gradient(118.885deg,#d2b989 0%,#bc9d62 63.19%)}#shopify-section-{{ section.id }} .layout-panel-flex--row{align-items:center}}</style>"
-          },
-          "blocks": {}
         }
       },
       "block_order": [
-        "group_4gXrjb",
-        "custom_liquid_pqBpCf"
+        "group_4gXrjb"
       ],
       "name": "CTA banner",
       "settings": {
