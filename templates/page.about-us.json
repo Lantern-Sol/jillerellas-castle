@@ -1792,7 +1792,7 @@
                     "mobile_text": "",
                     "custom_class": "",
                     "width": "fit-content",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "height_mode": "auto",
                     "desktop_height": "",
