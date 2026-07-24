@@ -16,7 +16,8 @@
 .contact-form__submit-wrapper .button:hover {
    background:#2b2b2b;
 }
-
+@media only screen and (max-width:767px){
 .contact-form__form-row {
     flex-direction: row;
+}
 }
