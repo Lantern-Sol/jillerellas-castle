@@ -354,7 +354,7 @@
                     "wrap": "pretty",
                     "type_preset_mobile": "custom",
                     "mobile_font_size": "2rem",
-                    "mobile_custom_line_height": 1.5,
+                    "mobile_custom_line_height": 1,
                     "text_color": "{{ settings.color_palette.color1 }}",
                     "background": false,
                     "background_color": "#00000026",
