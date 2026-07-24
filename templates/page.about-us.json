@@ -3656,7 +3656,7 @@
               "type": "button",
               "name": "Button",
               "settings": {
-                "label": "Contact us",
+                "label": "Explore our collections",
                 "link": "/pages/contact",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
