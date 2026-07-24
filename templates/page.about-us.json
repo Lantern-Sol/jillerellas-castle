@@ -832,7 +832,7 @@
               "type": "text",
               "name": "t:names.heading",
               "settings": {
-                "text": "<h3><strong>Our pillars</strong></h3>",
+                "text": "<h3>Our pillars</h3>",
                 "mobile_text": "",
                 "custom_class": "",
                 "width": "fit-content",
