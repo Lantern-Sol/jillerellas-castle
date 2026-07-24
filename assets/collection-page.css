@@ -236,3 +236,7 @@
 .product-card-grid .quick-add__button--choose {
   display: none;
 }
+.facets__filters-wrapper accordion-custom.facets__item details {
+    border-bottom: 1px solid #D7D9DA;
+    margin-bottom: 10px;
+}
