@@ -5458,6 +5458,9 @@ body .section-wrapper .newsletter-sec a.button-secondary:hover{
     color: #FEFEFE  !important;
     border-color: transparent  !important;
 }
+.newsletter-sec .layout-panel-flex > .group-block .group-block {
+    background: none;
+}
 .middle-banner .text-block p {
     margin: 0;
 }
