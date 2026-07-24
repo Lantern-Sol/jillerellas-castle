@@ -342,11 +342,11 @@
                     "height_mode": "auto",
                     "desktop_height": "",
                     "mobile_height": "",
-                    "type_preset": "rte",
+                    "type_preset": "custom",
                     "font": "var(--font-body--family)",
-                    "enable_custom_font_weight": false,
-                    "weight": "400",
-                    "font_size": "1rem",
+                    "enable_custom_font_weight": true,
+                    "weight": "600",
+                    "font_size": "2rem",
                     "line_height": "normal",
                     "custom_line_height": 1.5,
                     "letter_spacing": "normal",
@@ -368,19 +368,6 @@
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
                     "padding-inline-end-mobile": 0
-                  },
-                  "blocks": {}
-                },
-                "divider_dKmwbC": {
-                  "type": "_divider",
-                  "name": "t:names.divider",
-                  "settings": {
-                    "thickness": 5,
-                    "corner_radius": "square",
-                    "divider_color": "#bc9d62",
-                    "width_percent": 10,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0
                   },
                   "blocks": {}
                 },
@@ -657,7 +644,6 @@
               },
               "block_order": [
                 "text_Nnn4Up",
-                "divider_dKmwbC",
                 "text_YJxdpV",
                 "group_YmzfaU",
                 "group_ENtEnE"
