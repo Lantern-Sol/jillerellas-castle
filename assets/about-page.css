@@ -13,4 +13,6 @@
     vertical-align: -4px;
     transition: ease 0.2s;
 }
-.curation-sec .group-block-content a:after {
+.curation-sec .group-block-content a:hover:after {
+    margin-right:-5px;
+}
