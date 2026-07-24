@@ -5454,7 +5454,7 @@ body .newsletter-sec a.button-secondary:after {
     background-repeat: no-repeat;
 }
 body .section-wrapper .newsletter-sec a.button-secondary:hover{
-    background: transparent !important;
+    background: #bc9d62!important;
     color: #FEFEFE  !important;
     border-color: transparent  !important;
 }
