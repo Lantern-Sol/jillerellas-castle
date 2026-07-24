@@ -1,0 +1,8 @@
+.contact-form__submit-wrapper .button::after {
+    content: "";
+    height: 20px;
+    width: 20px;
+    background: url('https://cdn.shopify.com/s/files/1/0779/0303/6594/files/button-arrow.svg?v=1784807523');
+    background-size: 15px;
+    display: inline-block;
+}
