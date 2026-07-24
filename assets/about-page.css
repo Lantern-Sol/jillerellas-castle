@@ -17,3 +17,6 @@
 .curation-sec .group-block-content a:hover:after {
     transform: translateX(5px);
 }
+.curation-head-text {
+    max-width: 600px;
+}
