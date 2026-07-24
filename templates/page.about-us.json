@@ -14,6 +14,8 @@
       "name": "Breadcrumbs",
       "settings": {
         "home_label": "Home",
+        "show_collection_parent": true,
+        "collection_parent_label": "Collection",
         "product_category_source": "auto",
         "separator": "/",
         "background_color": "",
@@ -208,6 +210,7 @@
                       "settings": {
                         "text": "<h1>Welcome to</h1>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -249,6 +252,7 @@
                       "settings": {
                         "text": "<p>Jillerellas Castle</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "100%",
                         "max_width": "none",
                         "alignment": "left",
@@ -296,6 +300,7 @@
                   "settings": {
                     "text": "<p>Jillerellas Castle brings the rare, the unforgettable, and the flawless together in one curated destination. More than a collection of exceptional products, it's a world of prestige, confidence, and elevated living, created for those who refuse to settle for anything less than excellence.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -450,7 +455,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
       }
     },
     "section_WzEgGf": {
@@ -528,6 +534,7 @@
               "settings": {
                 "text": "<h1>Welcome to <strong>Jillerellas Castle</strong></h1>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -569,6 +576,7 @@
               "settings": {
                 "text": "<p>Jillerellas Castle brings the rare, the unforgettable, and the flawless together in one curated destination. More than a collection of exceptional products, it's a world of prestige, confidence, and elevated living, created for those who refuse to settle for anything less than excellence.</p>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -761,7 +769,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
       }
     },
     "section_iERgid": {
@@ -825,6 +834,7 @@
               "settings": {
                 "text": "<h3><strong>Our pillars</strong></h3>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -989,6 +999,7 @@
                   "settings": {
                     "text": "<h4>1</h4>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1030,6 +1041,7 @@
                   "settings": {
                     "text": "<h6>Absolute command of quality</h6>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1071,6 +1083,7 @@
                   "settings": {
                     "text": "<p>Every acquisition is strictly vetted for breathtaking craftsmanship, superior performance, and undeniable character.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1171,6 +1184,7 @@
                   "settings": {
                     "text": "<h4>2</h4>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1212,6 +1226,7 @@
                   "settings": {
                     "text": "<h6><strong>The discerning elite</strong></h6>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1253,6 +1268,7 @@
                   "settings": {
                     "text": "<p>We design and source explicitly for those who demand fine details, lasting durability, and highly intentional design.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1353,6 +1369,7 @@
                   "settings": {
                     "text": "<h4>3</h4>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1394,6 +1411,7 @@
                   "settings": {
                     "text": "<h6>The premier protocol</h6>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1435,6 +1453,7 @@
                   "settings": {
                     "text": "<p>Every piece is made to spark conversation and elevate the everyday style that amplifies the way you move through the world.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1543,7 +1562,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
       }
     },
     "main": {
@@ -1555,6 +1575,7 @@
           "settings": {
             "text": "<h1>{{ closest.page.title }}</h1>",
             "mobile_text": "",
+            "custom_class": "",
             "width": "100%",
             "max_width": "normal",
             "alignment": "left",
@@ -1724,6 +1745,7 @@
                   "settings": {
                     "text": "<h3>The curation</h3>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1778,6 +1800,7 @@
                   "settings": {
                     "text": "<p>We move through the private domains of luxury, style, and self-care. Every wing of the castle is a masterclass in prestige, curated to bring you the finest the world has to offer.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -1930,6 +1953,7 @@
                       "settings": {
                         "text": "<h5>Renowned keychains</h5>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -1970,6 +1994,7 @@
                       "settings": {
                         "text": "<p>The finishing accent for your daily carry. We work with select supply houses across the USA to secure rare, hard-to-find keychains. A small touch of distinction that stands completely apart.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -2325,6 +2350,7 @@
                       "settings": {
                         "text": "<h5>Enchanted exosome skincare</h5>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2365,6 +2391,7 @@
                       "settings": {
                         "text": "<p>A science-inspired skincare line, proudly made in the USA and formulated with advanced exosome technology, designed to leave skin looking refreshed, radiant, and beautifully cared for. Made in small batches with independent, third-party quality testing for purity and consistency.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -2542,6 +2569,7 @@
                       "settings": {
                         "text": "<h5>Elite golf essentials</h5>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2582,6 +2610,7 @@
                       "settings": {
                         "text": "<p>Engineered for the player who dominates the green. A sharp, premium selection of golf pieces for men and women who demand flawless style, precision, and performance. Command the course.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -2937,6 +2966,7 @@
                       "settings": {
                         "text": "<h5>Fine sterling silver jewelry</h5>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -2977,6 +3007,7 @@
                       "settings": {
                         "text": "<p>Timeless elegance with a razor-sharp edge. Meticulously crafted sterling silver earrings and exquisite bead charms, designed to capture your highest milestones and make a striking, unforgettable statement.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -3154,6 +3185,7 @@
                       "settings": {
                         "text": "<h5>Men's Accessories</h5>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -3194,6 +3226,7 @@
                       "settings": {
                         "text": "<p>Bold, architectural sophistication for the modern gentleman. Uniquely crafted wooden bow ties and matching cufflinks that blend raw, natural materials with sharp, modern tailoring. Redefine what it means to dress for power.</p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "none",
                         "alignment": "left",
@@ -3418,7 +3451,202 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
+      }
+    },
+    "section_YXqjBb": {
+      "type": "section",
+      "blocks": {
+        "group_qPUD8A": {
+          "type": "group",
+          "name": "Banner",
+          "settings": {
+            "content_direction": "row",
+            "vertical_on_mobile": true,
+            "horizontal_alignment": "space-between",
+            "vertical_alignment": "center",
+            "align_baseline": false,
+            "horizontal_alignment_flex_direction_column": "center",
+            "vertical_alignment_flex_direction_column": "center",
+            "use_mobile_alignment": false,
+            "mobile_horizontal_alignment": "center",
+            "mobile_vertical_alignment": "center",
+            "mobile_horizontal_alignment_flex_direction_column": "center",
+            "mobile_vertical_alignment_flex_direction_column": "center",
+            "gap": 24,
+            "use_mobile_gap": true,
+            "mobile_gap": 40,
+            "width": "fill",
+            "custom_width": 100,
+            "width_mobile": "fill",
+            "custom_width_mobile": 100,
+            "height": "fit",
+            "custom_height": 100,
+            "background_media": "none",
+            "background_color": "#bc9d62",
+            "video_position": "cover",
+            "background_image_position": "cover",
+            "toggle_overlay": false,
+            "overlay_color": "#00000026",
+            "overlay_style": "solid",
+            "gradient_direction": "to top",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_color": "",
+            "border_radius": 24,
+            "link": "",
+            "open_in_new_tab": false,
+            "placeholder": "",
+            "padding-block-start": 40,
+            "padding-block-end": 40,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40,
+            "use_mobile_padding": true,
+            "padding-block-start-mobile": 40,
+            "padding-block-end-mobile": 40,
+            "padding-inline-start-mobile": 16,
+            "padding-inline-end-mobile": 16
+          },
+          "blocks": {
+            "text_hMKGqe": {
+              "type": "text",
+              "name": "Heading",
+              "settings": {
+                "text": "<p>Claim your standard.</p>",
+                "mobile_text": "",
+                "custom_class": "",
+                "width": "fit-content",
+                "max_width": "none",
+                "alignment": "center",
+                "height_mode": "auto",
+                "desktop_height": "",
+                "mobile_height": "",
+                "type_preset": "custom",
+                "font": "var(--font-heading--family)",
+                "enable_custom_font_weight": true,
+                "weight": "600",
+                "font_size": "2rem",
+                "line_height": "custom",
+                "custom_line_height": 1.2,
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "type_preset_mobile": "custom",
+                "mobile_font_size": "2rem",
+                "mobile_custom_line_height": 1.2,
+                "text_color": "#fefefe",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "use_mobile_padding": false,
+                "padding-block-start-mobile": 0,
+                "padding-block-end-mobile": 0,
+                "padding-inline-start-mobile": 0,
+                "padding-inline-end-mobile": 0
+              },
+              "blocks": {}
+            },
+            "button_8rDdHJ": {
+              "type": "button",
+              "name": "Button",
+              "settings": {
+                "label": "Contact us",
+                "link": "/pages/contact",
+                "open_in_new_tab": false,
+                "style_class": "button-secondary",
+                "button_arrow": "show",
+                "custom_button_background": "",
+                "custom_button_text": "",
+                "custom_button_border": "",
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_hMKGqe",
+            "button_8rDdHJ"
+          ]
+        },
+        "custom_liquid_ETi6q7": {
+          "type": "custom-liquid",
+          "name": "Banner styles",
+          "settings": {
+            "custom_liquid": "<style>#shopify-section-{{ section.id }} .group-block{background:linear-gradient(167.78deg,#d2b989 0%,#bc9d62 63.19%)}#shopify-section-{{ section.id }} .button-secondary{background:transparent;border:1px solid #fefefe;color:#fefefe}#shopify-section-{{ section.id }} .button-secondary:hover,#shopify-section-{{ section.id }} .button-secondary:focus-visible{background:#fefefe;border-color:#fefefe;color:#bc9d62}@media (max-width:749px){#shopify-section-{{ section.id }} .group-block{background:linear-gradient(118.885deg,#d2b989 0%,#bc9d62 63.19%)}#shopify-section-{{ section.id }} .layout-panel-flex--row{align-items:center}}</style>"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "group_qPUD8A",
+        "custom_liquid_ETi6q7"
+      ],
+      "name": "CTA banner",
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": false,
+        "horizontal_alignment": "center",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 0,
+        "use_mobile_gap": false,
+        "mobile_gap": 0,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "floating_media_type": "image",
+        "floating_media_text": "",
+        "floating_media_text_preset": "paragraph",
+        "floating_media_text_preset_mobile": "",
+        "floating_media_text_alignment": "center",
+        "floating_media_text_padding_y": 8,
+        "floating_media_text_padding_x": 16,
+        "floating_media_width": 120,
+        "floating_media_anchor": "top-right",
+        "floating_media_offset_x": 0,
+        "floating_media_offset_y": 0,
+        "floating_media_rotation": 0,
+        "floating_media_hide_mobile": false,
+        "use_floating_media_mobile_settings": false,
+        "floating_media_width_mobile": 120,
+        "floating_media_anchor_mobile": "",
+        "floating_media_offset_x_mobile": 0,
+        "floating_media_offset_y_mobile": 0,
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 40,
+        "padding-block-end": 40,
+        "padding-inline-start": 0,
+        "padding-inline-end": 0,
+        "use_mobile_padding": false,
+        "padding-block-start-mobile": 0,
+        "padding-block-end-mobile": 0,
+        "padding-inline-start-mobile": 0,
+        "padding-inline-end-mobile": 0,
+        "custom_class": "newsletter-sec"
       }
     },
     "section_YiRRWP": {
@@ -3482,6 +3710,7 @@
               "settings": {
                 "text": "<h4>Claim your standard.</h4>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -3523,6 +3752,7 @@
               "settings": {
                 "text": "<p>Every treasure in the castle is waiting.</p>",
                 "mobile_text": "",
+                "custom_class": "",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -3700,7 +3930,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
       }
     }
   },
@@ -3711,6 +3942,7 @@
     "section_iERgid",
     "main",
     "section_WFWBYB",
+    "section_YXqjBb",
     "section_YiRRWP"
   ]
 }
