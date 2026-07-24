@@ -1,4 +1,4 @@
-.contact-form__submit-wrapper .button::before {
+.contact-form__submit-wrapper .button::after {
     content: "";
     height: 20px;
     width: 20px;
