@@ -1788,9 +1788,9 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>We move through the private domains of luxury, style, and self-care. Every wing of the </p><p>castle is a masterclass in prestige, curated to bring you the finest the world has to offer.</p>",
+                    "text": "<p>We move through the private domains of luxury, style, and self-care. Every wing of the castle is a masterclass in prestige, curated to bring you the finest the world has to offer.</p>",
                     "mobile_text": "",
-                    "custom_class": "",
+                    "custom_class": "curation-head-text",
                     "width": "fit-content",
                     "max_width": "none",
                     "alignment": "left",
