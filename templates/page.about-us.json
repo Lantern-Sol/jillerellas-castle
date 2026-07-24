@@ -83,7 +83,8 @@
             "padding-block-start-mobile": 24,
             "padding-block-end-mobile": 24,
             "padding-inline-start-mobile": 16,
-            "padding-inline-end-mobile": 16
+            "padding-inline-end-mobile": 16,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "group_zTUwyC": {
@@ -135,7 +136,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "icon_HmxyDJ": {
@@ -201,7 +203,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "text_wq9rAF": {
@@ -511,7 +514,8 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0
+            "padding-inline-end-mobile": 0,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "icon_hKVhKF": {
@@ -668,7 +672,8 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0
+            "padding-inline-end-mobile": 0,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "image_qCcbpF": {
@@ -825,7 +830,8 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0
+            "padding-inline-end-mobile": 0,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "text_LaH3WL": {
@@ -933,7 +939,8 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0
+            "padding-inline-end-mobile": 0,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "group_mqExJj": {
@@ -985,7 +992,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "text_mTxw7c": {
@@ -1170,7 +1178,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "text_NfR9H9": {
@@ -1355,7 +1364,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "text_gPYQQR": {
@@ -1679,7 +1689,8 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0
+            "padding-inline-end-mobile": 0,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "group_agKjRw": {
@@ -1731,7 +1742,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "curation-head"
               },
               "blocks": {
                 "text_RGAMrq": {
@@ -1810,7 +1822,7 @@
                     "type_preset_mobile": "rte",
                     "mobile_font_size": "1rem",
                     "mobile_custom_line_height": 1.5,
-                    "text_color": "#2B2B2B",
+                    "text_color": "#2b2b2b",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -1882,7 +1894,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "group_4YUVUw": {
@@ -1934,7 +1947,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "text_ALUYWd": {
@@ -2095,7 +2109,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "image_aghKGb": {
@@ -2190,7 +2205,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "group_MmxLwx": {
@@ -2242,7 +2258,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "image_DmxFct": {
@@ -2331,7 +2348,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "text_r99TgN": {
@@ -2498,7 +2516,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "group_Ufe64E": {
@@ -2550,7 +2569,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "text_9DUPnR": {
@@ -2711,7 +2731,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "image_JUndzf": {
@@ -2806,7 +2827,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "group_RjrmRY": {
@@ -2858,7 +2880,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "image_K4icti": {
@@ -2947,7 +2970,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "text_GwBC84": {
@@ -3114,7 +3138,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "group_wVTN6T": {
@@ -3166,7 +3191,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "text_BADAcg": {
@@ -3327,7 +3353,8 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0
+                    "padding-inline-end-mobile": 0,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {
                     "image_TkQknc": {
@@ -3497,7 +3524,8 @@
             "padding-block-start-mobile": 40,
             "padding-block-end-mobile": 40,
             "padding-inline-start-mobile": 16,
-            "padding-inline-end-mobile": 16
+            "padding-inline-end-mobile": 16,
+            "custom_class": "custom-class"
           },
           "blocks": {
             "group_EWNPMf": {
@@ -3549,7 +3577,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "text_3jngqy": {
@@ -3691,7 +3720,8 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0
+                "padding-inline-end-mobile": 0,
+                "custom_class": "custom-class"
               },
               "blocks": {
                 "button_fbi7qn": {
