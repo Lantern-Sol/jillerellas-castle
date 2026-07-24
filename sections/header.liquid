@@ -597,6 +597,31 @@
     }
   }
 
+  /* Mobile: when the menu drawer is open, pin the header to the top of the
+     viewport and start the drawer right below it (--account-offset-top =
+     --header-height). This self-consistent geometry avoids depending on the
+     JS-computed --header-group-height matching the rendered layout, which is
+     fragile with a transparent header (absolute, scrolled off-screen) or a
+     wrapped announcement bar — either could leave the drawer cutting through
+     the header row or a strip of page content showing above it. The
+     announcement bar is covered while the menu is open (standard pattern). */
+  @media screen and (max-width: 749px) {
+    .header:has(#Details-menu-drawer-container[open]) {
+      --account-offset-top: var(--header-height);
+
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    /* Keep the pinned header opaque regardless of the transparent color-scheme
+       resets, which otherwise leave the underlay clear. */
+    .header:has(#Details-menu-drawer-container[open]) .header__underlay-closed {
+      height: 100%;
+    }
+  }
+
   /* When top row has transparent background, make it inherit colors from header component */
   [data-transparent-background='top']:hover .header__row--top,
   [data-transparent-background='top']:focus-within .header__row--top,
