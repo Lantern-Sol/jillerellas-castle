@@ -12,7 +12,8 @@
     background-position: center;
     vertical-align: -4px;
     transition: ease 0.2s;
+    position:relative
 }
 .curation-sec .group-block-content a:hover:after {
-    margin-right:-5px;
+    right:-5px;
 }
