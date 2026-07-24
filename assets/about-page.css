@@ -1,5 +1,5 @@
 .curation-sec .group-block-content a {
-    font-weight: 500;
+    font-weight: 500; color:#5A3884;
 } 
 .curation-sec .group-block-content a:after {
     content: "";
