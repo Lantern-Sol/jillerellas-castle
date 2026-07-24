@@ -3652,30 +3652,87 @@
                 "text_xxt3dT"
               ]
             },
-            "button_8rDdHJ": {
-              "type": "button",
-              "name": "Button",
+            "group_YtbyzX": {
+              "type": "group",
+              "name": "t:names.group",
               "settings": {
-                "label": "Explore our collections",
-                "link": "/pages/contact",
-                "open_in_new_tab": false,
-                "style_class": "button-secondary",
-                "button_arrow": "show",
-                "custom_button_background": "",
-                "custom_button_text": "",
-                "custom_button_border": "",
-                "link_text_color": "",
-                "width": "fit-content",
+                "content_direction": "column",
+                "vertical_on_mobile": true,
+                "horizontal_alignment": "flex-start",
+                "vertical_alignment": "center",
+                "align_baseline": false,
+                "horizontal_alignment_flex_direction_column": "flex-end",
+                "vertical_alignment_flex_direction_column": "center",
+                "use_mobile_alignment": false,
+                "mobile_horizontal_alignment": "flex-start",
+                "mobile_vertical_alignment": "center",
+                "mobile_horizontal_alignment_flex_direction_column": "flex-start",
+                "mobile_vertical_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "use_mobile_gap": false,
+                "mobile_gap": 12,
+                "width": "fill",
                 "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
+                "height": "fit",
+                "custom_height": 100,
+                "background_media": "none",
+                "background_color": "",
+                "video_position": "cover",
+                "background_image_position": "cover",
+                "toggle_overlay": false,
+                "overlay_color": "#00000026",
+                "overlay_style": "solid",
+                "gradient_direction": "to top",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "link": "",
+                "open_in_new_tab": false,
+                "placeholder": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0,
+                "use_mobile_padding": false,
+                "padding-block-start-mobile": 0,
+                "padding-block-end-mobile": 0,
+                "padding-inline-start-mobile": 0,
+                "padding-inline-end-mobile": 0
               },
-              "blocks": {}
+              "blocks": {
+                "button_fbi7qn": {
+                  "type": "button",
+                  "name": "Button",
+                  "settings": {
+                    "label": "Explore our collections",
+                    "link": "/pages/contact",
+                    "open_in_new_tab": false,
+                    "style_class": "button-secondary",
+                    "button_arrow": "show",
+                    "custom_button_background": "",
+                    "custom_button_text": "",
+                    "custom_button_border": "",
+                    "link_text_color": "",
+                    "width": "fit-content",
+                    "custom_width": 100,
+                    "width_mobile": "fit-content",
+                    "custom_width_mobile": 100
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "button_fbi7qn"
+              ]
             }
           },
           "block_order": [
             "group_EWNPMf",
-            "button_8rDdHJ"
+            "group_YtbyzX"
           ]
         },
         "custom_liquid_ETi6q7": {
