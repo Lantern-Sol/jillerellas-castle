@@ -18,6 +18,7 @@
           "settings": {
             "text": "<h1>{{ closest.page.title }}</h1>",
             "mobile_text": "",
+            "custom_class": "",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
@@ -59,6 +60,7 @@
           "settings": {
             "text": "{{ closest.page.content }}",
             "mobile_text": "",
+            "custom_class": "",
             "width": "100%",
             "max_width": "narrow",
             "alignment": "center",
@@ -113,6 +115,8 @@
       "name": "Breadcrumbs",
       "settings": {
         "home_label": "Home",
+        "show_collection_parent": true,
+        "collection_parent_label": "Collection",
         "product_category_source": "auto",
         "separator": "/",
         "background_color": "",
@@ -331,6 +335,7 @@
                   "settings": {
                     "text": "<h4>Contact us</h4>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -385,6 +390,7 @@
                   "settings": {
                     "text": "<p>We'd love to hear from you! Whether you have a question or need support, fill out the form below or give us a call.</p>",
                     "mobile_text": "",
+                    "custom_class": "",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
@@ -492,6 +498,7 @@
                       "settings": {
                         "text": "<p><a href=\"tel:+1 502-558-7324\" title=\"tel:+1 502-558-7324\">+1 502-558-7324</a></p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -605,6 +612,7 @@
                       "settings": {
                         "text": "<p><a href=\"mailto:jillfhigdon@insightbb.com\" title=\"mailto:jillfhigdon@insightbb.com\">jillfhigdon@insightbb.com</a></p>",
                         "mobile_text": "",
+                        "custom_class": "",
                         "width": "fit-content",
                         "max_width": "normal",
                         "alignment": "left",
@@ -659,7 +667,7 @@
               "type": "contact-form",
               "name": "t:names.contact_form",
               "settings": {
-                "width": "fit-content",
+                "width": "custom",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
                 "custom_width_mobile": 100,
@@ -760,7 +768,8 @@
         "padding-block-start-mobile": 0,
         "padding-block-end-mobile": 0,
         "padding-inline-start-mobile": 0,
-        "padding-inline-end-mobile": 0
+        "padding-inline-end-mobile": 0,
+        "custom_class": "custom-class"
       }
     }
   },
