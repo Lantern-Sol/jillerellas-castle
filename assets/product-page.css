@@ -198,8 +198,8 @@
 
 .product-details product-price .price,
 .product-details product-price .compare-at-price {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: normal;
   line-height: 1.2;
   letter-spacing: normal;
 }
