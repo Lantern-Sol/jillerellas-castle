@@ -5467,3 +5467,9 @@ body .section-wrapper .newsletter-sec a.button-secondary:hover {
 .middle-banner .text-block p {
     margin: 0;
 }
+button.jm-button.jm-button--primary.jm-action-buttons__button {
+    background: #BC9D62;
+    border-radius: 2em;
+    border: none;
+    padding: 15px 20px;
+}
