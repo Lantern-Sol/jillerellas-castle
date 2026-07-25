@@ -5473,3 +5473,6 @@ button.jm-button.jm-button--primary.jm-action-buttons__button {
     border: none;
     padding: 15px 20px;
 }
+button.jm-button.jm-button--primary.jm-action-buttons__button:hover {
+    background: #BC9D62;
+}
