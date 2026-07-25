@@ -456,6 +456,8 @@
                     "show_swatches": true,
                     "show_selected_value": true,
                     "size_guide_label": "Size guide",
+                    "size_guide_metafield": "custom.size_guide",
+                    "size_guide_image": "{{ closest.product.featured_image }}",
                     "size_guide_link": "",
                     "option_label_text_color": "",
                     "variant_style_class": "default",
