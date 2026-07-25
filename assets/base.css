@@ -5479,4 +5479,6 @@ button.jm-button.jm-button--primary.jm-action-buttons__button:hover {
 
 body .shopify-policy__container {
     max-width: 900px;
+}.shopify-policy__container h1, .shopify-policy__container h2 {
+    font-size: 32px;
 }
