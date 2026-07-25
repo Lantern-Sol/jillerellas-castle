@@ -5476,3 +5476,7 @@ button.jm-button.jm-button--primary.jm-action-buttons__button {
 button.jm-button.jm-button--primary.jm-action-buttons__button:hover {
     background: #2b2b2b;
 }
+
+body .shopify-policy__container {
+    max-width: 900px;
+}
