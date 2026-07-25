@@ -5482,3 +5482,6 @@ body .shopify-policy__container {
 }.shopify-policy__container h1, .shopify-policy__container h2 {
     font-size: 32px;
 }
+.shopify-policy__title {
+    margin-bottom: 15px;
+}
