@@ -1729,7 +1729,7 @@
           "settings": {
             "image": "shopify://shop_images/card_image_2_1.png",
             "title": "Sterling Silver Jewelry",
-            "link": "shopify://products/doll-purse-charm-keychain-faux-fur",
+            "link": "shopify://collections/sterling-silver-jewelry",
             "size": "large"
           }
         },
@@ -1738,7 +1738,7 @@
           "settings": {
             "image": "shopify://shop_images/card_image_1.jpg",
             "title": "Exosomes Skin Care",
-            "link": "shopify://products/swarovski-sterling-silver-blue-bow-necklace-new",
+            "link": "#",
             "size": "large"
           }
         },
@@ -1747,7 +1747,7 @@
           "settings": {
             "image": "shopify://shop_images/card_image_3_1.jpg",
             "title": "Golf Accessories",
-            "link": "",
+            "link": "#",
             "size": "small"
           }
         },
@@ -1756,7 +1756,7 @@
           "settings": {
             "image": "shopify://shop_images/card_image_4_1.jpg",
             "title": "Wood Bow Ties",
-            "link": "",
+            "link": "#",
             "size": "small"
           }
         },
@@ -1765,7 +1765,7 @@
           "settings": {
             "image": "shopify://shop_images/card_image_5_1.png",
             "title": "Clothing",
-            "link": "",
+            "link": "shopify://collections/clothing",
             "size": "small"
           }
         },
@@ -1774,7 +1774,7 @@
           "settings": {
             "image": "shopify://shop_images/card_image_6_1.png",
             "title": "Accessories",
-            "link": "",
+            "link": "shopify://collections/accessories",
             "size": "small"
           }
         }
@@ -4285,7 +4285,7 @@
               "name": "Button",
               "settings": {
                 "label": "Contact us",
-                "link": "/pages/contact",
+                "link": "shopify://pages/contact",
                 "open_in_new_tab": false,
                 "style_class": "button-secondary",
                 "button_arrow": "show",
