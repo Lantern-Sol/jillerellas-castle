@@ -83,8 +83,7 @@
             "padding-block-start-mobile": 24,
             "padding-block-end-mobile": 24,
             "padding-inline-start-mobile": 16,
-            "padding-inline-end-mobile": 16,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 16
           },
           "blocks": {
             "group_zTUwyC": {
@@ -136,8 +135,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "icon_HmxyDJ": {
@@ -203,8 +201,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "text_wq9rAF": {
@@ -514,8 +511,7 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 0
           },
           "blocks": {
             "icon_hKVhKF": {
@@ -672,8 +668,7 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 0
           },
           "blocks": {
             "image_qCcbpF": {
@@ -830,8 +825,7 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 0
           },
           "blocks": {
             "text_LaH3WL": {
@@ -939,8 +933,7 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 0
           },
           "blocks": {
             "group_mqExJj": {
@@ -992,8 +985,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "text_mTxw7c": {
@@ -1178,8 +1170,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "text_NfR9H9": {
@@ -1364,8 +1355,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "text_gPYQQR": {
@@ -1689,8 +1679,7 @@
             "padding-block-start-mobile": 0,
             "padding-block-end-mobile": 0,
             "padding-inline-start-mobile": 0,
-            "padding-inline-end-mobile": 0,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 0
           },
           "blocks": {
             "group_agKjRw": {
@@ -1742,8 +1731,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "text_RGAMrq": {
@@ -1894,8 +1882,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "about-img-text"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "group_4YUVUw": {
@@ -1947,8 +1934,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "text_ALUYWd": {
@@ -2049,7 +2035,8 @@
                         "width": "fit-content",
                         "custom_width": 100,
                         "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "custom_width_mobile": 100,
+                        "custom_class": "custom-class"
                       },
                       "blocks": {}
                     }
@@ -2109,8 +2096,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "about-img-bx"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "image_aghKGb": {
@@ -2205,8 +2191,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "group_MmxLwx": {
@@ -2258,8 +2243,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "image_DmxFct": {
@@ -2348,8 +2332,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "text_r99TgN": {
@@ -2450,7 +2433,8 @@
                         "width": "fit-content",
                         "custom_width": 100,
                         "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "custom_width_mobile": 100,
+                        "custom_class": "custom-class"
                       },
                       "blocks": {}
                     }
@@ -2516,8 +2500,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "group_Ufe64E": {
@@ -2569,8 +2552,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "text_9DUPnR": {
@@ -2671,7 +2653,8 @@
                         "width": "fit-content",
                         "custom_width": 100,
                         "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "custom_width_mobile": 100,
+                        "custom_class": "custom-class"
                       },
                       "blocks": {}
                     }
@@ -2731,8 +2714,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "image_JUndzf": {
@@ -2827,8 +2809,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "group_RjrmRY": {
@@ -2880,8 +2861,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "image_K4icti": {
@@ -2970,8 +2950,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "text_GwBC84": {
@@ -3072,7 +3051,8 @@
                         "width": "fit-content",
                         "custom_width": 100,
                         "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "custom_width_mobile": 100,
+                        "custom_class": "custom-class"
                       },
                       "blocks": {}
                     }
@@ -3138,8 +3118,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "group_wVTN6T": {
@@ -3191,8 +3170,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "text_BADAcg": {
@@ -3293,7 +3271,8 @@
                         "width": "fit-content",
                         "custom_width": 100,
                         "width_mobile": "fit-content",
-                        "custom_width_mobile": 100
+                        "custom_width_mobile": 100,
+                        "custom_class": "custom-class"
                       },
                       "blocks": {}
                     }
@@ -3353,8 +3332,7 @@
                     "padding-block-start-mobile": 0,
                     "padding-block-end-mobile": 0,
                     "padding-inline-start-mobile": 0,
-                    "padding-inline-end-mobile": 0,
-                    "custom_class": "custom-class"
+                    "padding-inline-end-mobile": 0
                   },
                   "blocks": {
                     "image_TkQknc": {
@@ -3524,8 +3502,7 @@
             "padding-block-start-mobile": 40,
             "padding-block-end-mobile": 40,
             "padding-inline-start-mobile": 16,
-            "padding-inline-end-mobile": 16,
-            "custom_class": "custom-class"
+            "padding-inline-end-mobile": 16
           },
           "blocks": {
             "group_EWNPMf": {
@@ -3577,8 +3554,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "text_3jngqy": {
@@ -3720,8 +3696,7 @@
                 "padding-block-start-mobile": 0,
                 "padding-block-end-mobile": 0,
                 "padding-inline-start-mobile": 0,
-                "padding-inline-end-mobile": 0,
-                "custom_class": "custom-class"
+                "padding-inline-end-mobile": 0
               },
               "blocks": {
                 "button_fbi7qn": {
@@ -3729,7 +3704,7 @@
                   "name": "Button",
                   "settings": {
                     "label": "Explore our collections",
-                    "link": "/pages/contact",
+                    "link": "shopify://collections/all",
                     "open_in_new_tab": false,
                     "style_class": "button-secondary",
                     "button_arrow": "show",
@@ -3740,7 +3715,8 @@
                     "width": "fit-content",
                     "custom_width": 100,
                     "width_mobile": "fit-content",
-                    "custom_width_mobile": 100
+                    "custom_width_mobile": 100,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {}
                 }
