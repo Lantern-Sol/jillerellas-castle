@@ -333,7 +333,7 @@
                   "name": "Button",
                   "settings": {
                     "label": "Browse collections",
-                    "link": "shopify://collections",
+                    "link": "shopify://collections/all",
                     "open_in_new_tab": false,
                     "style_class": "button",
                     "button_arrow": "show",
@@ -344,7 +344,8 @@
                     "width": "fit-content",
                     "custom_width": 100,
                     "width_mobile": "custom",
-                    "custom_width_mobile": 100
+                    "custom_width_mobile": 100,
+                    "custom_class": "custom-class"
                   },
                   "blocks": {}
                 }
@@ -4295,7 +4296,8 @@
                 "width": "fit-content",
                 "custom_width": 100,
                 "width_mobile": "fit-content",
-                "custom_width_mobile": 100
+                "custom_width_mobile": 100,
+                "custom_class": "custom-class"
               },
               "blocks": {}
             }
@@ -4311,6 +4313,13 @@
       ],
       "name": "CTA banner",
       "settings": {
+        "enable_gradient": true,
+        "gradient_start": "#d2b989",
+        "gradient_end": "#bc9d62",
+        "gradient_stop": 63,
+        "gradient_angle": 170,
+        "gradient_angle_mobile": 120,
+        "button_text_color": "#fefefe",
         "content_direction": "column",
         "vertical_on_mobile": false,
         "horizontal_alignment": "center",
