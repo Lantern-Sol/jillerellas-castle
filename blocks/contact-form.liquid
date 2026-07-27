@@ -44,17 +44,6 @@
       </div>
     {%- endif -%}
 
-    {%- if form.posted_successfully? and form_matches -%}
-      <div
-        class="contact-form__success"
-        tabindex="-1"
-        autofocus
-      >
-        {{- 'icon-checkmark.svg' | inline_asset_content -}}
-        {{- 'blocks.contact_form.post_success' | t -}}
-      </div>
-    {%- endif -%}
-
     <!-- Row 1: Name & Phone Number -->
     <div class="contact-form__form-row">
       <div class="contact-form__field">
@@ -151,8 +140,19 @@
 
     <div class="contact-form__submit-wrapper">
       {{ submit_button }}
-    
     </div>
+
+    {%- if form.posted_successfully? and form_matches -%}
+      <div
+        class="contact-form__success"
+        tabindex="-1"
+        autofocus
+      >
+        {{- 'icon-checkmark.svg' | inline_asset_content -}}
+        {{- 'blocks.contact_form.post_success' | t -}}
+      </div>
+    {%- endif -%}
+
   {%- endform -%}
 </div>
 
