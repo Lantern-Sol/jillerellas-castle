@@ -263,20 +263,66 @@
       transition: transform 100ms var(--animation-timing-active);
     }
 
-    &:hover {
-      background-color: var(--card-bg-hover);
-      border-radius: var(--product-corner-radius);
-      padding: calc(var(--padding-2xs) + 2px);
-      margin: calc((var(--padding-2xs) + 2px) * -1);
+    /* The card is its own white panel + shadow now (see the .resource-card rule
+       below), so the old hover — a --card-bg-hover fill padded out behind the
+       card — framed it like a second card. Lift the panel instead: depth comes
+       from a deeper shadow + a 2px rise, with no halo. */
+    &:hover .resource-card {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgb(0 0 0 / 0.12), 0 2px 6px rgb(0 0 0 / 0.08);
     }
 
-    &:is([aria-selected='true'].keyboard-focus, &:focus-visible, &:has(.resource-card:focus-visible)) {
-      background-color: var(--card-bg-hover);
-      padding: calc(var(--padding-2xs) + 1px);
-      margin: calc((var(--padding-2xs) + 1px) * -1);
-      outline: var(--border-width-sm) solid var(--color-border);
-      border-radius: calc(var(--product-corner-radius) + 1px);
-      border-color: var(--card-border-focus);
+    /* Keyboard navigation draws the focus ring on the panel itself so it hugs the
+       card edge rather than a padded box around it. */
+    &:is([aria-selected='true'].keyboard-focus, &:focus-visible, &:has(.resource-card:focus-visible)) .resource-card {
+      box-shadow: 0 6px 16px rgb(0 0 0 / 0.12), 0 2px 6px rgb(0 0 0 / 0.08);
+      outline: var(--border-width-sm) solid var(--card-border-focus, var(--color-border));
+      outline-offset: 2px;
+    }
+  }
+
+  /* Match the Best sellers homepage card (index.json → product_list_fa6P9H):
+     title 16px/500, price 14px, so search product results read at the same
+     compact scale instead of the oversized h5 (24px) / 16px defaults. Reducing
+     the title also shrinks each card's text block, keeping the grid at its
+     current size. px, not rem, so the mobile root-scaling (CLAUDE.md #4) can't
+     inflate them past the reference. Scoped to the product card, so the query
+     pills and section titles are untouched. */
+  .predictive-search-results__card--product .resource-card {
+    /* Rounded media echoes the Best sellers card's rounded panel (16px there;
+       12px here reads cleanly at this smaller size). */
+    --resource-card-corner-radius: 12px;
+
+    /* White panel + the Best sellers two-layer shadow. The media bleeds back to
+       the panel edges below, so the photo keeps its current size and only ~8px
+       of height is added under the price. */
+    padding: 8px;
+    background-color: #fefefe;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.08);
+    transition: transform var(--animation-speed-medium) var(--animation-timing-default),
+      box-shadow var(--animation-speed-medium) var(--animation-timing-hover);
+  }
+
+  .predictive-search-results__card--product .resource-card__media {
+    margin-block-start: -8px;
+    margin-inline: -8px;
+  }
+
+  .predictive-search-results__card--product .resource-card__title.h5 {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .predictive-search-results__card--product .resource-card__content .price {
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .predictive-search-results__card--product .resource-card__title.h5.h5 {
+      font-size: 14px;
+      line-height: 1.4;
     }
   }
 
