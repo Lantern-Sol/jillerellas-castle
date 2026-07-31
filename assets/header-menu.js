@@ -343,6 +343,25 @@ class HeaderMenu extends Component {
     // the <li> pointerleave, which schedules a fresh close as expected.
     if (findSubmenu(item)?.matches(':hover')) return;
 
+    // Don't deactivate while the pointer is genuinely still over this item's
+    // <li> (or its submenu). The top-level link renders as a compact pill that
+    // is much smaller than its list item, so as the pointer travels between the
+    // pill, the gap-bridge and the panel, pointerleave can fire on the <li>
+    // even though the pointer never left the item's real bounds — arming this
+    // close and making the panel flicker. Re-check the true pointer position
+    // (kept current by #onPointerMove) via hit-testing and keep the menu open
+    // when it still lands inside the item. A later move that truly exits
+    // re-fires pointerleave and schedules a fresh close.
+    const activeListItem = item.closest('.menu-list__list-item');
+    const activeSubmenu = findSubmenu(item);
+    const { x, y } = this.#lastPointer;
+    if (x !== 0 || y !== 0) {
+      const pointerTarget = document.elementFromPoint(x, y);
+      if (pointerTarget && (activeListItem?.contains(pointerTarget) || activeSubmenu?.contains(pointerTarget))) {
+        return;
+      }
+    }
+
     clearTimeout(this.#hoverDispatchTimer);
     this.#hoverDispatchTimer = undefined;
 
