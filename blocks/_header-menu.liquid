@@ -495,6 +495,19 @@
       padding-inline: 0;
     }
 
+    /* Close the ~11px hover dead-gap between the top-level pill and the mega
+       panel. The pill customization shrinks the <li> to fit-content height and
+       centers it, so the theme's default bridge falls short of the panel top;
+       the pointer crosses empty space, starts the close timer / drops :hover,
+       and the submenu flickers. Extend the in-flow ::after bridge so hover
+       coverage is continuous into the panel. An equal negative margin-bottom
+       keeps the pill centered, and staying in normal flow (no position change)
+       preserves the submenu's full-width absolute positioning. */
+    #header-component[data-menu-style='menu'] .menu-list__list-item:not([slot='overflow'])::after {
+      height: calc(var(--header-padding, 11px) + 8px);
+      margin-bottom: calc(-1 * (var(--header-padding, 11px) + 8px));
+    }
+
     /* Figma: 24px between top-level links. The theme default packs items
        edge-to-edge (gap 0 + inner title padding + negative end margins). */
     #header-component[data-menu-style='menu'] .header-menu .overflow-menu::part(list) {

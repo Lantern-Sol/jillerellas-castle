@@ -334,6 +334,15 @@ class HeaderMenu extends Component {
     // Don't deactivate if the overflow menu or overflow list is still being hovered
     if (this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
 
+    // Don't deactivate while the pointer is resting on this item's own (regular,
+    // non-overflow) submenu. Once the pointer travels from the top-level pill
+    // into the mega panel it has left the <li>, so the close timer would
+    // otherwise fire and collapse the panel geometry (--submenu-height /
+    // --full-open-header-height -> 0) while CSS :hover keeps it visible — the
+    // panel jumps/clips and reads as a flicker. Leaving the submenu re-fires
+    // the <li> pointerleave, which schedules a fresh close as expected.
+    if (findSubmenu(item)?.matches(':hover')) return;
+
     clearTimeout(this.#hoverDispatchTimer);
     this.#hoverDispatchTimer = undefined;
 
